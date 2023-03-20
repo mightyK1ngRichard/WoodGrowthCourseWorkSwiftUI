@@ -11,21 +11,21 @@ struct TabButton: View {
     var image: String
     var title: String
     var animation: Namespace.ID
-    @Binding var selected: String
+    @EnvironmentObject var selected: PressedButton
     
     var body: some View {
         Button(action: {
             withAnimation(.spring()) {
-                selected = title
+                selected.pressed = title
             }
         }, label: {
             HStack {
                 Image(systemName: image)
                     .font(.title2)
-                    .foregroundColor(selected == title ? Color.black : black)
+                    .foregroundColor(selected.pressed == title ? Color.black : black)
                 
                 Text(title)
-                    .fontWeight(selected == title ? .semibold : .none)
+                    .fontWeight(selected.pressed == title ? .semibold : .none)
                     .animation(.none)
                     .padding(.horizontal)
                 Spacer()
@@ -36,7 +36,7 @@ struct TabButton: View {
                         .fill(Color.clear)
                         .frame(width: 3, height: 25)
 
-                    if selected == title {
+                    if selected.pressed == title {
                         Capsule()
                             .fill(Color.black)
                             .frame(width: 3, height: 25)
