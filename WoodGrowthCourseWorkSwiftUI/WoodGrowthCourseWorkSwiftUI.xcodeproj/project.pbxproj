@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C3FF28B29C85D760009AB1A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28A29C85D760009AB1A /* Home.swift */; };
+		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
+		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
 		2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */; };
 		2CE0871829C83AF800710F98 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871729C83AF800710F98 /* ContentView.swift */; };
 		2CE0871A29C83AF900710F98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE0871929C83AF900710F98 /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C3FF28A29C85D760009AB1A /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
+		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		2CE0871229C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WoodGrowthCourseWorkSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WoodGrowthCourseWorkSwiftUIApp.swift; sourceTree = "<group>"; };
 		2CE0871729C83AF800710F98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,6 +41,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C3FF28929C85D630009AB1A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
+				2C3FF28A29C85D760009AB1A /* Home.swift */,
+				2C3FF28C29C85E650009AB1A /* BlurWindow.swift */,
+				2C3FF29029C862070009AB1A /* TabButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2CE0870929C83AF800710F98 = {
 			isa = PBXGroup;
 			children = (
@@ -54,12 +71,12 @@
 		2CE0871429C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				2C3FF28929C85D630009AB1A /* Views */,
 				2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */,
 				2CE0871729C83AF800710F98 /* ContentView.swift */,
 				2CE0871929C83AF900710F98 /* Assets.xcassets */,
 				2CE0871E29C83AF900710F98 /* WoodGrowthCourseWorkSwiftUI.entitlements */,
 				2CE0871B29C83AF900710F98 /* Preview Content */,
-				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
 			);
 			path = WoodGrowthCourseWorkSwiftUI;
 			sourceTree = "<group>";
@@ -142,8 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
+				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
+				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

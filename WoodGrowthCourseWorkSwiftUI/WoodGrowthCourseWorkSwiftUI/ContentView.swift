@@ -12,12 +12,13 @@ struct ContentView: View {
     var body: some View {
         VStack {
             SignIn()
-        }.frame(minWidth: 400, maxWidth: 400, minHeight: 500, maxHeight: 500)
+        }
     }
 }
 
 struct SignIn : View {
     @Environment(\.presentationMode) var presentationMode
+    @State private var isShowingSecondWindow = false
     @State var user = ""
     @State var pass = ""
     
@@ -70,9 +71,14 @@ struct SignIn : View {
                     Text("Sign In").foregroundColor(.white).frame(width: 100).padding()
                     
                     
-                }.background(Color("color"))
+                }
+                .background(Color("color"))
                     .clipShape(Capsule())
                     .padding(.top, 45)
+                    .sheet(isPresented: $isShowingSecondWindow) {
+                                AdminMenuView()
+                            }
+                
                 
                 Text("(or)").foregroundColor(Color.gray.opacity(0.5)).padding(.top,30)
                 
@@ -102,6 +108,7 @@ struct SignIn : View {
     
     func openSecondView() {
         let secondView = AdminMenuView()
+        
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 900, height: 500),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],

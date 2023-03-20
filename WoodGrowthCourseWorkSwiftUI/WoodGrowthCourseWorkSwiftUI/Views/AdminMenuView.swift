@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct AdminMenuView: View {
-    @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
-        NavigationView {
-            
-        }
+        Home()
+            .preferredColorScheme(.dark)
     }
 }
 

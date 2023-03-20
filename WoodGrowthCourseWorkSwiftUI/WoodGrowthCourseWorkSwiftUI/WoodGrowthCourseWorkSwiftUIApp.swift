@@ -13,5 +13,6 @@ struct WoodGrowthCourseWorkSwiftUIApp: App {
         WindowGroup {
             ContentView()
         }
+        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
