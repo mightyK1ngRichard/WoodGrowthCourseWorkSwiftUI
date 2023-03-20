@@ -9,62 +9,11 @@ import SwiftUI
 
 struct Home: View {
     let window = NSScreen.main?.visibleFrame
-    @State var selected = "Home"
-    @Namespace var animation
+    
     
     var body: some View {
         HStack {
-            HStack(spacing: 0) {
-                VStack(spacing: 22) {
-                    
-                    Group {
-                        HStack {
-                            Image("logo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 45, height: 45)
-                                .clipShape(Circle())
-                            Text("Wood Business")
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                            Spacer(minLength: 0)
-                        }
-                        .padding(.top, 35)
-                        .padding(.leading, 10)
-                        // Tab Button
-                        TabButton(image: "house.fill", title: "Home", animation: animation, selected: $selected)
-                        
-                        TabButton(image: "tree.circle", title: "Деревья", animation: animation, selected: $selected)
-                        
-                        TabButton(image: "person.fill", title: "Работники", animation: animation, selected: $selected)
-                        
-                        TabButton(image: "person.fill", title: "Деревья", animation: animation, selected: $selected)
-                        
-                        TabButton(image: "person.fill", title: "Участки", animation: animation, selected: $selected)
-                    }
-                    
-                    Spacer(minLength: 0)
-                    
-                    VStack(spacing: 5) {
-                        Image("money")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        Button {
-                            //
-                        } label: {
-                            Text("Прочее")
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color.gray)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-
-                    }
-                    
-                    Spacer(minLength: 0)
-                }
-                Divider()
-                    .offset(x: -2)
-            }
+            SideBar()
             .frame(width: 220)
             Spacer()
         }
@@ -73,6 +22,66 @@ struct Home: View {
         .background(BlurWindow())
         .ignoresSafeArea(.all, edges: .all)
         
+    }
+}
+
+struct SideBar: View {
+    @State var selected = "Home"
+    @Namespace var animation
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            
+            VStack(spacing: 22) {
+                
+                Group {
+                    HStack {
+                        Image("logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 45, height: 45)
+                            .clipShape(Circle())
+                        Text("Wood Business")
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                        Spacer(minLength: 0)
+                    }
+                    .padding(.top, 35)
+                    .padding(.leading, 10)
+                    // Tab Button
+                    TabButton(image: "house.fill", title: "Home", animation: animation, selected: $selected)
+                    
+                    TabButton(image: "tree.circle", title: "Деревья", animation: animation, selected: $selected)
+                    
+                    TabButton(image: "person.fill", title: "Работники", animation: animation, selected: $selected)
+                    
+                    TabButton(image: "person.fill", title: "Деревья", animation: animation, selected: $selected)
+                    
+                    TabButton(image: "person.fill", title: "Участки", animation: animation, selected: $selected)
+                }
+                
+                Spacer(minLength: 0)
+                
+                VStack(spacing: 5) {
+                    Image("money")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    Button {
+                        //
+                    } label: {
+                        Text("Прочее")
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color.gray)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+
+                }
+                
+                Spacer(minLength: 0)
+            }
+            Divider()
+                .offset(x: -2)
+        }
     }
 }
 
