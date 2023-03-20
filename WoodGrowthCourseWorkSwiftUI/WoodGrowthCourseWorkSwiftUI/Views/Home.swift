@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SDWebImage
+import SDWebImageSwiftUI
 
 struct Home: View {
     let window = NSScreen.main?.visibleFrame
@@ -63,24 +63,29 @@ struct Home: View {
                     
                 }
                 // ScrollView with images...
-                ScrollView {
-                    LazyVGrid(columns: columns) {
-                        // Получает фотки ....
-                        ForEach(employeesData.employeesInfo.indices, id: \.self) {index in
-                            if let photo = employeesData.employeesInfo[index].ava {
-                                WebImage(url: URL(string: photo))
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 100, height: 150)
-                            } else {
-                                // TODO: Фотки нет. Дефолт сделаем.
+                GeometryReader { reader in
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 15) {
+                            // Получает фотки ....
+                            ForEach(employeesData.employeesInfo) {card in
+                                if let photo = card.ava {
+                                    WebImage(url: photo)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
+                                        .cornerRadius(15)
+                                } else {
+                                    WebImage(url: URL(string: "https://sun1-54.userapi.com/impg/J_1RV5-5QM1o5tyZtNH9oi0q4xma1K3tJEkynQ/zzDj4CbiK8M.jpg?size=640x640&quality=95&sign=862d94dc0e47df36780ae8523a0d8363&type=album")!)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
+                                        .cornerRadius(15)
+                                    // TODO: ставим фото по умолчанию
+                                }
                             }
-                            
-                            
                         }
                     }
                 }
-                
                 Spacer()
             }
             .padding()

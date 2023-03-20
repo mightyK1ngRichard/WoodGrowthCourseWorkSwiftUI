@@ -80,11 +80,11 @@ struct SignIn : View {
                             }
                 
                 
-                Text("(or)").foregroundColor(Color.gray.opacity(0.5)).padding(.top,30)
+                Text("(or)").foregroundColor(Color.white.opacity(0.5)).padding(.top,30)
                 
                 HStack(spacing: 8){
                     
-                    Text("Don't Have An Account ?").foregroundColor(Color.gray.opacity(0.5))
+                    Text("Don't Have An Account ?").foregroundColor(Color.white.opacity(0.5))
                     
                     Button(action: {
                         // TODO: сделать авторизацию.

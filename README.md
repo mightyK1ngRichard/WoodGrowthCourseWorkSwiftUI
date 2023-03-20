@@ -9,4 +9,5 @@
 Desktop app. В основе базы данных лежит postgresql. Работа с бд осуществляестя засчёт передачи информации по API через сервер, написанный на [js](https://github.com/mightyK1ngRichard/APIServer), так как проблематично работать с postgresql прямиком через swift.
 
 ## Previews:
-<img class="authorization" src="" width="1000">
+<img class="authorization" src="Previews/auth.png" width="400"/>
+<img class="authorization" src="Previews/menu.png" width="600"/>
