@@ -1,5 +1,5 @@
 //
-//  Home.swift
+//  Trees.swift
 //  WoodGrowthCourseWorkSwiftUI
 //
 //  Created by Дмитрий Пермяков on 20.03.2023.
@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct Home: View {
+struct Trees: View {
     var body: some View {
-        Text("home")
+        HStack {
+            Spacer()
+        }
     }
 }
 
-struct Home_Previews: PreviewProvider {
+struct Trees_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        Trees()
     }
 }

@@ -19,17 +19,14 @@ struct Employees: View {
         HStack {
             SideBar()
             VStack {
-                
                 HStack(spacing: 12) {
-                    
-                    // search bar
                     
                     HStack(spacing: 15) {
                         Image(systemName: "magnifyingglass")
                         TextField("Поиск", text: $search)
                             .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.black)
-                        
+                            .foregroundColor(Color.black)
+        
                     }
                     .padding(.vertical, 10)
                     .padding(.horizontal)
@@ -41,9 +38,9 @@ struct Employees: View {
                         // TODO: Сделать
                     } label: {
                         Image(systemName: "slider.vertical.3")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.black)
                             .padding(10)
-                            .background(.white)
+                            .background(Color.white)
                             .cornerRadius(10)
                             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 5, y: 5)
                             .shadow(color: Color.black.opacity(0.1), radius: 5, x: -5, y: -5)
@@ -68,19 +65,37 @@ struct Employees: View {
                         LazyVGrid(columns: columns, spacing: 15) {
                             // Получает фотки ....
                             ForEach(employeesData.employeesInfo) {card in
-                                if let photo = card.ava {
-                                    WebImage(url: photo)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
-                                        .cornerRadius(15)
-                                } else {
-                                    WebImage(url: URL(string: "https://sun1-54.userapi.com/impg/J_1RV5-5QM1o5tyZtNH9oi0q4xma1K3tJEkynQ/zzDj4CbiK8M.jpg?size=640x640&quality=95&sign=862d94dc0e47df36780ae8523a0d8363&type=album")!)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
-                                        .cornerRadius(15)
-                                    // TODO: ставим фото по умолчанию
+                                VStack {
+                                    if let photo = card.ava {
+                                        WebImage(url: photo)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
+                                            .cornerRadius(15)
+                                    } else {
+                                        Image(systemName: "person")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
+                                            .cornerRadius(15)
+                                    }
+                                    Group {
+                                        Text(card.fullName)
+                                            .font(.title2)
+                                            .bold()
+                                        Text(card.post)
+                                        Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
+                                        Button("Обзор") {
+                                            // TODO: открыть карточку на втором экране
+                                            openSecondView(card)
+                                            print("Tap!")
+                                        }
+                                        .background(getGradient())
+                                     
+                                        
+
+                                    }
+                                    .foregroundColor(Color.black)
                                 }
                             }
                         }
@@ -90,12 +105,17 @@ struct Employees: View {
             }
             .padding()
         }
-        //        .frame(width: window!.width / 1.5, height: window!.height - 40)
-//        .frame(minWidth: window!.width / 1.5, minHeight: window!.height - 50,maxHeight: window!.height - 50)
-//        .background(Color.white.opacity(0.6))
-//        .background(BlurWindow())
-//        .ignoresSafeArea(.all, edges: .all)
-        
+    }
+    
+    func openSecondView(_ emp: EmpoyeeResult) {
+        let secondView = DetailCard(currentPersonInfo: emp)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 900, height: 500),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable],
+            backing: .buffered, defer: false)
+        window.contentView = NSHostingView(rootView: secondView)
+        window.center()
+        window.makeKeyAndOrderFront(nil)
     }
 }
 
@@ -108,6 +128,8 @@ struct Employees_Previews: PreviewProvider {
 extension NSTextField {
     open override var focusRingType: NSFocusRingType {
         get { .none }
-        set {}
+        set {
+            
+        }
     }
 }

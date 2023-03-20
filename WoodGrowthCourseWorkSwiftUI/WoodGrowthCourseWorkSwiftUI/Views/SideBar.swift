@@ -54,12 +54,11 @@ struct SideBar: View {
                 
                 Spacer(minLength: 0)
             }
-            
             Divider()
                 .offset(x: -2)
         }
         .frame(width: 220)
-        
+        .background(getGradient())
     }
 }
 

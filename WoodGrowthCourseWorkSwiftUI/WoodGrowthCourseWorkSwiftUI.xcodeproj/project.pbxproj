@@ -15,6 +15,9 @@
 		2CC72AED29C8937800559E47 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC72AEC29C8937800559E47 /* SDWebImageSwiftUI */; };
 		2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */; };
 		2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E8529C8D76900FB8088 /* Employees.swift */; };
+		2CCC1E8F29C8F40700FB8088 /* Trees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E8E29C8F40700FB8088 /* Trees.swift */; };
+		2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */; };
+		2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E9329C90CF200FB8088 /* DetailCard.swift */; };
 		2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */; };
 		2CE0871829C83AF800710F98 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871729C83AF800710F98 /* ContentView.swift */; };
 		2CE0871A29C83AF900710F98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE0871929C83AF900710F98 /* Assets.xcassets */; };
@@ -30,6 +33,9 @@
 		2CC72AE929C88FA200559E47 /* CardsEmployes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsEmployes.swift; sourceTree = "<group>"; };
 		2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
 		2CCC1E8529C8D76900FB8088 /* Employees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employees.swift; sourceTree = "<group>"; };
+		2CCC1E8E29C8F40700FB8088 /* Trees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trees.swift; sourceTree = "<group>"; };
+		2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectPhone.swift; sourceTree = "<group>"; };
+		2CCC1E9329C90CF200FB8088 /* DetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCard.swift; sourceTree = "<group>"; };
 		2CE0871229C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WoodGrowthCourseWorkSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WoodGrowthCourseWorkSwiftUIApp.swift; sourceTree = "<group>"; };
 		2CE0871729C83AF800710F98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,12 +60,12 @@
 		2C3FF28929C85D630009AB1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */,
 				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
-				2C3FF28A29C85D760009AB1A /* Home.swift */,
 				2C3FF28C29C85E650009AB1A /* BlurWindow.swift */,
 				2C3FF29029C862070009AB1A /* TabButton.swift */,
 				2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */,
-				2CCC1E8529C8D76900FB8088 /* Employees.swift */,
+				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -67,17 +73,28 @@
 		2CC72AE229C886EB00559E47 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2CC72AE929C88FA200559E47 /* CardsEmployes.swift */,
 				2CC72AE329C886FC00559E47 /* APIManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		2CC72AE829C88F8700559E47 /* ModelView */ = {
+		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
-				2CC72AE929C88FA200559E47 /* CardsEmployes.swift */,
+				2CCC1E8529C8D76900FB8088 /* Employees.swift */,
+				2C3FF28A29C85D760009AB1A /* Home.swift */,
+				2CCC1E8E29C8F40700FB8088 /* Trees.swift */,
 			);
-			path = ModelView;
+			path = MenuButtonsViews;
+			sourceTree = "<group>";
+		};
+		2CCC1E9029C900E500FB8088 /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */,
+			);
+			path = Units;
 			sourceTree = "<group>";
 		};
 		2CE0870929C83AF800710F98 = {
@@ -99,7 +116,7 @@
 		2CE0871429C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				2CC72AE829C88F8700559E47 /* ModelView */,
+				2CCC1E9029C900E500FB8088 /* Units */,
 				2CC72AE229C886EB00559E47 /* Model */,
 				2C3FF28929C85D630009AB1A /* Views */,
 				2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */,
@@ -196,6 +213,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
+				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
+				2CCC1E8F29C8F40700FB8088 /* Trees.swift in Sources */,
 				2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
@@ -203,6 +222,7 @@
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,
 				2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */,
+				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
 				2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */,
 				2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */,
 			);

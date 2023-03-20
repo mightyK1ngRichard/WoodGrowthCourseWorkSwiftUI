@@ -16,38 +16,30 @@ struct AdminMenuView: View {
     @ObservedObject var pressed = PressedButton()
     
     var body: some View {
-        Group {
+        HStack {
             switch (pressed.pressed) {
             case "Home":
-                HStack {
-                    SideBar()
-                    Text("Home")
-                        .frame(minWidth: window!.width / 1.5, minHeight: window!.height - 50,maxHeight: window!.height - 50)
-                }
+                Home()
                     
             case "Работники":
                 Employees()
-                    .frame(minWidth: window!.width / 1.5, minHeight: window!.height - 50,maxHeight: window!.height - 50)
 
             case "Деревья":
                 HStack {
                     SideBar()
                     Text("Деревья")
-                        .frame(minWidth: window!.width / 1.5, minHeight: window!.height - 50,maxHeight: window!.height - 50)
                 }
                 
             case "Участки":
                 HStack {
                     SideBar()
                     Text("Участки")
-                        .frame(minWidth: window!.width / 1.5, minHeight: window!.height - 50,maxHeight: window!.height - 50)
                 }
 
             case "Поставки":
                 HStack {
                     SideBar()
                     Text("Поставки")
-                        .frame(minWidth: window!.width / 1.5, minHeight: window!.height - 50,maxHeight: window!.height - 50)
                 }
                 
             default:
@@ -58,9 +50,8 @@ struct AdminMenuView: View {
                 }
             }
         }
+        .preferredColorScheme(.none)
         .background(Color.white.opacity(0.6))
-        .background(BlurWindow())
-        .ignoresSafeArea(.all, edges: .all)
         .environmentObject(pressed)
     }
 }

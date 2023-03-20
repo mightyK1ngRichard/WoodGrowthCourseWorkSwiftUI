@@ -31,13 +31,13 @@ struct SignIn : View {
                     
                     VStack(alignment: .leading){
                         
-                        Text("Username").font(.headline).fontWeight(.light).foregroundColor(Color("AccentColor"))
+                        Text("Username").font(.headline).fontWeight(.light)
                         
                         HStack() {
                             TextField("Enter Your Username", text: $user)
                                 .frame(width:  (NSScreen.main?.frame.width ?? 0) * 0.24)
                             if user != ""{
-                                Image("check").foregroundColor(Color("AccentColor"))
+                                Image("check")
                             }
                             
                         }
@@ -48,7 +48,7 @@ struct SignIn : View {
                     
                     VStack(alignment: .leading){
                         
-                        Text("Password").font(.headline).fontWeight(.light).foregroundColor(Color("AccentColor"))
+                        Text("Password").font(.headline).fontWeight(.light)
                         
                         SecureField("Enter Your Password", text: $pass)
                             .frame(width:  (NSScreen.main?.frame.width ?? 0) * 0.24)
@@ -97,7 +97,7 @@ struct SignIn : View {
                 }.padding(.top, 25)
             }
         }
-        .frame(width: 400, height: 500)
+        .frame(minWidth: 400, maxWidth: 400, minHeight: 500, maxHeight: 500)
         .background(Image("authBackGround")
             .resizable()
             .opacity(0.5)
