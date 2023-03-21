@@ -60,14 +60,22 @@
 		2C3FF28929C85D630009AB1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CBD8A2529CA3D4900471862 /* HelpViews */,
 				2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */,
 				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2CBD8A2529CA3D4900471862 /* HelpViews */ = {
+			isa = PBXGroup;
+			children = (
 				2C3FF28C29C85E650009AB1A /* BlurWindow.swift */,
 				2C3FF29029C862070009AB1A /* TabButton.swift */,
 				2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */,
 				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
 			);
-			path = Views;
+			path = HelpViews;
 			sourceTree = "<group>";
 		};
 		2CC72AE229C886EB00559E47 /* Model */ = {

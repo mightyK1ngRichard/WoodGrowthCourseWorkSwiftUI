@@ -11,9 +11,21 @@ class PressedButton: ObservableObject {
     @Published var pressed = "Home"
 }
 
+
+class PressedButtonDetailView: ObservableObject {
+    // Нажали обзор работника?
+    @Published var pressed = false
+    
+    // Данные по работнику из нажатой карты.
+    @Published var cardInfo: EmpoyeeResult? = nil
+}
+
+
 struct AdminMenuView: View {
     let window = NSScreen.main?.visibleFrame
     @ObservedObject var pressed = PressedButton()
+
+    @ObservedObject var pressedCardInfo = PressedButtonDetailView()
     
     var body: some View {
         HStack {
@@ -22,7 +34,16 @@ struct AdminMenuView: View {
                 Home()
                     
             case "Работники":
-                Employees()
+                // Если нажата кнопка обзор работника.
+                if pressedCardInfo.pressed {
+                    HStack {
+                        Employees()
+                        DetailCard(currentPersonInfo: pressedCardInfo.cardInfo)
+                    }
+                    
+                } else {
+                    Employees()
+                }
 
             case "Деревья":
                 HStack {
@@ -53,6 +74,7 @@ struct AdminMenuView: View {
         .preferredColorScheme(.none)
         .background(Color.white.opacity(0.6))
         .environmentObject(pressed)
+        .environmentObject(pressedCardInfo)
     }
 }
 

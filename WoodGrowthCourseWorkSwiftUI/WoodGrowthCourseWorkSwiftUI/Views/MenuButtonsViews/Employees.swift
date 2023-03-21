@@ -12,6 +12,7 @@ struct Employees: View {
     let window = NSScreen.main?.visibleFrame
     @State var search = ""
     @StateObject var employeesData = employeesCardsViewModel()
+    @EnvironmentObject var selectedButtonDetailView: PressedButtonDetailView
     
     var columns = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
     
@@ -87,8 +88,8 @@ struct Employees: View {
                                         Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
                                         Button("Обзор") {
                                             // TODO: открыть карточку на втором экране
-                                            openSecondView(card)
-                                            print("Tap!")
+                                            selectedButtonDetailView.pressed = true
+                                            selectedButtonDetailView.cardInfo = card
                                         }
                                         .background(getGradient())
                                      
@@ -105,17 +106,6 @@ struct Employees: View {
             }
             .padding()
         }
-    }
-    
-    func openSecondView(_ emp: EmpoyeeResult) {
-        let secondView = DetailCard(currentPersonInfo: emp)
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 900, height: 500),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable],
-            backing: .buffered, defer: false)
-        window.contentView = NSHostingView(rootView: secondView)
-        window.center()
-        window.makeKeyAndOrderFront(nil)
     }
 }
 
