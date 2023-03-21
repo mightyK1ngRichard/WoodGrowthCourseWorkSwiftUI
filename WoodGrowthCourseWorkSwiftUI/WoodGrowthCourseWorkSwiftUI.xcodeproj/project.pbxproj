@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */; };
 		2C3FF28B29C85D760009AB1A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28A29C85D760009AB1A /* Home.swift */; };
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewCard.swift; sourceTree = "<group>"; };
 		2C3FF28A29C85D760009AB1A /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				2C3FF29029C862070009AB1A /* TabButton.swift */,
 				2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */,
 				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
+				2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */,
 			);
 			path = HelpViews;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,
 				2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */,
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
+				2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */,
 				2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */,
 				2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */,
 			);

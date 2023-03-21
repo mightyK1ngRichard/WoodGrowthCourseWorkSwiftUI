@@ -66,35 +66,8 @@ struct Employees: View {
                         LazyVGrid(columns: columns, spacing: 15) {
                             // Получает фотки ....
                             ForEach(employeesData.employeesInfo) {card in
-                                VStack {
-                                    if let photo = card.ava {
-                                        WebImage(url: photo)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
-                                            .cornerRadius(15)
-                                    } else {
-                                        Image(systemName: "person")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: (reader.frame(in: .global).width - 45) / 4, height: 150)
-                                            .cornerRadius(15)
-                                    }
-                                    Group {
-                                        Text(card.fullName)
-                                            .font(.title2)
-                                            .bold()
-                                        Text(card.post)
-                                        Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
-                                        Button("Обзор") {
-                                            selectedButtonDetailView.pressed = true
-                                            selectedButtonDetailView.cardInfo = card
-                                        }
-                                        .background(getGradient())
-
-                                    }
-                                    .foregroundColor(Color.black)
-                                }
+                                
+                                ScrollViewCard(card: card, reader: reader)
                             }
                         }
                     }

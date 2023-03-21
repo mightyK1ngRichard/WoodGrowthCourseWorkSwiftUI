@@ -10,27 +10,49 @@ import SDWebImageSwiftUI
 
 struct DetailCard: View {
     @EnvironmentObject var pressedClose: PressedButtonDetailView
+    @State private var isHovering = false
+    @State private var isHoveringPhoto = false
     
     var currentPersonInfo: EmpoyeeResult?
     var body: some View {
         VStack {
             Image(systemName: "xmark.circle")
-                .offset(x: 90)
-                .onTapGesture {
-                    pressedClose.pressed = false
+            .offset(x: 90)
+            .colorMultiply(isHovering ? .yellow : .black)
+            .onHover { hovering in
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    self.isHovering = hovering
                 }
+            }
+            .animation(.easeInOut(duration: 0.2), value: isHovering)
+            .onTapGesture {
+                pressedClose.pressed = false
+            }
             
-            if let image = currentPersonInfo?.ava {
-                WebImage(url: image)
-                    .resizable()
-                    .frame(width: 200, height: 200)
-                    .padding(.top, 0)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "person")
-                    .resizable()
-                    .frame(width: 200, height: 200)
-                    .padding(.top, 0)
+            Group {
+                if let image = currentPersonInfo?.ava {
+                    WebImage(url: image)
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .padding(.top, 0)
+                        .clipShape(Circle())
+                    
+                } else {
+                    Image(systemName: "person")
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .padding(.top, 0)
+                }
+            }
+            .brightness(isHoveringPhoto ? -0.2 : 0)
+            .onHover { hovering in
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    self.isHoveringPhoto = hovering
+                }
+            }
+            .animation(.easeInOut(duration: 0.2), value: isHoveringPhoto)
+            .onTapGesture {
+                pressedClose.pressed = false
             }
             
             Text("\(currentPersonInfo?.fullName ?? "Имя не найдено")")

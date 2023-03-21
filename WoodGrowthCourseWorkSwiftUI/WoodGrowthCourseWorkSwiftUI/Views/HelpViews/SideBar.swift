@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SideBar: View {
     @Namespace var animation
+    @State private var isHovering = false
     
     var body: some View {
         HStack(spacing: 0) {
@@ -29,11 +30,13 @@ struct SideBar: View {
                     .padding(.top, 35)
                     .padding(.leading, 10)
                     
+
                     TabButton(image: "house.fill", title: "Home", animation: animation)
                     TabButton(image: "tree.circle", title: "Деревья", animation: animation)
                     TabButton(image: "person.fill", title: "Работники", animation: animation)
                     TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation)
-                    TabButton(image: "cart.fill", title: "Поставки", animation: animation)
+                    TabButton(image: "cart.fill", title: "Поставки", animation: animation)       
+
                 }
                 
                 Spacer(minLength: 0)
