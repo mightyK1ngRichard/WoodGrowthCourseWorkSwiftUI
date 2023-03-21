@@ -9,40 +9,43 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct DetailCard: View {
+    @EnvironmentObject var pressedClose: PressedButtonDetailView
+    
     var currentPersonInfo: EmpoyeeResult?
     var body: some View {
-        VStack(alignment: .center) {
-            GeometryReader { reader in
-                ScrollView {
-                    if let image = currentPersonInfo?.ava {
-                        WebImage(url: image)
-                            .resizable()
-                            .frame(width: 300, height: 300)
-                            .padding(.top, 0)
-                    } else {
-                        Image(systemName: "person")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 300, height: 300)
-                    }
-                    Text("\(currentPersonInfo?.fullName ?? "Имя не найдено")")
-                        .padding(0)
-                        .font(.title)
-                        .bold()
-                    Text("\(currentPersonInfo?.post ?? "Должность не указана")")
-                    Spacer()
-                    if let phone = currentPersonInfo?.phone {
-                        Text((getCorrectPhone(phoneString: phone) ?? "Телефон некорректный"))
-                    } else {
-                        Text("Телефон отсутствует")
-                    }
-                    Spacer()
+        VStack {
+            Image(systemName: "xmark.circle")
+                .offset(x: 90)
+                .onTapGesture {
+                    pressedClose.pressed = false
                 }
+            
+            if let image = currentPersonInfo?.ava {
+                WebImage(url: image)
+                    .resizable()
+                    .frame(width: 200, height: 200)
+                    .padding(.top, 0)
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person")
+                    .resizable()
+                    .frame(width: 200, height: 200)
+                    .padding(.top, 0)
             }
             
+            Text("\(currentPersonInfo?.fullName ?? "Имя не найдено")")
+                .padding(0)
+                .font(.title)
+                .bold()
+            Text("\(currentPersonInfo?.post ?? "Должность не указана")")
+            if let phone = currentPersonInfo?.phone {
+                Text((getCorrectPhone(phoneString: phone) ?? "Телефон некорректный"))
+            } else {
+                Text("Телефон отсутствует")
+            }
         }
-        .frame(minWidth: 300, maxWidth: 300, minHeight: 380, maxHeight: 380)
-        .background(Color.white.opacity(0.5))
+        .frame(width: 221)
+        .background(Color.clear)
     }
 }
 

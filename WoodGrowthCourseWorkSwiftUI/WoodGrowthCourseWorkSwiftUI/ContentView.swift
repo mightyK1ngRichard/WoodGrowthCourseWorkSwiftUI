@@ -8,23 +8,40 @@
 import SwiftUI
 import AppKit
 
+class OpenMenu: ObservableObject {
+    @Published var openMenu = false
+}
+
 struct ContentView: View {
+    @ObservedObject var openMenu = OpenMenu()
+    
     var body: some View {
-        VStack {
-            SignIn()
+        HStack {
+            if openMenu.openMenu {
+                AdminMenuView()
+                
+            } else {
+                SignIn()
+            }
         }
+        .environmentObject(openMenu)
     }
 }
 
 struct SignIn : View {
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var openMenu: OpenMenu
     @State private var isShowingSecondWindow = false
     @State var user = ""
+    @State var pressedSighIn = false
     @State var pass = ""
     
     var body : some View{
         VStack {
-            Text("Sign In").fontWeight(.heavy).font(.largeTitle).padding([.top,.bottom], 20)
+            Text("Sign In")
+                .fontWeight(.heavy)
+                .font(.largeTitle)
+                .padding([.top,.bottom], 20)
+            
             VStack{
                 
                 VStack(alignment: .leading){
@@ -58,26 +75,27 @@ struct SignIn : View {
                     
                 }.padding(.horizontal, 6)
                 
-            }.padding()
+            }
+            .padding()
             
-            VStack{
+            VStack {
                 
                 Button(action: {
                     // TODO: чекать БД и открывать.
-                    presentationMode.wrappedValue.dismiss()
-                    openSecondView()
+                    openMenu.openMenu = true
+                    print("tup")
+                    //                    presentationMode.wrappedValue.dismiss()
+                    //                    openSecondView()
                 }) {
                     
                     Text("Sign In").foregroundColor(.white).frame(width: 100).padding()
-                    
-                    
                 }
                 .background(Color("color"))
-                    .clipShape(Capsule())
-                    .padding(.top, 45)
-                    .sheet(isPresented: $isShowingSecondWindow) {
-                                AdminMenuView()
-                            }
+                .clipShape(Capsule())
+                .padding(.top, 45)
+                .sheet(isPresented: $isShowingSecondWindow) {
+                    AdminMenuView()
+                }
                 
                 
                 Text("(or)").foregroundColor(Color.white.opacity(0.5)).padding(.top,30)
@@ -95,27 +113,16 @@ struct SignIn : View {
                     }.foregroundColor(.blue)
                     
                 }.padding(.top, 25)
+                Spacer()
             }
+            Spacer()
         }
-        .frame(minWidth: 400, maxWidth: 400, minHeight: 500, maxHeight: 500)
         .background(Image("authBackGround")
             .resizable()
             .opacity(0.5)
             .background(Color.black)
-            .aspectRatio(contentMode: .fill)
         )
-    }
-    
-    func openSecondView() {
-        let secondView = AdminMenuView()
         
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 900, height: 500),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable],
-            backing: .buffered, defer: false)
-        window.contentView = NSHostingView(rootView: secondView)
-        window.center()
-        window.makeKeyAndOrderFront(nil)
     }
 }
 

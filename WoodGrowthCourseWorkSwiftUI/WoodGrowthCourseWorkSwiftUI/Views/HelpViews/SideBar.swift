@@ -37,27 +37,23 @@ struct SideBar: View {
                 }
                 
                 Spacer(minLength: 0)
-                
-                VStack(spacing: 5) {
-                    
-                    Button {
-                        // TODO: придумать
-                        
-                    } label: {
-                        Text("Прочее")
-                            .fontWeight(.semibold)
-                            .foregroundColor(Color.gray)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
+                                    
+                Button {
+                    // TODO: придумать
+
+                } label: {
+                    Text("Прочее")
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.gray)
                 }
+                .buttonStyle(PlainButtonStyle())
                 
                 Spacer(minLength: 0)
             }
             Divider()
                 .offset(x: -2)
         }
-        .frame(width: 220)
+        .frame(width: 218)
         .background(getGradient())
     }
 }

@@ -87,13 +87,10 @@ struct Employees: View {
                                         Text(card.post)
                                         Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
                                         Button("Обзор") {
-                                            // TODO: открыть карточку на втором экране
                                             selectedButtonDetailView.pressed = true
                                             selectedButtonDetailView.cardInfo = card
                                         }
                                         .background(getGradient())
-                                     
-                                        
 
                                     }
                                     .foregroundColor(Color.black)

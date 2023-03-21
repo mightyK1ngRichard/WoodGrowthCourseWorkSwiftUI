@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct WoodGrowthCourseWorkSwiftUIApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -16,3 +17,4 @@ struct WoodGrowthCourseWorkSwiftUIApp: App {
         .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
+
