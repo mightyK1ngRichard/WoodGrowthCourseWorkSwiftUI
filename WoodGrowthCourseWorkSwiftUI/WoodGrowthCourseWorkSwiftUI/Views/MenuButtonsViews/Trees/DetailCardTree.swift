@@ -33,6 +33,9 @@ struct DetailCardTree: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
                     .cornerRadius(15)
+                    .overlay {
+                        Circle().stroke(Color.white, lineWidth: 3)
+                    }
                     .brightness(isHovering ? -0.2 : 0)
                     .onHover { hovering in
                         withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
@@ -46,16 +49,16 @@ struct DetailCardTree: View {
                 
                 Image(systemName: "square.and.pencil")
                     .offset(x: 63, y: 50)
-                .colorMultiply(isHovering2 ? .yellow : .black)
-                .onHover { hovering in
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        self.isHovering2 = hovering
+                    .colorMultiply(isHovering2 ? .yellow : .black)
+                    .onHover { hovering in
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            self.isHovering2 = hovering
+                        }
                     }
-                }
-                .animation(.easeInOut(duration: 0.2), value: isHovering)
-                .onTapGesture {
-                    pressedEdit.toggle()
-                }
+                    .animation(.easeInOut(duration: 0.2), value: isHovering)
+                    .onTapGesture {
+                        pressedEdit.toggle()
+                    }
                 
             }
             

@@ -20,6 +20,9 @@ struct TreeCard: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 100)
                 .cornerRadius(15)
+                .overlay {
+                    Circle().stroke(getGradient(), lineWidth: 3)
+                }
 
             VStack {
                 Text("№ \(treeInfo.name_tree)")

@@ -18,9 +18,11 @@ struct LoginView: View {
                 .resizable()
                 .frame(width: 200, height: 200)
                 .clipShape(Circle())
+                .overlay {
+                    Circle().stroke(Color.black, lineWidth: 3)
+                }
                 .padding(.bottom, 40)
                 .foregroundColor(.blue)
-            
             
             Text("Добро пожаловать!")
                 .font(.largeTitle)
