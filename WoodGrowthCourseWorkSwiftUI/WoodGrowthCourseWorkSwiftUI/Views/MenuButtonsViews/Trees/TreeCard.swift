@@ -49,7 +49,7 @@ struct TreeCard: View {
                 self.isHovering = hovering
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: isHovering)
+        // .animation(.easeInOut(duration: 0.2), value: isHovering)
         .onTapGesture {
             pressedTreeInfo.pressed = true
             pressedTreeInfo.treeInfo = treeInfo
