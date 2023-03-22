@@ -49,21 +49,18 @@ struct LoginView: View {
                 .background(Color.black.opacity(0.3))
                 .cornerRadius(10)
                 .padding(.bottom, 20)
-                
-                Button(action: {
+                Button {
                     // TODO: чекать БД и открывать.
                     openMenu.openMenu = true
-                    
-                }, label: {
+                } label: {
                     Text("Вход")
-                        .padding()
                         .font(.title2)
                         .bold()
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .cornerRadius(10)
-                })
-                .padding(.vertical, 20)
+                }.padding(.vertical, 20)
+                
             }
             .frame(width: 400)
             
@@ -77,28 +74,27 @@ struct LoginView: View {
 }
 
 extension View {
-func addGlowEffect(color1:Color, color2:Color, color3:Color) -> some View {
-    self
-        .foregroundColor(Color(hue: 0.5, saturation: 0.8, brightness: 1))
-        .background {
-            self
-                .foregroundColor(color1).blur(radius: 0).brightness(0.8)
-        }
-        .background {
-            self
-                .foregroundColor(color2).blur(radius: 4).brightness(0.35)
-        }
-        .background {
-            self
-                .foregroundColor(color3).blur(radius: 2).brightness(0.35)
-        }
-        .background {
-            self
-                .foregroundColor(color3).blur(radius: 12).brightness(0.35)
-            
-        }
-     }
-  }
+    func addGlowEffect(color1:Color, color2:Color, color3:Color) -> some View {
+        self
+            .foregroundColor(Color(hue: 0.5, saturation: 0.8, brightness: 1))
+            .background {
+                self
+                    .foregroundColor(color1).blur(radius: 0).brightness(0.8)
+            }
+            .background {
+                self
+                    .foregroundColor(color2).blur(radius: 4).brightness(0.35)
+            }
+            .background {
+                self
+                    .foregroundColor(color3).blur(radius: 2).brightness(0.35)
+            }
+            .background {
+                self
+                    .foregroundColor(color3).blur(radius: 12).brightness(0.35)
+            }
+    }
+}
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {

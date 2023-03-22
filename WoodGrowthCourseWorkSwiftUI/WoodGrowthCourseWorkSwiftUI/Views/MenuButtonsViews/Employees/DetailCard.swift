@@ -9,7 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct DetailCard: View {
-    @EnvironmentObject var pressedClose: PressedButtonDetailView
+    @EnvironmentObject var pressedClose  : PressedButtonDetailView
     @State var pressedEdit: Bool         = false
     @State private var isHovering        = false
     @State private var isHoveringPhoto   = false

@@ -12,16 +12,20 @@ class PressedButton: ObservableObject {
 }
 
 class PressedButtonDetailView: ObservableObject {
-    // Нажали обзор работника?
     @Published var pressed                  = false
-    // Данные по работнику из нажатой карты.
     @Published var cardInfo: EmpoyeeResult? = nil
 }
 
+class PressedButtonTree: ObservableObject {
+    @Published var pressed                  = false
+    @Published var treeInfo: TreeResult?    = nil
+}
+
 struct AdminMenuView: View {
-    let window = NSScreen.main?.visibleFrame
-    @ObservedObject var pressed = PressedButton()
-    @ObservedObject var pressedCardInfo = PressedButtonDetailView()
+    let window                              = NSScreen.main?.visibleFrame
+    @ObservedObject var pressed             = PressedButton()
+    @ObservedObject var pressedCardInfo     = PressedButtonDetailView()
+    @ObservedObject var pressedTreeInfoCard = PressedButtonTree()
     
     var body: some View {
         HStack {
@@ -49,7 +53,10 @@ struct AdminMenuView: View {
                 }
 
             case "Деревья":
-                Trees()
+                HStack {
+                    SideBar()
+                    Trees()
+                }
                 
             case "Участки":
                 Plats()
@@ -67,7 +74,8 @@ struct AdminMenuView: View {
         .preferredColorScheme(.none)
         .background(Color.white.opacity(0.6))
         .environmentObject(pressed)
-        .environmentObject(pressedCardInfo)   
+        .environmentObject(pressedCardInfo)
+        .environmentObject(pressedTreeInfoCard)
     }
 }
 

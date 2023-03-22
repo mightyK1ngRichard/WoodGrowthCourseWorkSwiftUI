@@ -9,16 +9,15 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Employees: View {
-    let window                                           = NSScreen.main?.visibleFrame
-    var columns                                          = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
-    @State private var search                            = ""
-    @State private var output                            = ""
-    @State private var peopleFromSearch: [EmpoyeeResult] = []
-    @StateObject var employeesData                       = employeesCardsViewModel()
-    @EnvironmentObject var selectedButtonDetailView: PressedButtonDetailView
+    let window                                      = NSScreen.main?.visibleFrame
+    var columns                                     = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    @State private var search                       = ""
+    @State private var output                       = ""
+    @State private var peopleFromSearch             = [EmpoyeeResult]()
+    @StateObject var employeesData                  = employeesCardsViewModel()
     
     var body: some View {
-
+        
         HStack {
             SideBar()
             VStack {
@@ -51,7 +50,7 @@ struct Employees: View {
                             .shadow(color: Color.black.opacity(0.1), radius: 5, x: -5, y: -5)
                     }
                     .buttonStyle(PlainButtonStyle())
-
+                    
                     Button {
                         // TODO: Сделать
                         
@@ -73,7 +72,6 @@ struct Employees: View {
                             LazyVGrid(columns: columns, spacing: 15) {
                                 ForEach(employeesData.employeesInfo) {card in
                                     ScrollViewCard(card: card, reader: reader)
-                                    
                                 }
                             }
                         }

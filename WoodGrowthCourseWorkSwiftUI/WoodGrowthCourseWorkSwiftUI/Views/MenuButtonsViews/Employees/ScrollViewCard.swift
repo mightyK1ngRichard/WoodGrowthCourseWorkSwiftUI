@@ -9,12 +9,12 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ScrollViewCard: View {
-    @EnvironmentObject var selectedButtonDetailView: PressedButtonDetailView
-    var card: EmpoyeeResult
-    var reader: GeometryProxy // reader надо комментить при вёрстке
-    @State private var isHovering = false
+    @EnvironmentObject var selectedButtonDetailView : PressedButtonDetailView
+    var card                                        : EmpoyeeResult
+    var reader                                      : GeometryProxy // reader надо комментить при вёрстке
+    @State private var isHovering                   = false
+    
     var body: some View {
-          
         VStack {
             Group {
                 if let photo = card.ava {
@@ -56,7 +56,6 @@ struct ScrollViewCard: View {
     }
 }
 
-//
 //struct ScrollViewCard_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ScrollViewCard(card: EmpoyeeResult(id: "1", fullName: "Dmitriy Permyakov", phone: "891685559942", post: "Boss", ava: URL(string: "")))
