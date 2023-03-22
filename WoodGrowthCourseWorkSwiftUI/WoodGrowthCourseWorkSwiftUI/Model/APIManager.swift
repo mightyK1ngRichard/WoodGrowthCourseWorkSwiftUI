@@ -9,8 +9,8 @@ import Foundation
 
 class APIManager {
     static let shared = APIManager()
-    let host = "localhost"
-    let port = 8010
+    let host          = "localhost"
+    let port          = 8010
 
     func getDataUsingCommand(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")

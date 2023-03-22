@@ -42,7 +42,11 @@ struct ScrollTrees: View {
                         ForEach(treesData.treesInfo) {card in
                             TreeCard(treeInfo: card)
                                 .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
+<<<<<<< HEAD
                                 .border(.black)
+=======
+                                .border(.white.opacity(0.4))
+>>>>>>> fdf76e0 (Update)
                             
                         }
                     }

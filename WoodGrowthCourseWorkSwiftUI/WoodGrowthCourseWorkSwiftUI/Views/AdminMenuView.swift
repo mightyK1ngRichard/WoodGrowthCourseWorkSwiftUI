@@ -17,8 +17,13 @@ class PressedButtonDetailView: ObservableObject {
 }
 
 class PressedButtonTree: ObservableObject {
+<<<<<<< HEAD
     @Published var pressed                  = false
     @Published var treeInfo: TreeResult?    = nil
+=======
+    @Published var pressed  = false
+    @Published var treeInfo : TreeResult?
+>>>>>>> fdf76e0 (Update)
 }
 
 struct AdminMenuView: View {

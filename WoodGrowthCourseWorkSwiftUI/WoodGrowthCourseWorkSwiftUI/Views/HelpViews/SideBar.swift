@@ -9,8 +9,13 @@ import SwiftUI
 
 struct SideBar: View {
     @Namespace var animation
+<<<<<<< HEAD
     @State private var isHovering    = false
     @EnvironmentObject var openMenu: OpenMenu
+=======
+    @State private var isHovering   = false
+    @EnvironmentObject var openMenu : OpenMenu
+>>>>>>> fdf76e0 (Update)
     
     var body: some View {
         HStack(spacing: 0) {
