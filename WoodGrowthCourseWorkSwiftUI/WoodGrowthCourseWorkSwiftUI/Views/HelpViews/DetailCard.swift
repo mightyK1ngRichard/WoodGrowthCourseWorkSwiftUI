@@ -10,14 +10,19 @@ import SDWebImageSwiftUI
 
 struct DetailCard: View {
     @EnvironmentObject var pressedClose: PressedButtonDetailView
-    @State private var isHovering = false
-    @State private var isHoveringPhoto = false
+    @State var pressedEdit: Bool         = false
+    @State private var isHovering        = false
+    @State private var isHoveringPhoto   = false
+    @State private var newName           = ""
+    @State private var newSurname        = ""
+    @State private var newPost           = ""
+    @State private var newPhone          = ""
     
     var currentPersonInfo: EmpoyeeResult?
     var body: some View {
         VStack {
-            Image(systemName: "xmark.circle")
-            .offset(x: 90)
+            Image(systemName: "square.and.pencil")
+                .offset(x: 96, y: 215)
             .colorMultiply(isHovering ? .yellow : .black)
             .onHover { hovering in
                 withAnimation(.easeInOut(duration: 0.2)) {
@@ -26,7 +31,7 @@ struct DetailCard: View {
             }
             .animation(.easeInOut(duration: 0.2), value: isHovering)
             .onTapGesture {
-                pressedClose.pressed = false
+                pressedEdit.toggle()
             }
             
             Group {
@@ -65,6 +70,37 @@ struct DetailCard: View {
             } else {
                 Text("Телефон отсутствует")
             }
+            
+            // pressedEdit
+            if pressedEdit {
+                VStack {
+                    Group {
+                        MyTextField(textForUser: "Введите новое имя", text: $newName)
+                        MyTextField(textForUser: "Введите новую фамилию", text: $newSurname)
+                        MyTextField(textForUser: "Введите новую должность", text: $newPost)
+                        MyTextField(textForUser: "Введите новый телефон", text: $newPhone)
+                    }
+                    
+                    Button {
+                        // TODO: Запрос обновы БД.
+                        self.pressedEdit = false
+                        print(newName)
+                        print(newSurname)
+                        print(newPost)
+                        print(newPhone)
+                        
+                    } label: {
+                        HStack {
+                            Image(systemName: "square.and.arrow.down")
+                            Text("Сохранить")
+                        }
+                    }
+                    .padding(.top, 5)
+                    
+                }
+                .padding()
+                
+            }
         }
         .frame(width: 221)
         .background(Color.clear)
@@ -74,5 +110,30 @@ struct DetailCard: View {
 struct DetailCard_Previews: PreviewProvider {
     static var previews: some View {
         DetailCard(currentPersonInfo: nil)
+    }
+}
+
+struct MyTextField: View {
+    var textForUser: String
+    @Binding var text: String
+    
+    var body: some View {
+        HStack(spacing: 3){
+            TextField(textForUser, text: $text)
+                .editBackGround()
+        }
+
+    }
+}
+
+extension TextField {
+    func editBackGround() -> some View {
+        return self
+            .padding(2)
+            .textFieldStyle(PlainTextFieldStyle())
+            .foregroundColor(Color.white)
+            .padding(2)
+            .border(Color.white.opacity(0.3))
+            .cornerRadius(2.4)
     }
 }

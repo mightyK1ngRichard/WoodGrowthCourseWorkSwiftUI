@@ -1,13 +1,13 @@
 //
-//  Trees.swift
+//  Deliveries.swift
 //  WoodGrowthCourseWorkSwiftUI
 //
-//  Created by Дмитрий Пермяков on 20.03.2023.
+//  Created by Дмитрий Пермяков on 22.03.2023.
 //
 
 import SwiftUI
 
-struct Trees: View {
+struct Deliveries: View {
     var body: some View {
         HStack {
             SideBar()
@@ -16,8 +16,8 @@ struct Trees: View {
     }
 }
 
-struct Trees_Previews: PreviewProvider {
+struct Deliveries_Previews: PreviewProvider {
     static var previews: some View {
-        Trees()
+        Deliveries()
     }
 }

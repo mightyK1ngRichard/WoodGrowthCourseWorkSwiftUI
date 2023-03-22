@@ -9,14 +9,13 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Employees: View {
-    let window = NSScreen.main?.visibleFrame
-    @State private var search = ""
-    @StateObject var employeesData = employeesCardsViewModel()
-    @EnvironmentObject var selectedButtonDetailView: PressedButtonDetailView
-    @State private var output: String = ""
-    var columns = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    let window                                           = NSScreen.main?.visibleFrame
+    var columns                                          = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    @State private var search                            = ""
+    @State private var output                            = ""
     @State private var peopleFromSearch: [EmpoyeeResult] = []
-    
+    @StateObject var employeesData                       = employeesCardsViewModel()
+    @EnvironmentObject var selectedButtonDetailView: PressedButtonDetailView
     
     var body: some View {
 

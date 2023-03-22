@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SideBar: View {
     @Namespace var animation
-    @State private var isHovering = false
+    @State private var isHovering    = false
+    @EnvironmentObject var openMenu: OpenMenu
     
     var body: some View {
         HStack(spacing: 0) {
@@ -45,13 +46,18 @@ struct SideBar: View {
                     // TODO: придумать
 
                 } label: {
-                    Text("Прочее")
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color.gray)
+                    HStack {
+                        Image(systemName: "rectangle.portrait.and.arrow.forward")
+                        Text("Выход")
+                            .font(.title3)
+                    }
+                    .onTapGesture {
+                        openMenu.openMenu = false
+                    }
                 }
                 .buttonStyle(PlainButtonStyle())
+                .padding(.bottom, 20)
                 
-                Spacer(minLength: 0)
             }
             Divider()
                 .offset(x: -2)

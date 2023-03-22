@@ -13,8 +13,7 @@ class PressedButton: ObservableObject {
 
 class PressedButtonDetailView: ObservableObject {
     // Нажали обзор работника?
-    @Published var pressed = false
-    
+    @Published var pressed                  = false
     // Данные по работнику из нажатой карты.
     @Published var cardInfo: EmpoyeeResult? = nil
 }
@@ -50,28 +49,18 @@ struct AdminMenuView: View {
                 }
 
             case "Деревья":
-                HStack {
-                    SideBar()
-                    Text("Деревья")
-                }
+                Trees()
                 
             case "Участки":
-                HStack {
-                    SideBar()
-                    Text("Участки")
-                }
+                Plats()
 
             case "Поставки":
-                HStack {
-                    SideBar()
-                    Text("Поставки")
-                }
+                Deliveries()
                 
             default:
                 HStack {
                     SideBar()
-                    EmptyView()
-                    
+                    Text("Лол, а как ты тут оказался")
                 }
             }
         }

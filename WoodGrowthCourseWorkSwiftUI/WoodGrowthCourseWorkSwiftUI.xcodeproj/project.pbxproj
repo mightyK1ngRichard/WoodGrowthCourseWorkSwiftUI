@@ -11,6 +11,9 @@
 		2C3FF28B29C85D760009AB1A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28A29C85D760009AB1A /* Home.swift */; };
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
+		2C5F96D629CA921B007D5B03 /* Plats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F96D529CA921B007D5B03 /* Plats.swift */; };
+		2C5F96D829CA925F007D5B03 /* Deliveries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F96D729CA925F007D5B03 /* Deliveries.swift */; };
+		2C5F96DA29CAA7DC007D5B03 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F96D929CAA7DC007D5B03 /* LoginView.swift */; };
 		2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE329C886FC00559E47 /* APIManager.swift */; };
 		2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE929C88FA200559E47 /* CardsEmployes.swift */; };
 		2CC72AED29C8937800559E47 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC72AEC29C8937800559E47 /* SDWebImageSwiftUI */; };
@@ -31,6 +34,9 @@
 		2C3FF28A29C85D760009AB1A /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
+		2C5F96D529CA921B007D5B03 /* Plats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plats.swift; sourceTree = "<group>"; };
+		2C5F96D729CA925F007D5B03 /* Deliveries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deliveries.swift; sourceTree = "<group>"; };
+		2C5F96D929CAA7DC007D5B03 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2CC72AE329C886FC00559E47 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2CC72AE929C88FA200559E47 /* CardsEmployes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsEmployes.swift; sourceTree = "<group>"; };
 		2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
@@ -96,6 +102,9 @@
 				2CCC1E8529C8D76900FB8088 /* Employees.swift */,
 				2C3FF28A29C85D760009AB1A /* Home.swift */,
 				2CCC1E8E29C8F40700FB8088 /* Trees.swift */,
+				2C5F96D529CA921B007D5B03 /* Plats.swift */,
+				2C5F96D729CA925F007D5B03 /* Deliveries.swift */,
+				2C5F96D929CAA7DC007D5B03 /* LoginView.swift */,
 			);
 			path = MenuButtonsViews;
 			sourceTree = "<group>";
@@ -223,14 +232,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C5F96D629CA921B007D5B03 /* Plats.swift in Sources */,
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
 				2CCC1E8F29C8F40700FB8088 /* Trees.swift in Sources */,
 				2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
+				2C5F96D829CA925F007D5B03 /* Deliveries.swift in Sources */,
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
+				2C5F96DA29CAA7DC007D5B03 /* LoginView.swift in Sources */,
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,
 				2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */,
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
