@@ -9,33 +9,57 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct DetailCard: View {
-    @EnvironmentObject var pressedClose  : PressedButtonDetailView
-    @State var pressedEdit: Bool         = false
-    @State private var isHovering        = false
-    @State private var isHoveringPhoto   = false
-    @State private var newName           = ""
-    @State private var newSurname        = ""
-    @State private var newPost           = ""
-    @State private var newPhone          = ""
+    @EnvironmentObject var pressedClose   : PressedButtonDetailView
+    @State var pressedEdit                = false
+    @State private var isHovering         = false
+    @State private var isHoveringPhoto    = false
+    @State private var isHoveringWater    = false
+    @State private var pressedWateringLog = false
+    @State private var newName            = ""
+    @State private var newSurname         = ""
+    @State private var newPost            = ""
+    @State private var newPhone           = ""
+    var currentPersonInfo                 : EmpoyeeResult
+    @State private var wateringLog        : [RowsWateringEmployee] = []
     
-    var currentPersonInfo: EmpoyeeResult?
     var body: some View {
         VStack {
-            Image(systemName: "square.and.pencil")
-                .offset(x: 96, y: 215)
-            .colorMultiply(isHovering ? .yellow : .black)
-            .onHover { hovering in
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    self.isHovering = hovering
-                }
+            ZStack {
+                Image(systemName: "square.and.pencil")
+                    .offset(x: 96, y: 255)
+                    .colorMultiply(isHovering ? .yellow : .black)
+                    .onHover { hovering in
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            self.isHovering = hovering
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.2), value: isHovering)
+                    .onTapGesture {
+                        pressedEdit.toggle()
+                    }
+                
+                Image(systemName: "eye.fill")
+                    .offset(x: -96, y: 255)
+                    .colorMultiply(isHoveringWater ? .blue : .black)
+                    .onHover { hovering in
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            self.isHoveringWater = hovering
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.2), value: isHovering)
+                    .onTapGesture {
+                        pressedWateringLog.toggle()
+                        APIManager.shared.getWateringUser(userID: currentPersonInfo.id) { data, error in
+                            guard let data = data else {
+                                print("== ERROR data is empty")
+                                return
+                            }
+                            wateringLog = data.rows
+                        }
+                    }
             }
-            .animation(.easeInOut(duration: 0.2), value: isHovering)
-            .onTapGesture {
-                pressedEdit.toggle()
-            }
-            
             Group {
-                if let image = currentPersonInfo?.ava {
+                if let image = currentPersonInfo.ava {
                     WebImage(url: image)
                         .resizable()
                         .frame(width: 200, height: 200)
@@ -60,15 +84,25 @@ struct DetailCard: View {
                 pressedClose.pressed = false
             }
             
-            Text("\(currentPersonInfo?.fullName ?? "Имя не найдено")")
+            Text(currentPersonInfo.fullName)
                 .padding(0)
                 .font(.title)
                 .bold()
-            Text("\(currentPersonInfo?.post ?? "Должность не указана")")
-            if let phone = currentPersonInfo?.phone {
+            Text(currentPersonInfo.post)
+            if let phone = currentPersonInfo.phone {
                 Text((getCorrectPhone(phoneString: phone) ?? "Телефон некорректный"))
             } else {
                 Text("Телефон отсутствует")
+            }
+            if pressedWateringLog {
+                VStack {
+                    Text("Даты поливки:")
+                        .bold()
+                    ForEach(wateringLog, id: \.self.date_) {
+                        Text(correctDate(dateString: $0.date_))
+                            .padding(.horizontal)
+                    }
+                }.padding(.top, 10)
             }
             
             // pressedEdit
@@ -107,11 +141,11 @@ struct DetailCard: View {
     }
 }
 
-struct DetailCard_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailCard(currentPersonInfo: nil)
-    }
-}
+//struct DetailCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailCard(currentPersonInfo: nil)
+//    }
+//}
 
 struct MyTextField: View {
     var textForUser: String
@@ -122,7 +156,7 @@ struct MyTextField: View {
             TextField(textForUser, text: $text)
                 .editBackGround()
         }
-
+        
     }
 }
 

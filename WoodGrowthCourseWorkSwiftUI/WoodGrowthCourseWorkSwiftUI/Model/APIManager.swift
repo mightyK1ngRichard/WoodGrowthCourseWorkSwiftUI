@@ -8,10 +8,18 @@
 import Foundation
 
 class APIManager {
+    /* Запрос на поливку рабочего.
+     select employer.full_name as worker, watering.date_watering as date_
+     from watering
+     join plot on plot.plot_id = watering.plot_id
+     join employer on employer.employer_id = plot.employer_id
+     where employer.employer_id = 1;
+     */
+    
     static let shared = APIManager()
-    let host = "localhost"
-    let port = 8010
-
+    let host          = "localhost"
+    let port          = 8010
+    
     func getDataUsingCommand(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -25,12 +33,12 @@ class APIManager {
                 completion(nil, "Data is empty")
                 return
             }
-
+            
             // ... Сделать механизм распарсинга.
             completion(String(decoding: data, as: UTF8.self), nil)
         }.resume()
     }
-
+    
     func getEmployers(completion: @escaping (Employers?, String?) -> Void) {
         let SQLQuery = """
         SELECT * FROM employer;
@@ -49,7 +57,7 @@ class APIManager {
                     return
                 }
                 if let newInfo = try? JSONDecoder().decode(Employers.self, from: data) {
-                   completion(newInfo, nil)
+                    completion(newInfo, nil)
                 } else {
                     completion(nil, "== Parse error")
                     return
@@ -80,7 +88,39 @@ class APIManager {
                     return
                 }
                 if let newInfo = try? JSONDecoder().decode(TreesParse.self, from: data) {
-                   completion(newInfo, nil)
+                    completion(newInfo, nil)
+                    
+                } else {
+                    completion(nil, "== Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
+    func getWateringUser(userID: String, completion: @escaping (WateringEmployee?, String?) -> Void) {
+        let SQLQuery = """
+         select watering.date_watering as date_
+         from watering
+         join plot on plot.plot_id = watering.plot_id
+         join employer on employer.employer_id = plot.employer_id
+         where employer.employer_id = \(userID);
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "== Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "== Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(WateringEmployee.self, from: data) {
+                    completion(newInfo, nil)
                     
                 } else {
                     completion(nil, "== Parse error")
@@ -90,7 +130,7 @@ class APIManager {
         }.resume()
     }
 }
-    
+
 // MARK: - Распрарсинг.
 struct Employers: Decodable {
     let rows: [Rows]
@@ -102,7 +142,7 @@ struct Rows: Decodable {
     let post: String
     let phone_number: String
     let photo: URL?
-
+    
 }
 
 struct TreesParse: Decodable {
@@ -123,6 +163,13 @@ struct RowsTrees: Decodable {
     let y_end: Int
 }
 
+struct WateringEmployee: Decodable {
+    let rows: [RowsWateringEmployee]
+}
+
+struct RowsWateringEmployee: Decodable {
+    let date_: String
+}
 // MARK: - Итоговая структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id: String

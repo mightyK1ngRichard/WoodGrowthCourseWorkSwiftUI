@@ -41,7 +41,7 @@ struct AdminMenuView: View {
                         Divider()
                             .offset(x: 7)
                         VStack {
-                            DetailCard(currentPersonInfo: pressedCardInfo.cardInfo)
+                            DetailCard(currentPersonInfo: pressedCardInfo.cardInfo!)
                             Spacer()
                         }
                         .padding(.top, 55)
