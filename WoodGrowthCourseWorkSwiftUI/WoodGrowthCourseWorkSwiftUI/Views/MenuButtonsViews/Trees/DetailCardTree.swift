@@ -16,9 +16,6 @@ struct DetailCardTree: View {
     @State private var newName             = ""
     @State private var newType             = ""
     @State private var newPlot             = ""
-<<<<<<< HEAD
-    @State private var newVolume           = ""
-=======
     @State private var newPost             = ""
     @State private var newVolume           = ""
     @State private var newDate             = ""
@@ -27,7 +24,6 @@ struct DetailCardTree: View {
     @State private var newY1               = ""
     @State private var newY2               = ""
     
->>>>>>> fdf76e0 (Update)
     var body: some View {
         VStack() {
             ZStack {
@@ -37,18 +33,9 @@ struct DetailCardTree: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
                     .cornerRadius(15)
-<<<<<<< HEAD
                     .brightness(isHovering ? -0.2 : 0)
                     .onHover { hovering in
                         withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
-=======
-                    .overlay {
-                        Circle().stroke(Color.white, lineWidth: 3)
-                    }
-                    .brightness(isHovering ? -0.2 : 0)
-                    .onHover { hovering in
-                        withAnimation(.easeInOut(duration: 0.2)) {
->>>>>>> fdf76e0 (Update)
                             self.isHovering = hovering
                         }
                     }
@@ -56,6 +43,7 @@ struct DetailCardTree: View {
                     .onTapGesture {
                         pressedTreeInfo.pressed = false
                     }
+                
                 Image(systemName: "square.and.pencil")
                     .offset(x: 63, y: 50)
                 .colorMultiply(isHovering2 ? .yellow : .black)
@@ -68,69 +56,39 @@ struct DetailCardTree: View {
                 .onTapGesture {
                     pressedEdit.toggle()
                 }
+                
             }
+            
             VStack {
-<<<<<<< HEAD
+                Text("№ \(treeInfo.name_tree)")
+                    .font(.title)
+                    .bold()
                 Text("Участок: \(treeInfo.name_plot)")
                 Text("Вид: \(treeInfo.name_type)")
-                Text("Имя: \(treeInfo.name_tree)")
                 Text("Объём: \(treeInfo.volume)")
             }
-            .bold()
             
             Text("Дата заземления: ")
             Text(correctDate(dateString: treeInfo.date_measurements))
             VStack {
                 Text("Кординаты:")
-                    .font(.title2)
-                Text("X_старт: \(treeInfo.x_begin)")
-                Text("X_конец: \(treeInfo.x_end)")
-                Text("Y_старт: \(treeInfo.y_begin)")
-                Text("Y_конец: \(treeInfo.x_end)")
-=======
-                VStack {
-                    Text("№ \(treeInfo.name_tree)")
-                        .font(.title)
-                        .bold()
-                    
-                    Text("Участок: \(treeInfo.name_plot)")
-                    Text("Вид: \(treeInfo.name_type)")
-                    Text("Объём: \(treeInfo.volume)")
-                }
-                
-                Text("Дата заземления: ")
-                Text(correctDate(dateString: treeInfo.date_measurements))
-                VStack {
-                    Text("Кординаты:")
-                        .font(.headline)
-                    Text("X: \(treeInfo.x_begin), \(treeInfo.x_end)")
-                    Text("Y: \(treeInfo.y_begin), \(treeInfo.x_end)")
-                }
-                
->>>>>>> fdf76e0 (Update)
+                    .font(.headline)
+                Text("X: \(treeInfo.x_begin), \(treeInfo.x_end)")
+                Text("Y: \(treeInfo.y_begin), \(treeInfo.x_end)")
             }
             if pressedEdit {
                 VStack {
                     Group {
-<<<<<<< HEAD
-                        MyTextField(textForUser: "Введите новое имя", text: $newName)
-                        MyTextField(textForUser: "Введите новую фамилию", text: $newType)
-                        MyTextField(textForUser: "Введите новую должность", text: $newPlot)
-                        MyTextField(textForUser: "Введите новый телефон", text: $newVolume)
-=======
                         MyTextField(textForUser: "Новый №", text: $newName)
                         MyTextField(textForUser: "Новый участок", text: $newPlot)
                         MyTextField(textForUser: "Новый вид", text: $newType)
                         MyTextField(textForUser: "Новый объём", text: $newVolume)
                         MyTextField(textForUser: "Новая должность", text: $newPost)
                         MyTextField(textForUser: "Новая должность", text: $newDate)
-                        
                         MyTextField(textForUser: "Новый X start", text: $newX1)
                         MyTextField(textForUser: "Новый X end", text: $newX2)
                         MyTextField(textForUser: "Новый Y start", text: $newY1)
                         MyTextField(textForUser: "Новый Y end", text: $newY2)
-                        
->>>>>>> fdf76e0 (Update)
                     }
                     
                     Button {
@@ -148,11 +106,7 @@ struct DetailCardTree: View {
                         }
                     }
                     .padding(.top, 5)
-<<<<<<< HEAD
                     
-=======
-                    Spacer()
->>>>>>> fdf76e0 (Update)
                 }
                 .padding()
             }

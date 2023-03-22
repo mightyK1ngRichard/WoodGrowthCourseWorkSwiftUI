@@ -12,8 +12,10 @@ func getCorrectPhone(phoneString: String) -> String? {
         return nil
     }
     
+    // Удалить первую цифру "8"
     let digits = phoneString.dropFirst()
-    
+
+    // Создать форматированную строку
     let formattedString = String(format: "8(%@) %@-%@-%@",
                                  digits.prefix(3) as CVarArg,   // первые три цифры после "8"
                                  digits.dropFirst(3).prefix(3) as CVarArg,   // следующие три цифры

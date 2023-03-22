@@ -8,15 +8,9 @@
 import SwiftUI
 
 struct LoginView: View {
-<<<<<<< HEAD
     @EnvironmentObject var openMenu: OpenMenu
     @State var email    = ""
     @State var password = ""
-=======
-    @EnvironmentObject var openMenu : OpenMenu
-    @State var email                = ""
-    @State var password             = ""
->>>>>>> fdf76e0 (Update)
     
     var body: some View {
         VStack {
@@ -24,12 +18,6 @@ struct LoginView: View {
                 .resizable()
                 .frame(width: 200, height: 200)
                 .clipShape(Circle())
-<<<<<<< HEAD
-=======
-                .overlay {
-                    Circle().stroke(Color.black, lineWidth: 3)
-                }
->>>>>>> fdf76e0 (Update)
                 .padding(.bottom, 40)
                 .foregroundColor(.blue)
             

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TabButton: View {
-    var image                       : String
-    var title                       : String
-    var animation                   : Namespace.ID
-    @EnvironmentObject var selected : PressedButton
+    var image: String
+    var title: String
+    var animation: Namespace.ID
+    @EnvironmentObject var selected: PressedButton
     
     var body: some View {
         Button(action: {
