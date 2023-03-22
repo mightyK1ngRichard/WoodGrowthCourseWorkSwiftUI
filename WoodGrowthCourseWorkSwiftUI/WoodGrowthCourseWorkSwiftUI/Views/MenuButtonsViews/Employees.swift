@@ -10,24 +10,28 @@ import SDWebImageSwiftUI
 
 struct Employees: View {
     let window = NSScreen.main?.visibleFrame
-    @State var search = ""
+    @State private var search = ""
     @StateObject var employeesData = employeesCardsViewModel()
     @EnvironmentObject var selectedButtonDetailView: PressedButtonDetailView
-    
+    @State private var output: String = ""
     var columns = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    @State private var peopleFromSearch: [EmpoyeeResult] = []
+    
     
     var body: some View {
+
         HStack {
             SideBar()
             VStack {
                 HStack(spacing: 12) {
-                    
                     HStack(spacing: 15) {
                         Image(systemName: "magnifyingglass")
-                        TextField("Поиск", text: $search)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(Color.black)
-        
+                        TextField("Введите имя", text: $search) {
+                            self.output = self.search
+                            self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output) }
+                        }
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .foregroundColor(Color.black)
                     }
                     .padding(.vertical, 10)
                     .padding(.horizontal)
@@ -37,6 +41,7 @@ struct Employees: View {
                     
                     Button {
                         // TODO: Сделать
+                        
                     } label: {
                         Image(systemName: "slider.vertical.3")
                             .foregroundColor(Color.black)
@@ -50,6 +55,7 @@ struct Employees: View {
 
                     Button {
                         // TODO: Сделать
+                        
                     } label: {
                         Image(systemName: "plus")
                             .foregroundColor(.black)
@@ -60,36 +66,49 @@ struct Employees: View {
                     .buttonStyle(PlainButtonStyle())
                     
                 }
-                // ScrollView with images...
-                GeometryReader { reader in
-                    ScrollView {
-                        LazyVGrid(columns: columns, spacing: 15) {
-                            // Получает фотки ....
-                            ForEach(employeesData.employeesInfo) {card in
-                                
-                                ScrollViewCard(card: card, reader: reader)
+                
+                if output == "" {
+                    // ScrollView with images.
+                    GeometryReader { reader in
+                        ScrollView {
+                            LazyVGrid(columns: columns, spacing: 15) {
+                                ForEach(employeesData.employeesInfo) {card in
+                                    ScrollViewCard(card: card, reader: reader)
+                                    
+                                }
+                            }
+                        }
+                    }
+                    
+                } else {
+                    GeometryReader { reader in
+                        ScrollView {
+                            LazyVGrid(columns: columns, spacing: 15) {
+                                ForEach(peopleFromSearch) {card in
+                                    ScrollViewCard(card: card, reader: reader)
+                                }
                             }
                         }
                     }
                 }
+                
                 Spacer()
             }
             .padding()
         }
     }
+    
 }
 
-struct Employees_Previews: PreviewProvider {
-    static var previews: some View {
-        Employees()
-    }
-}
+//struct Employees_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Employees()
+//    }
+//}
 
 extension NSTextField {
     open override var focusRingType: NSFocusRingType {
         get { .none }
-        set {
-            
-        }
+        set { }
     }
 }
