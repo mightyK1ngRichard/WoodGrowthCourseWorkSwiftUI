@@ -21,7 +21,8 @@ struct ContentView: View {
                 AdminMenuView()
                 
             } else {
-                LoginView()
+//                LoginView()
+                Authorization()
             }
         }
         .environmentObject(openMenu)

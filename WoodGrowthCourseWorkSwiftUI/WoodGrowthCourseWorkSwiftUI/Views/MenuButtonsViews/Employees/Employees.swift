@@ -19,7 +19,7 @@ struct Employees: View {
         HStack {
             if employeesData.employeesInfo.count == 0 {
                 Spacer()
-                VStack() {
+                VStack {
                     Spacer()
                     Text("Сервер отключен.")
                         .font(.largeTitle)

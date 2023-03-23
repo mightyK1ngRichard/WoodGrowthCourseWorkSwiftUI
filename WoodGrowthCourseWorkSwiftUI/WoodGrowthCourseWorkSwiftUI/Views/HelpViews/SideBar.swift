@@ -10,7 +10,8 @@ import SwiftUI
 struct SideBar: View {
     @Namespace var animation
     @State private var isHovering    = false
-    @EnvironmentObject var openMenu: OpenMenu
+    @EnvironmentObject var openMenu  : OpenMenu
+    @State var isHoverExit           = false
     
     var body: some View {
         HStack(spacing: 0) {
@@ -50,6 +51,10 @@ struct SideBar: View {
                         Image(systemName: "rectangle.portrait.and.arrow.forward")
                         Text("Выход")
                             .font(.title3)
+                            .foregroundColor(isHoverExit ? Color.black : Color.white)
+                            .onHover { hovering in
+                                self.isHoverExit = hovering
+                            }
                     }
                     .onTapGesture {
                         openMenu.openMenu = false
