@@ -17,7 +17,7 @@ class employeesCardsViewModel: ObservableObject {
     init() {
         APIManager.shared.getEmployers { data, error in
             guard let data = data else {
-                print("=== ERROR employeesCardsViewModel. Данных нету")
+                print("== ERROR: ", error!)
                 return
             }
             for el in data.rows {

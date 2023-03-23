@@ -48,7 +48,7 @@ struct DetailCardTree: View {
                     }
                 
                 Image(systemName: "square.and.pencil")
-                    .offset(x: 63, y: 50)
+                    .offset(x: 63, y: 70)
                     .colorMultiply(isHovering2 ? .yellow : .black)
                     .onHover { hovering in
                         withAnimation(.easeInOut(duration: 0.2)) {

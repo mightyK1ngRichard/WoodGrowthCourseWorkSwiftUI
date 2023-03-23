@@ -100,7 +100,6 @@
 			children = (
 				2CBD8A2529CA3D4900471862 /* HelpViews */,
 				2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */,
-				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -126,6 +125,7 @@
 		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
+				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
 				2C2464CA29CAC6BB0021907A /* Employees */,
 				2C2464C929CAC6B00021907A /* Trees */,
 				2C3FF28A29C85D760009AB1A /* Home.swift */,

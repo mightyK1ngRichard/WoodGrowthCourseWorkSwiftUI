@@ -10,7 +10,6 @@ import SwiftUI
 struct Deliveries: View {
     var body: some View {
         HStack {
-            SideBar()
             Spacer()
         }
     }

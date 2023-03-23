@@ -51,7 +51,7 @@ struct DetailCard: View {
                         pressedWateringLog.toggle()
                         APIManager.shared.getWateringUser(userID: currentPersonInfo.id) { data, error in
                             guard let data = data else {
-                                print("== ERROR data is empty")
+                                print("== ERROR: ", error!)
                                 return
                             }
                             wateringLog = data.rows

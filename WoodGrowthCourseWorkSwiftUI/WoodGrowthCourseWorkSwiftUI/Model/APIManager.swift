@@ -46,20 +46,20 @@ class APIManager {
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
         guard let url = URL(string: urlString) else {
-            completion(nil, "== Uncorrected url")
+            completion(nil, "Uncorrected url")
             return
         }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard let data = data else {
-                    completion(nil, "== Data is nil")
+                    completion(nil, "Data is nil")
                     return
                 }
                 if let newInfo = try? JSONDecoder().decode(Employers.self, from: data) {
                     completion(newInfo, nil)
                 } else {
-                    completion(nil, "== Parse error")
+                    completion(nil, "Parse error")
                     return
                 }
             }
@@ -77,21 +77,21 @@ class APIManager {
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
         guard let url = URL(string: urlString) else {
-            completion(nil, "== Uncorrected url")
+            completion(nil, "Uncorrected url")
             return
         }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard let data = data else {
-                    completion(nil, "== Data is nil")
+                    completion(nil, "Data is nil")
                     return
                 }
                 if let newInfo = try? JSONDecoder().decode(TreesParse.self, from: data) {
                     completion(newInfo, nil)
                     
                 } else {
-                    completion(nil, "== Parse error")
+                    completion(nil, "Parse error")
                     return
                 }
             }
@@ -109,21 +109,21 @@ class APIManager {
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
         guard let url = URL(string: urlString) else {
-            completion(nil, "== Uncorrected url")
+            completion(nil, "Uncorrected url")
             return
         }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard let data = data else {
-                    completion(nil, "== Data is nil")
+                    completion(nil, "Data is nil")
                     return
                 }
                 if let newInfo = try? JSONDecoder().decode(WateringEmployee.self, from: data) {
                     completion(newInfo, nil)
                     
                 } else {
-                    completion(nil, "== Parse error")
+                    completion(nil, "Parse error")
                     return
                 }
             }

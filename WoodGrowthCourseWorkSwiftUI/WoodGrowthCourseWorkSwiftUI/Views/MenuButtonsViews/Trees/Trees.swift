@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct Trees: View {
-    let window                             = NSScreen.main?.visibleFrame
-    @EnvironmentObject var pressedTreeInfo : PressedButtonTree
+    @EnvironmentObject var pressedTreeInfo: PressedButtonTree
     
     var body: some View {
         VStack{
@@ -34,22 +33,37 @@ struct Trees: View {
 struct ScrollTrees: View {
     var columns                   = Array(repeating: GridItem(.flexible(), spacing: 5), count: 5)
     @ObservedObject var treesData = treesCardsViewModel()
+    
     var body: some View {
         HStack {
-            GeometryReader { reader in
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 5) {
-                        ForEach(treesData.treesInfo) {card in
-                            TreeCard(treeInfo: card)
-                                .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
-                                .border(.white.opacity(0.4))
-                            
+            if treesData.treesInfo.count == 0 {
+                Spacer()
+                VStack() {
+                    Spacer()
+                    Text("Сервер отключен.")
+                        .font(.largeTitle)
+                        .foregroundColor(Color.red)
+                    Spacer()
+                }
+                Spacer()
+                
+            } else {
+                GeometryReader { reader in
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 5) {
+                            ForEach(treesData.treesInfo) {card in
+                                TreeCard(treeInfo: card)
+                                    .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
+                                    .border(.white.opacity(0.4))
+                                
+                            }
                         }
                     }
                 }
             }
         }
         .environmentObject(treesData)
+    
     }
 }
 

@@ -22,13 +22,13 @@ class PressedButtonTree: ObservableObject {
 }
 
 struct AdminMenuView: View {
-    let window                              = NSScreen.main?.visibleFrame
     @ObservedObject var pressed             = PressedButton()
     @ObservedObject var pressedCardInfo     = PressedButtonDetailView()
     @ObservedObject var pressedTreeInfoCard = PressedButtonTree()
     
     var body: some View {
         HStack {
+            SideBar()
             switch (pressed.pressed) {
             case "Home":
                 Home()
@@ -54,7 +54,6 @@ struct AdminMenuView: View {
 
             case "Деревья":
                 HStack {
-                    SideBar()
                     Trees()
                 }
                 
@@ -66,7 +65,6 @@ struct AdminMenuView: View {
                 
             default:
                 HStack {
-                    SideBar()
                     Text("Лол, а как ты тут оказался")
                 }
             }

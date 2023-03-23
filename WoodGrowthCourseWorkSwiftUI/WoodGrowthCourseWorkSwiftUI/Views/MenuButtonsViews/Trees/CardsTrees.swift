@@ -15,7 +15,7 @@ class treesCardsViewModel: ObservableObject {
     init() {
         APIManager.shared.getTrees { data, error in
             guard let data = data else {
-                print("==> ERROR with data in API\n", error!)
+                print("==> ERROR: ", error!)
                 return
             }
             for el in data.rows {
