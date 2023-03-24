@@ -51,7 +51,7 @@ struct SideBar: View {
                         Image(systemName: "rectangle.portrait.and.arrow.forward")
                         Text("Выход")
                             .font(.title3)
-                            .foregroundColor(isHoverExit ? Color.black : Color.white)
+                            .brightness(isHoverExit ? -0.3 : 0)
                             .onHover { hovering in
                                 self.isHoverExit = hovering
                             }
