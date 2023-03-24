@@ -51,7 +51,7 @@ struct ScrollViewCard: View {
                 Text(card.post)
                 Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
             }
-            .foregroundColor(Color.black)
+            .foregroundColor(Color.white)
         }
     }
 }

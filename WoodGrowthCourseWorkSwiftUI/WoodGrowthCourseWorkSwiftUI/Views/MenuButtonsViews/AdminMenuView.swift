@@ -70,7 +70,7 @@ struct AdminMenuView: View {
             }
         }
         .preferredColorScheme(.none)
-        .background(Color.white.opacity(0.6))
+        .background(Color(red: 35/255, green: 36/255, blue: 76/255))
         .environmentObject(pressed)
         .environmentObject(pressedCardInfo)
         .environmentObject(pressedTreeInfoCard)

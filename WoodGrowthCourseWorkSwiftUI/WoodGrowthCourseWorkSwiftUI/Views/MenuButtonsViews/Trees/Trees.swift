@@ -14,7 +14,6 @@ struct Trees: View {
         VStack{
             if !pressedTreeInfo.pressed {
                 ScrollTrees()
-                
             } else {
                 HStack {
                     ScrollTrees()
@@ -27,15 +26,22 @@ struct Trees: View {
                 }
             }
         }
+        .frame(minWidth: 1235)
     }
 }
 
 struct ScrollTrees: View {
-    var columns                   = Array(repeating: GridItem(.flexible(), spacing: 5), count: 5)
     @ObservedObject var treesData = treesCardsViewModel()
+    @EnvironmentObject var pressedTreeInfo: PressedButtonTree
     
     var body: some View {
-        HStack {
+        var columns: [GridItem]
+        if pressedTreeInfo.pressed {
+            columns = Array(repeating: GridItem(.flexible(), spacing: 5), count: 6)
+        } else {
+            columns = Array(repeating: GridItem(.flexible(), spacing: 5), count: 7)
+        }
+        return HStack {
             if treesData.treesInfo.count == 0 {
                 Spacer()
                 VStack() {
@@ -55,6 +61,7 @@ struct ScrollTrees: View {
                                 TreeCard(treeInfo: card)
                                     .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
                                     .border(.white.opacity(0.4))
+                                    .padding(.vertical, 10)
                                 
                             }
                         }
@@ -66,10 +73,3 @@ struct ScrollTrees: View {
     
     }
 }
-
-//struct Trees_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Trees()
-//    }
-//}
-

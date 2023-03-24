@@ -21,9 +21,9 @@ struct Employees: View {
                 Spacer()
                 VStack {
                     Spacer()
-                    Text("Сервер отключен.")
-                        .font(.largeTitle)
-                        .foregroundColor(Color.red)
+                    Text("😭 Сервер отключен. 😭")
+                        .font(.system(size: 50))
+                        .foregroundColor(Color(red: 255, green: 0, blue: 0))
                     Spacer()
                 }
                 Spacer()
@@ -107,12 +107,6 @@ struct Employees: View {
     }
     
 }
-
-//struct Employees_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Employees()
-//    }
-//}
 
 extension NSTextField {
     open override var focusRingType: NSFocusRingType {

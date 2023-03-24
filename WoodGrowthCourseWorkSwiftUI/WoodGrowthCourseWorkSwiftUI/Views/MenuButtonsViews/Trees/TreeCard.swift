@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TreeCard: View {
-    var treeInfo                           : TreeResult
     @State var isHovering                  = false
     @EnvironmentObject var pressedTreeInfo : PressedButtonTree
+    var treeInfo                           : TreeResult
     
     var body: some View {
         VStack() {
@@ -45,14 +45,13 @@ struct TreeCard: View {
             }
         }
         .padding(.horizontal)
-        .padding(.vertical, 5)
+        .padding(.vertical, 10)
         .brightness(isHovering ? -0.2 : 0)
         .onHover { hovering in
-            withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
+            withAnimation(.easeInOut(duration: 0.2)) {
                 self.isHovering = hovering
             }
         }
-        // .animation(.easeInOut(duration: 0.2), value: isHovering)
         .onTapGesture {
             pressedTreeInfo.pressed = true
             pressedTreeInfo.treeInfo = treeInfo

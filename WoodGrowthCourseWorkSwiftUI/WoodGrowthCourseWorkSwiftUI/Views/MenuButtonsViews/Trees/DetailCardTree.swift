@@ -46,20 +46,20 @@ struct DetailCardTree: View {
                     .onTapGesture {
                         pressedTreeInfo.pressed = false
                     }
+                    .padding()
                 
                 Image(systemName: "square.and.pencil")
-                    .offset(x: 63, y: 70)
+                    .offset(x: 63, y: 85)
                     .colorMultiply(isHovering2 ? .yellow : .black)
                     .onHover { hovering in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             self.isHovering2 = hovering
                         }
                     }
-                    .animation(.easeInOut(duration: 0.2), value: isHovering)
+                    .animation(.easeInOut(duration: 0.2), value: isHovering2)
                     .onTapGesture {
                         pressedEdit.toggle()
                     }
-                
             }
             
             VStack {

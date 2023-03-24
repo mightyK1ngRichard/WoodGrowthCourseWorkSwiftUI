@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Plots: View {
-    var columns                   = Array(repeating: GridItem(.flexible()), count: 2)
+    var columns                  = Array(repeating: GridItem(.flexible()), count: 2)
     @ObservedObject var plotData = plotsCardsViewModel()
     
     var body: some View {

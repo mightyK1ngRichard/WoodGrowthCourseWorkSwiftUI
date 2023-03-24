@@ -20,12 +20,12 @@
 		2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */; };
 		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
 		2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A729CE35A100530B94 /* PlotInfo.swift */; };
+		2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9AB29CE672F00530B94 /* Trees.swift */; };
 		2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE329C886FC00559E47 /* APIManager.swift */; };
 		2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE929C88FA200559E47 /* CardsEmployes.swift */; };
 		2CC72AED29C8937800559E47 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC72AEC29C8937800559E47 /* SDWebImageSwiftUI */; };
 		2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */; };
 		2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E8529C8D76900FB8088 /* Employees.swift */; };
-		2CCC1E8F29C8F40700FB8088 /* Trees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E8E29C8F40700FB8088 /* Trees.swift */; };
 		2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */; };
 		2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E9329C90CF200FB8088 /* DetailCard.swift */; };
 		2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */; };
@@ -49,11 +49,11 @@
 		2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotCard.swift; sourceTree = "<group>"; };
 		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
 		2C8CE9A729CE35A100530B94 /* PlotInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotInfo.swift; sourceTree = "<group>"; };
+		2C8CE9AB29CE672F00530B94 /* Trees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trees.swift; sourceTree = "<group>"; };
 		2CC72AE329C886FC00559E47 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2CC72AE929C88FA200559E47 /* CardsEmployes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsEmployes.swift; sourceTree = "<group>"; };
 		2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
 		2CCC1E8529C8D76900FB8088 /* Employees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employees.swift; sourceTree = "<group>"; };
-		2CCC1E8E29C8F40700FB8088 /* Trees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trees.swift; sourceTree = "<group>"; };
 		2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectPhone.swift; sourceTree = "<group>"; };
 		2CCC1E9329C90CF200FB8088 /* DetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCard.swift; sourceTree = "<group>"; };
 		2CE0871229C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WoodGrowthCourseWorkSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,10 +80,10 @@
 		2C2464C929CAC6B00021907A /* Trees */ = {
 			isa = PBXGroup;
 			children = (
-				2CCC1E8E29C8F40700FB8088 /* Trees.swift */,
 				2C2464CD29CAD6570021907A /* CardsTrees.swift */,
 				2C2464CB29CAC7120021907A /* TreeCard.swift */,
 				2C2464D329CAF1D00021907A /* DetailCardTree.swift */,
+				2C8CE9AB29CE672F00530B94 /* Trees.swift */,
 			);
 			path = Trees;
 			sourceTree = "<group>";
@@ -278,7 +278,6 @@
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
 				2C2464D029CAE2690021907A /* correctDate.swift in Sources */,
-				2CCC1E8F29C8F40700FB8088 /* Trees.swift in Sources */,
 				2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
@@ -295,6 +294,7 @@
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
 				2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */,
 				2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */,
+				2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */,
 				2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */,
 				2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */,
 			);
