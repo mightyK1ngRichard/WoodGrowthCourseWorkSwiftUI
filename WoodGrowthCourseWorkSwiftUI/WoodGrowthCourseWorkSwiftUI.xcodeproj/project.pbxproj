@@ -16,8 +16,10 @@
 		2C3FF28B29C85D760009AB1A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28A29C85D760009AB1A /* Home.swift */; };
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
-		2C5F96D629CA921B007D5B03 /* Plats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F96D529CA921B007D5B03 /* Plats.swift */; };
 		2C5F96D829CA925F007D5B03 /* Deliveries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F96D729CA925F007D5B03 /* Deliveries.swift */; };
+		2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */; };
+		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
+		2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A729CE35A100530B94 /* PlotInfo.swift */; };
 		2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE329C886FC00559E47 /* APIManager.swift */; };
 		2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE929C88FA200559E47 /* CardsEmployes.swift */; };
 		2CC72AED29C8937800559E47 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC72AEC29C8937800559E47 /* SDWebImageSwiftUI */; };
@@ -43,8 +45,10 @@
 		2C3FF28A29C85D760009AB1A /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
-		2C5F96D529CA921B007D5B03 /* Plats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plats.swift; sourceTree = "<group>"; };
 		2C5F96D729CA925F007D5B03 /* Deliveries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deliveries.swift; sourceTree = "<group>"; };
+		2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotCard.swift; sourceTree = "<group>"; };
+		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
+		2C8CE9A729CE35A100530B94 /* PlotInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotInfo.swift; sourceTree = "<group>"; };
 		2CC72AE329C886FC00559E47 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2CC72AE929C88FA200559E47 /* CardsEmployes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsEmployes.swift; sourceTree = "<group>"; };
 		2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
@@ -104,6 +108,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2C8CE9A029CE1B4000530B94 /* Plots */ = {
+			isa = PBXGroup;
+			children = (
+				2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */,
+				2C8CE9A529CE32F800530B94 /* Plots.swift */,
+				2C8CE9A729CE35A100530B94 /* PlotInfo.swift */,
+			);
+			path = Plots;
+			sourceTree = "<group>";
+		};
 		2CBD8A2529CA3D4900471862 /* HelpViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,10 +140,10 @@
 			isa = PBXGroup;
 			children = (
 				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
-				2C2464CA29CAC6BB0021907A /* Employees */,
 				2C2464C929CAC6B00021907A /* Trees */,
+				2C8CE9A029CE1B4000530B94 /* Plots */,
+				2C2464CA29CAC6BB0021907A /* Employees */,
 				2C3FF28A29C85D760009AB1A /* Home.swift */,
-				2C5F96D529CA921B007D5B03 /* Plats.swift */,
 				2C5F96D729CA925F007D5B03 /* Deliveries.swift */,
 				2C24088329CCF42600B376DD /* Authorization.swift */,
 			);
@@ -260,7 +274,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C5F96D629CA921B007D5B03 /* Plats.swift in Sources */,
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
@@ -272,12 +285,15 @@
 				2C5F96D829CA925F007D5B03 /* Deliveries.swift in Sources */,
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
+				2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */,
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,
 				2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */,
+				2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */,
 				2C24088429CCF42600B376DD /* Authorization.swift in Sources */,
 				2C2464D429CAF1D00021907A /* DetailCardTree.swift in Sources */,
 				2C2464CE29CAD6570021907A /* CardsTrees.swift in Sources */,
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
+				2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */,
 				2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */,
 				2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */,
 				2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */,

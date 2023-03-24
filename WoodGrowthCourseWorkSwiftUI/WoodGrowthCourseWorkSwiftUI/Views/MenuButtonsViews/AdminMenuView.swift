@@ -58,7 +58,7 @@ struct AdminMenuView: View {
                 }
                 
             case "Участки":
-                Plats()
+                Plots()
 
             case "Поставки":
                 Deliveries()
