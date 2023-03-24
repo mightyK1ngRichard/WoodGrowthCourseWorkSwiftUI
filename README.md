@@ -11,3 +11,4 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 
 ## Previews:
 <img class="authorization" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/blob/main/Previews/Preview.gif" width="1000"/>
+<img class="authorization" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/blob/main/Previews/images.png" width="1000"/>
