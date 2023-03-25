@@ -124,6 +124,38 @@ class APIManager {
         }.resume()
     }
     
+    func getFertilizer(completion: @escaping (FeritilizerParse?, String?) -> Void) {
+        let SQLQuery = """
+        select fertilizer.fertilizer_id, fertilizer.name, fertilizer.price, fertilizer.mass,
+        type_tree.name_type
+        from fertilizer
+        join type_tree on fertilizer.type_tree_id=type_tree.type_id
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(FeritilizerParse.self, from: data) {
+                    completion(newInfo, nil)
+                    
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     func getWateringUser(userID: String, completion: @escaping (WateringEmployee?, String?) -> Void) {
         let SQLQuery = """
          select watering.date_watering as date_
@@ -210,6 +242,18 @@ struct RowsPlots: Decodable {
     let full_name: String
     let photo: URL?
 }
+
+struct FeritilizerParse: Decodable {
+    let rows: [RowsFeritilizer]
+}
+
+struct RowsFeritilizer: Decodable {
+    let fertilizer_id: String
+    let name: String
+    let price: Int
+    let mass: Int
+    let name_type: String
+}
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id: String
@@ -241,4 +285,12 @@ struct PlotResult: Codable, Identifiable {
     let employee: String
     let emp_photo: URL?
     let type_tree: String
+}
+
+struct FertilizerResult: Codable, Identifiable {
+    let id: String
+    let nameFertilizer: String
+    let priceFertilizer: Int
+    let massFertilizer: Int
+    let typeTree: String
 }

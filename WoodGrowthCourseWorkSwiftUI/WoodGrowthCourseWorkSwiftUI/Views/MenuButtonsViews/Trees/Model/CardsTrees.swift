@@ -9,13 +9,19 @@ import Foundation
 
 class treesCardsViewModel: ObservableObject {
     // Получаем данные из БД по деревьям.
-    
+    @Published var parseStatus = true
     @Published var treesInfo: [TreeResult] = []
     
     init() {
-        APIManager.shared.getTrees { data, error in
+        APIManager.shared.getTrees {[weak self] data, error in
+            guard let self = self else {
+                print("==> ERROR: self")
+                self?.parseStatus = false
+                return
+            }
             guard let data = data else {
                 print("==> ERROR: ", error!)
+                self.parseStatus = false
                 return
             }
             for el in data.rows {

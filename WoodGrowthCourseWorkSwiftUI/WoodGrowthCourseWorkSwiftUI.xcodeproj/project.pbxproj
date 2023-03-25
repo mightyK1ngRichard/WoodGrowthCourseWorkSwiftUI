@@ -35,6 +35,10 @@
 		2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0872429C8401900710F98 /* AdminMenuView.swift */; };
 		2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA2C29CE9DDA00403ECE /* TurnOffServer.swift */; };
 		2CEEBA2F29CEA58B00403ECE /* EditPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA2E29CEA58B00403ECE /* EditPlot.swift */; };
+		2CEEBA3B29CF5D4C00403ECE /* FertilizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA3A29CF5D4C00403ECE /* FertilizerView.swift */; };
+		2CEEBA3D29CF5D5900403ECE /* FertilizerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA3C29CF5D5900403ECE /* FertilizerCard.swift */; };
+		2CEEBA3F29CF636200403ECE /* FertilizerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA3E29CF636200403ECE /* FertilizerData.swift */; };
+		2CEEBA4129CF685300403ECE /* FertilizerEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA4029CF685300403ECE /* FertilizerEdit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +71,10 @@
 		2CE0872429C8401900710F98 /* AdminMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminMenuView.swift; sourceTree = "<group>"; };
 		2CEEBA2C29CE9DDA00403ECE /* TurnOffServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnOffServer.swift; sourceTree = "<group>"; };
 		2CEEBA2E29CEA58B00403ECE /* EditPlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlot.swift; sourceTree = "<group>"; };
+		2CEEBA3A29CF5D4C00403ECE /* FertilizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerView.swift; sourceTree = "<group>"; };
+		2CEEBA3C29CF5D5900403ECE /* FertilizerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerCard.swift; sourceTree = "<group>"; };
+		2CEEBA3E29CF636200403ECE /* FertilizerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerData.swift; sourceTree = "<group>"; };
+		2CEEBA4029CF685300403ECE /* FertilizerEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerEdit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,10 +92,9 @@
 		2C2464C929CAC6B00021907A /* Trees */ = {
 			isa = PBXGroup;
 			children = (
+				2CEEBA3029CEB0E000403ECE /* Model */,
+				2CEEBA3529CEB12B00403ECE /* Components */,
 				2CEEBA2B29CE9C9A00403ECE /* Main */,
-				2C2464CD29CAD6570021907A /* CardsTrees.swift */,
-				2C2464CB29CAC7120021907A /* TreeCard.swift */,
-				2C2464D329CAF1D00021907A /* DetailCardTree.swift */,
 			);
 			path = Trees;
 			sourceTree = "<group>";
@@ -95,10 +102,9 @@
 		2C2464CA29CAC6BB0021907A /* Employees */ = {
 			isa = PBXGroup;
 			children = (
+				2CEEBA3229CEB0FB00403ECE /* Model */,
+				2CEEBA3329CEB10800403ECE /* Components */,
 				2CEEBA2A29CE9C8E00403ECE /* Main */,
-				2CC72AE929C88FA200559E47 /* CardsEmployes.swift */,
-				2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */,
-				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
 			);
 			path = Employees;
 			sourceTree = "<group>";
@@ -115,10 +121,9 @@
 		2C8CE9A029CE1B4000530B94 /* Plots */ = {
 			isa = PBXGroup;
 			children = (
+				2CEEBA3129CEB0EC00403ECE /* Model */,
+				2CEEBA3429CEB11E00403ECE /* Components */,
 				2CEEBA2929CE9C8000403ECE /* Main */,
-				2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */,
-				2C8CE9A729CE35A100530B94 /* PlotInfo.swift */,
-				2CEEBA2E29CEA58B00403ECE /* EditPlot.swift */,
 			);
 			path = Plots;
 			sourceTree = "<group>";
@@ -134,21 +139,22 @@
 			path = HelpViews;
 			sourceTree = "<group>";
 		};
-		2CC72AE229C886EB00559E47 /* Model */ = {
+		2CC72AE229C886EB00559E47 /* APIModel */ = {
 			isa = PBXGroup;
 			children = (
 				2CC72AE329C886FC00559E47 /* APIManager.swift */,
 			);
-			path = Model;
+			path = APIModel;
 			sourceTree = "<group>";
 		};
 		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
 				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
-				2C2464C929CAC6B00021907A /* Trees */,
 				2C8CE9A029CE1B4000530B94 /* Plots */,
 				2C2464CA29CAC6BB0021907A /* Employees */,
+				2C2464C929CAC6B00021907A /* Trees */,
+				2CEEBA3629CF5CFA00403ECE /* Fertilizers */,
 				2C3FF28A29C85D760009AB1A /* Home.swift */,
 				2C5F96D729CA925F007D5B03 /* Deliveries.swift */,
 				2C24088329CCF42600B376DD /* Authorization.swift */,
@@ -185,7 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				2CCC1E9029C900E500FB8088 /* Units */,
-				2CC72AE229C886EB00559E47 /* Model */,
+				2CC72AE229C886EB00559E47 /* APIModel */,
 				2C3FF28929C85D630009AB1A /* Views */,
 				2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */,
 				2CE0871729C83AF800710F98 /* ContentView.swift */,
@@ -226,6 +232,92 @@
 				2C8CE9AB29CE672F00530B94 /* Trees.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		2CEEBA3029CEB0E000403ECE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C2464CD29CAD6570021907A /* CardsTrees.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2CEEBA3129CEB0EC00403ECE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C8CE9A729CE35A100530B94 /* PlotInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2CEEBA3229CEB0FB00403ECE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2CC72AE929C88FA200559E47 /* CardsEmployes.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2CEEBA3329CEB10800403ECE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */,
+				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2CEEBA3429CEB11E00403ECE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */,
+				2CEEBA2E29CEA58B00403ECE /* EditPlot.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2CEEBA3529CEB12B00403ECE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2C2464CB29CAC7120021907A /* TreeCard.swift */,
+				2C2464D329CAF1D00021907A /* DetailCardTree.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2CEEBA3629CF5CFA00403ECE /* Fertilizers */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA3929CF5D3200403ECE /* Model */,
+				2CEEBA3829CF5D2900403ECE /* Components */,
+				2CEEBA3729CF5D2400403ECE /* Main */,
+			);
+			path = Fertilizers;
+			sourceTree = "<group>";
+		};
+		2CEEBA3729CF5D2400403ECE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA3A29CF5D4C00403ECE /* FertilizerView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		2CEEBA3829CF5D2900403ECE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA3C29CF5D5900403ECE /* FertilizerCard.swift */,
+				2CEEBA4029CF685300403ECE /* FertilizerEdit.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2CEEBA3929CF5D3200403ECE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA3E29CF636200403ECE /* FertilizerData.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,6 +400,7 @@
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
 				2C2464D029CAE2690021907A /* correctDate.swift in Sources */,
+				2CEEBA3B29CF5D4C00403ECE /* FertilizerView.swift in Sources */,
 				2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
@@ -316,11 +409,13 @@
 				2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
 				2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */,
+				2CEEBA3F29CF636200403ECE /* FertilizerData.swift in Sources */,
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,
 				2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */,
 				2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */,
 				2C24088429CCF42600B376DD /* Authorization.swift in Sources */,
 				2C2464D429CAF1D00021907A /* DetailCardTree.swift in Sources */,
+				2CEEBA4129CF685300403ECE /* FertilizerEdit.swift in Sources */,
 				2C2464CE29CAD6570021907A /* CardsTrees.swift in Sources */,
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
 				2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */,
@@ -328,6 +423,7 @@
 				2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */,
 				2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */,
 				2CEEBA2F29CEA58B00403ECE /* EditPlot.swift in Sources */,
+				2CEEBA3D29CF5D5900403ECE /* FertilizerCard.swift in Sources */,
 				2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

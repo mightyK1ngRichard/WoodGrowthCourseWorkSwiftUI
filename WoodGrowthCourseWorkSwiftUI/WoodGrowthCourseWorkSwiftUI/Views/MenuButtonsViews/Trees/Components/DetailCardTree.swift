@@ -38,7 +38,7 @@ struct DetailCardTree: View {
                     }
                     .brightness(isHovering ? -0.2 : 0)
                     .onHover { hovering in
-                        withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
+                        withAnimation(.easeInOut(duration: 0.2)) {
                             self.isHovering = hovering
                         }
                     }

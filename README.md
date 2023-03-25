@@ -15,6 +15,8 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 ## Иерархия:
 ```swift
 ├── WoodGrowthCourseWorkSwiftUI
+│   ├── APIModel
+│   │   └── APIManager.swift
 │   ├── Assets.xcassets
 │   │   ├── AccentColor.colorset
 │   │   │   └── Contents.json
@@ -52,8 +54,6 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │       ├── Contents.json
 │   │       └── Берёза.jpg
 │   ├── ContentView.swift
-│   ├── Model
-│   │   └── APIManager.swift
 │   ├── Preview Content
 │   │   └── Preview Assets.xcassets
 │   │       └── Contents.json
@@ -71,24 +71,38 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │       ├── Authorization.swift
 │   │       ├── Deliveries.swift
 │   │       ├── Employees
-│   │       │   ├── CardsEmployes.swift
-│   │       │   ├── DetailCard.swift
+│   │       │   ├── Components
+│   │       │   │   ├── DetailCard.swift
+│   │       │   │   └── ScrollViewCard.swift
 │   │       │   ├── Main
 │   │       │   │   └── Employees.swift
-│   │       │   └── ScrollViewCard.swift
+│   │       │   └── Model
+│   │       │       └── CardsEmployes.swift
+│   │       ├── Fertilizers
+│   │       │   ├── Components
+│   │       │   │   ├── FertilizerCard.swift
+│   │       │   │   └── FertilizerEdit.swift
+│   │       │   ├── Main
+│   │       │   │   └── FertilizerView.swift
+│   │       │   └── Model
+│   │       │       └── FertilizerData.swift
 │   │       ├── Home.swift
 │   │       ├── Plots
-│   │       │   ├── EditPlot.swift
+│   │       │   ├── Components
+│   │       │   │   ├── EditPlot.swift
+│   │       │   │   └── PlotCard.swift
 │   │       │   ├── Main
 │   │       │   │   └── Plots.swift
-│   │       │   ├── PlotCard.swift
-│   │       │   └── PlotInfo.swift
+│   │       │   └── Model
+│   │       │       └── PlotInfo.swift
 │   │       └── Trees
-│   │           ├── CardsTrees.swift
-│   │           ├── DetailCardTree.swift
+│   │           ├── Components
+│   │           │   ├── DetailCardTree.swift
+│   │           │   └── TreeCard.swift
 │   │           ├── Main
 │   │           │   └── Trees.swift
-│   │           └── TreeCard.swift
+│   │           └── Model
+│   │               └── CardsTrees.swift
 │   ├── WoodGrowthCourseWorkSwiftUI.entitlements
 │   └── WoodGrowthCourseWorkSwiftUIApp.swift
 └── WoodGrowthCourseWorkSwiftUI.xcodeproj
@@ -110,5 +124,5 @@ Desktop app. Вёрстка написана ручками на SwifUI.
             └── xcschemes
                 └── xcschememanagement.plist
 
-39 directories, 57 files
+49 directories, 61 files
 ```
