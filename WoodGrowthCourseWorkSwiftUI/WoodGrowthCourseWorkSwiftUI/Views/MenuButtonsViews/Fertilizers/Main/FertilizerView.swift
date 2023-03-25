@@ -14,7 +14,7 @@ struct FertilizerView: View {
     
     var body: some View {
         VStack {
-            GeometryReader { reader in
+            GeometryReader { _ in
                 ScrollView (.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(fertilizerData.fertilizerData) { card in

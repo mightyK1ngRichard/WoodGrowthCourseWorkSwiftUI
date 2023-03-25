@@ -66,6 +66,9 @@ struct AdminMenuView: View {
             case "Удобрения":
                 FertilizerView()
                 
+            case "Посавщики &\nПоставки":
+                S_DViews()
+                
             default:
                 HStack {
                     Text("Лол, а как ты тут оказался")

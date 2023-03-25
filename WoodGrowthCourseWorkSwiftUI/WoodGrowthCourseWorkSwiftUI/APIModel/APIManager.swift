@@ -156,6 +156,35 @@ class APIManager {
         }.resume()
     }
     
+    func getSupplier(completion: @escaping (SupplierParse?, String?) -> Void) {
+        let SQLQuery = """
+        select * from supplier;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(SupplierParse.self, from: data) {
+                    completion(newInfo, nil)
+                    
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     func getWateringUser(userID: String, completion: @escaping (WateringEmployee?, String?) -> Void) {
         let SQLQuery = """
          select watering.date_watering as date_
@@ -254,6 +283,18 @@ struct RowsFeritilizer: Decodable {
     let mass: Int
     let name_type: String
 }
+
+struct SupplierParse: Decodable {
+    let rows: [RowsSupplier]
+}
+
+struct RowsSupplier: Decodable {
+    let supplier_id: String
+    let name_supplier: String
+    let telephone: String?
+    let www: URL?
+    let photo: URL?
+}
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id: String
@@ -293,4 +334,12 @@ struct FertilizerResult: Codable, Identifiable {
     let priceFertilizer: Int
     let massFertilizer: Int
     let typeTree: String
+}
+
+struct SupplierResult: Codable, Identifiable {
+    let id: String
+    let name_supplier: String
+    let telephone: String?
+    let www: URL?
+    let photo: URL?
 }

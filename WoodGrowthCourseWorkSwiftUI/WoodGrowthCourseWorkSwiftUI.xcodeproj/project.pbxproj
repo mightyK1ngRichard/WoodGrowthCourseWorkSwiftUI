@@ -39,6 +39,9 @@
 		2CEEBA3D29CF5D5900403ECE /* FertilizerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA3C29CF5D5900403ECE /* FertilizerCard.swift */; };
 		2CEEBA3F29CF636200403ECE /* FertilizerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA3E29CF636200403ECE /* FertilizerData.swift */; };
 		2CEEBA4129CF685300403ECE /* FertilizerEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA4029CF685300403ECE /* FertilizerEdit.swift */; };
+		2CEEBA4829CF99C300403ECE /* SupplierCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA4729CF99C300403ECE /* SupplierCard.swift */; };
+		2CEEBA4A29CF9C1F00403ECE /* S&DVies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA4929CF9C1F00403ECE /* S&DVies.swift */; };
+		2CEEBA4C29CF9F1D00403ECE /* SupplierData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEBA4B29CF9F1D00403ECE /* SupplierData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +78,9 @@
 		2CEEBA3C29CF5D5900403ECE /* FertilizerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerCard.swift; sourceTree = "<group>"; };
 		2CEEBA3E29CF636200403ECE /* FertilizerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerData.swift; sourceTree = "<group>"; };
 		2CEEBA4029CF685300403ECE /* FertilizerEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertilizerEdit.swift; sourceTree = "<group>"; };
+		2CEEBA4729CF99C300403ECE /* SupplierCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplierCard.swift; sourceTree = "<group>"; };
+		2CEEBA4929CF9C1F00403ECE /* S&DVies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "S&DVies.swift"; sourceTree = "<group>"; };
+		2CEEBA4B29CF9F1D00403ECE /* SupplierData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplierData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,11 +156,12 @@
 		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
-				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
-				2C8CE9A029CE1B4000530B94 /* Plots */,
 				2C2464CA29CAC6BB0021907A /* Employees */,
 				2C2464C929CAC6B00021907A /* Trees */,
 				2CEEBA3629CF5CFA00403ECE /* Fertilizers */,
+				2C8CE9A029CE1B4000530B94 /* Plots */,
+				2CEEBA4229CF98CC00403ECE /* Suppliers&Deliveries */,
+				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
 				2C3FF28A29C85D760009AB1A /* Home.swift */,
 				2C5F96D729CA925F007D5B03 /* Deliveries.swift */,
 				2C24088329CCF42600B376DD /* Authorization.swift */,
@@ -320,6 +327,48 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2CEEBA4229CF98CC00403ECE /* Suppliers&Deliveries */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA4329CF98F400403ECE /* Suppliers */,
+				2CEEBA4629CF991B00403ECE /* Main */,
+			);
+			path = "Suppliers&Deliveries";
+			sourceTree = "<group>";
+		};
+		2CEEBA4329CF98F400403ECE /* Suppliers */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA4529CF990C00403ECE /* Modul */,
+				2CEEBA4429CF990000403ECE /* Component */,
+			);
+			path = Suppliers;
+			sourceTree = "<group>";
+		};
+		2CEEBA4429CF990000403ECE /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA4729CF99C300403ECE /* SupplierCard.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		2CEEBA4529CF990C00403ECE /* Modul */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA4B29CF9F1D00403ECE /* SupplierData.swift */,
+			);
+			path = Modul;
+			sourceTree = "<group>";
+		};
+		2CEEBA4629CF991B00403ECE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2CEEBA4929CF9C1F00403ECE /* S&DVies.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -415,12 +464,15 @@
 				2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */,
 				2C24088429CCF42600B376DD /* Authorization.swift in Sources */,
 				2C2464D429CAF1D00021907A /* DetailCardTree.swift in Sources */,
+				2CEEBA4829CF99C300403ECE /* SupplierCard.swift in Sources */,
+				2CEEBA4A29CF9C1F00403ECE /* S&DVies.swift in Sources */,
 				2CEEBA4129CF685300403ECE /* FertilizerEdit.swift in Sources */,
 				2C2464CE29CAD6570021907A /* CardsTrees.swift in Sources */,
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
 				2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */,
 				2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */,
 				2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */,
+				2CEEBA4C29CF9F1D00403ECE /* SupplierData.swift in Sources */,
 				2CCC1E8429C8CD5B00FB8088 /* SideBar.swift in Sources */,
 				2CEEBA2F29CEA58B00403ECE /* EditPlot.swift in Sources */,
 				2CEEBA3D29CF5D5900403ECE /* FertilizerCard.swift in Sources */,
