@@ -12,6 +12,7 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 ## Previews:
 <img class="authorization" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/blob/main/Previews/Preview.png" width="1000"/>
 
+## Иерархия:
 ```swift
 ├── WoodGrowthCourseWorkSwiftUI
 │   ├── Assets.xcassets
