@@ -10,9 +10,16 @@ import SDWebImageSwiftUI
 
 struct PlotCard: View {
     var plotInfo: PlotResult
+    @State var openEdit = false
+    @State var isHovering = false
     
     var body: some View {
-        VStack {
+        if openEdit {
+            return AnyView(
+                EditPlot(pressedClose: $openEdit)
+            )
+        }
+        return AnyView(VStack {
             ZStack(alignment: .top) {
                 Image(plotInfo.type_tree)
                     .resizable()
@@ -92,9 +99,16 @@ struct PlotCard: View {
                     }
                     .offset(y: 98)
                     .foregroundColor(.white)
+                    .onTapGesture {
+                        self.openEdit.toggle()
+                    }
+                    .brightness(isHovering ? 0.4 : 0)
+                    .onHover { hovering in
+                        self.isHovering = hovering
+                    }
             }
         }
         .frame(width: 500, height: 332)
-        .cornerRadius(10)
+        .cornerRadius(10))
     }
 }

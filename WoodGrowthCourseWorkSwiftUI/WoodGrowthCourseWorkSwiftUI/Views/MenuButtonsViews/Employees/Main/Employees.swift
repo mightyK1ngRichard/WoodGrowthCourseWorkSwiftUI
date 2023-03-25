@@ -9,24 +9,16 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Employees: View {
-    var columns                          = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
-    @State private var search            = ""
-    @State private var output            = ""
-    @State private var peopleFromSearch  = [EmpoyeeResult]()
-    @StateObject var employeesData       = employeesCardsViewModel()
+    var columns                         = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    @State private var search           = ""
+    @State private var output           = ""
+    @State private var peopleFromSearch = [EmpoyeeResult]()
+    @StateObject var employeesData      = employeesCardsViewModel()
     
     var body: some View {
         HStack {
             if employeesData.employeesInfo.count == 0 {
-                Spacer()
-                VStack {
-                    Spacer()
-                    Text("😭 Сервер отключен. 😭")
-                        .font(.system(size: 50))
-                        .foregroundColor(Color(red: 255, green: 0, blue: 0))
-                    Spacer()
-                }
-                Spacer()
+                TurnOffServer()
                 
             } else {
                 VStack {

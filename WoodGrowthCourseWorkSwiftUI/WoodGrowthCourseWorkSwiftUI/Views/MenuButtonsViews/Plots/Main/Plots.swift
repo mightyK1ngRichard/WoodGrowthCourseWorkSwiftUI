@@ -12,12 +12,17 @@ struct Plots: View {
     @ObservedObject var plotData = plotsCardsViewModel()
     
     var body: some View {
-        GeometryReader { reader in
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(plotData.plotInfo) {card in
-                        PlotCard(plotInfo: card)
-                            .padding()
+        if plotData.plotInfo.count == 0 {
+            TurnOffServer()
+            
+        } else {
+            GeometryReader { reader in
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(plotData.plotInfo) {card in
+                            PlotCard(plotInfo: card)
+                                .padding()
+                        }
                     }
                 }
             }

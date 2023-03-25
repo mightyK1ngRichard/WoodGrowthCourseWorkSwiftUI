@@ -11,3 +11,103 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 
 ## Previews:
 <img class="authorization" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/blob/main/Previews/Preview.png" width="1000"/>
+
+```swift
+├── WoodGrowthCourseWorkSwiftUI
+│   ├── Assets.xcassets
+│   │   ├── AccentColor.colorset
+│   │   │   └── Contents.json
+│   │   ├── AppIcon.appiconset
+│   │   │   └── Contents.json
+│   │   ├── Contents.json
+│   │   ├── auth.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── auth.jpeg
+│   │   ├── background.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── wallpaperflare.com_wallpaper.jpg
+│   │   ├── logo.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── logo.png
+│   │   ├── money.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── money.png
+│   │   ├── turnoffserver.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── RzxV0kCip7U.jpg
+│   │   ├── Дуб.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Дуб.png
+│   │   ├── Ель.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Ель.png
+│   │   ├── Сосна.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Сосна.png
+│   │   ├── Бамбук.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Бамбук.png
+│   │   └── Берёза.imageset
+│   │       ├── Contents.json
+│   │       └── Берёза.jpg
+│   ├── ContentView.swift
+│   ├── Model
+│   │   └── APIManager.swift
+│   ├── Preview Content
+│   │   └── Preview Assets.xcassets
+│   │       └── Contents.json
+│   ├── Units
+│   │   ├── CorrectPhone.swift
+│   │   └── correctDate.swift
+│   ├── Views
+│   │   ├── HelpViews
+│   │   │   ├── BlurWindow.swift
+│   │   │   ├── SideBar.swift
+│   │   │   ├── TabButton.swift
+│   │   │   └── TurnOffServer.swift
+│   │   └── MenuButtonsViews
+│   │       ├── AdminMenuView.swift
+│   │       ├── Authorization.swift
+│   │       ├── Deliveries.swift
+│   │       ├── Employees
+│   │       │   ├── CardsEmployes.swift
+│   │       │   ├── DetailCard.swift
+│   │       │   ├── Main
+│   │       │   │   └── Employees.swift
+│   │       │   └── ScrollViewCard.swift
+│   │       ├── Home.swift
+│   │       ├── Plots
+│   │       │   ├── EditPlot.swift
+│   │       │   ├── Main
+│   │       │   │   └── Plots.swift
+│   │       │   ├── PlotCard.swift
+│   │       │   └── PlotInfo.swift
+│   │       └── Trees
+│   │           ├── CardsTrees.swift
+│   │           ├── DetailCardTree.swift
+│   │           ├── Main
+│   │           │   └── Trees.swift
+│   │           └── TreeCard.swift
+│   ├── WoodGrowthCourseWorkSwiftUI.entitlements
+│   └── WoodGrowthCourseWorkSwiftUIApp.swift
+└── WoodGrowthCourseWorkSwiftUI.xcodeproj
+    ├── project.pbxproj
+    ├── project.xcworkspace
+    │   ├── contents.xcworkspacedata
+    │   ├── xcshareddata
+    │   │   ├── IDEWorkspaceChecks.plist
+    │   │   └── swiftpm
+    │   │       ├── Package.resolved
+    │   │       └── configuration
+    │   └── xcuserdata
+    │       └── dmitriy.xcuserdatad
+    │           └── UserInterfaceState.xcuserstate
+    └── xcuserdata
+        └── dmitriy.xcuserdatad
+            ├── xcdebugger
+            │   └── Breakpoints_v2.xcbkptlist
+            └── xcschemes
+                └── xcschememanagement.plist
+
+39 directories, 57 files
+```

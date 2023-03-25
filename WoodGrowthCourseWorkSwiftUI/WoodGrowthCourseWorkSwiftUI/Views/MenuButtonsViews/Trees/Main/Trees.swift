@@ -43,15 +43,7 @@ struct ScrollTrees: View {
         }
         return HStack {
             if treesData.treesInfo.count == 0 {
-                Spacer()
-                VStack() {
-                    Spacer()
-                    Text("Сервер отключен.")
-                        .font(.largeTitle)
-                        .foregroundColor(Color.red)
-                    Spacer()
-                }
-                Spacer()
+                TurnOffServer()
                 
             } else {
                 GeometryReader { reader in
