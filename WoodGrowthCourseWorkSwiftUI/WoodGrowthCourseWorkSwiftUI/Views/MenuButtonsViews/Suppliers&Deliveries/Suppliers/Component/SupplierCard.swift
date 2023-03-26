@@ -9,32 +9,45 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct SupplierCard: View {
-    var data : SupplierResult
+    @State private var isHover = false
+    @Binding var pressedCard   : Bool
+    @Binding var currentCard   : SupplierResult?
+    var data                   : SupplierResult
     
     var body: some View {
         VStack {
-            if let photo = data.photo {
-                WebImage(url: photo)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 150, height: 150)
-                    
-                    .clipShape(Circle())
-                    .overlay {
-                        Circle().stroke(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom)
-                                        , lineWidth: 3)
-                    }
+            
+            Group {
+                if let photo = data.photo {
+                    WebImage(url: photo)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 150, height: 150)
+                        .clipShape(Circle())
+                        .overlay {
+                            Circle().stroke(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom)
+                                            , lineWidth: 3)
+                        }
 
-            } else {
-                Image(systemName: "photo.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 150, height: 150)
-                    .clipShape(Circle())
-                    .overlay {
-                        Circle().stroke(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom)
-                                        , lineWidth: 3)
-                    }
+                } else {
+                    Image(systemName: "photo.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 150, height: 150)
+                        .clipShape(Circle())
+                        .overlay {
+                            Circle().stroke(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom)
+                                            , lineWidth: 3)
+                        }
+                }
+            }
+            .brightness(isHover ? -0.2 : 0)
+            .onHover { hovering in
+                isHover = hovering
+            }
+            .onTapGesture {
+                pressedCard = true
+                currentCard = data
             }
             
             Text(data.name_supplier)
@@ -50,6 +63,8 @@ struct SupplierCard: View {
             
             if let www = data.www {
                 Text("\(www)")
+                    .underline()
+                    .foregroundColor(.blue)
                     .frame(width: 130)
                     .lineLimit(1)
             } else {

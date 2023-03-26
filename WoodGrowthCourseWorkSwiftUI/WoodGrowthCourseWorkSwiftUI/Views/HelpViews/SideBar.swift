@@ -34,10 +34,10 @@ struct SideBar: View {
                     
 
                     TabButton(image: "house.fill", title: "Home", animation: animation)
-                    TabButton(image: "tree.circle", title: "Деревья", animation: animation)
-                    TabButton(image: "person.fill", title: "Работники", animation: animation)
                     TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation)
-                    TabButton(image: "fork.knife.circle.fill", title: "Удобрения", animation: animation)
+                    TabButton(image: "leaf.fill", title: "Удобрения", animation: animation)
+                    TabButton(image: "person.2.fill", title: "Работники", animation: animation)
+                    TabButton(image: "tree.fill", title: "Деревья", animation: animation)
                     TabButton(image: "cart.fill", title: "Посавщики &\nПоставки", animation: animation)
                 }
                 

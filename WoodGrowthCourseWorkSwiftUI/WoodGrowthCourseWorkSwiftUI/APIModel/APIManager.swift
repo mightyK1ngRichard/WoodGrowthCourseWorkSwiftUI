@@ -185,6 +185,38 @@ class APIManager {
         }.resume()
     }
     
+    func getDeliveries(completion: @escaping (DeliveriesParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT delivery.delivery_id, delivery.date_delivery, delivery.numbers_packets,
+        delivery.price_order, supplier.name_supplier, fertilizer.name
+        FROM delivery
+        JOIN supplier ON supplier.supplier_id=delivery.supplier_id
+        JOIN fertilizer ON fertilizer.fertilizer_id=delivery.fertilizer_id;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(DeliveriesParse.self, from: data) {
+                    completion(newInfo, nil)
+                    
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     func getWateringUser(userID: String, completion: @escaping (WateringEmployee?, String?) -> Void) {
         let SQLQuery = """
          select watering.date_watering as date_
@@ -295,6 +327,20 @@ struct RowsSupplier: Decodable {
     let www: URL?
     let photo: URL?
 }
+
+struct DeliveriesParse: Decodable {
+    let rows: [RowsDelivery]
+}
+
+struct RowsDelivery: Decodable {
+    let delivery_id: String
+    let date_delivery: String
+    let numbers_packets: Int
+    let price_order: Int
+    let name_supplier: String
+    let name: String
+}
+
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id: String
@@ -342,4 +388,13 @@ struct SupplierResult: Codable, Identifiable {
     let telephone: String?
     let www: URL?
     let photo: URL?
+}
+
+struct DeliveryResult: Codable, Identifiable {
+    let id: String
+    let dateDelivery: String
+    let numbersPackets: Int
+    let priceOrder: Int
+    let supplierName: String
+    let fertilizerName: String
 }
