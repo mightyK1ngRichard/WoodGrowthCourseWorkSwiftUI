@@ -59,8 +59,13 @@ struct S_DViews: View {
                     .padding(.horizontal, 20)
                 }
                 
-                
                 if pressedSupplierCard {
+                    Rectangle()
+                        .foregroundColor(Color(red: 35/255, green: 36/255, blue: 76/255).opacity(0.7))
+                        .onTapGesture {
+                            pressedSupplierCard = false
+                        }
+                    
                     SupplierDetail(currentData: $currentCardSupplier, close: $pressedSupplierCard)
 
                 }

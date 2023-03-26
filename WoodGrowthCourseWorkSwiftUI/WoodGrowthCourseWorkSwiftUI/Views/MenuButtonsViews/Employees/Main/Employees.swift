@@ -17,7 +17,8 @@ struct Employees: View {
     
     var body: some View {
         HStack {
-            if employeesData.employeesInfo.count == 0 {
+            // Если ошибка на сервере.
+            if !employeesData.statusParse {
                 TurnOffServer()
                 
             } else {
