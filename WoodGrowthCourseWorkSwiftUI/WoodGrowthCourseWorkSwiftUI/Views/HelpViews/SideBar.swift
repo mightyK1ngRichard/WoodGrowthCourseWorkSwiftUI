@@ -16,7 +16,6 @@ struct SideBar: View {
     var body: some View {
         HStack(spacing: 0) {
             VStack(spacing: 22) {
-                
                 Group {
                     HStack {
                         Image("logo")
@@ -43,22 +42,17 @@ struct SideBar: View {
                 
                 Spacer(minLength: 0)
                                     
-                Button {
-                    // TODO: придумать
-
-                } label: {
-                    HStack {
-                        Image(systemName: "rectangle.portrait.and.arrow.forward")
-                        Text("Выход")
-                            .font(.title3)
-                            .brightness(isHoverExit ? -0.3 : 0)
-                            .onHover { hovering in
-                                self.isHoverExit = hovering
-                            }
-                    }
-                    .onTapGesture {
-                        openMenu.openMenu = false
-                    }
+                HStack {
+                    Image(systemName: "rectangle.portrait.and.arrow.forward")
+                    Text("Выход")
+                        .font(.title3)
+                        .brightness(isHoverExit ? -0.3 : 0)
+                        .onHover { hovering in
+                            self.isHoverExit = hovering
+                        }
+                }
+                .onTapGesture {
+                    openMenu.openMenu = false
                 }
                 .buttonStyle(PlainButtonStyle())
                 .padding(.bottom, 20)

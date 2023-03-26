@@ -16,7 +16,6 @@
 		2C3FF28B29C85D760009AB1A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28A29C85D760009AB1A /* Home.swift */; };
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
-		2C5F96D829CA925F007D5B03 /* Deliveries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F96D729CA925F007D5B03 /* Deliveries.swift */; };
 		2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */; };
 		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
 		2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A729CE35A100530B94 /* PlotInfo.swift */; };
@@ -56,7 +55,6 @@
 		2C3FF28A29C85D760009AB1A /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
-		2C5F96D729CA925F007D5B03 /* Deliveries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deliveries.swift; sourceTree = "<group>"; };
 		2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotCard.swift; sourceTree = "<group>"; };
 		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
 		2C8CE9A729CE35A100530B94 /* PlotInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotInfo.swift; sourceTree = "<group>"; };
@@ -160,15 +158,14 @@
 		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
+				2CDCA55929D06B1C009E75D2 /* Home */,
+				2CDCA55829D06B06009E75D2 /* Authorization */,
 				2C2464CA29CAC6BB0021907A /* Employees */,
 				2C2464C929CAC6B00021907A /* Trees */,
 				2CEEBA3629CF5CFA00403ECE /* Fertilizers */,
 				2C8CE9A029CE1B4000530B94 /* Plots */,
 				2CEEBA4229CF98CC00403ECE /* Suppliers&Deliveries */,
 				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
-				2C3FF28A29C85D760009AB1A /* Home.swift */,
-				2C5F96D729CA925F007D5B03 /* Deliveries.swift */,
-				2C24088329CCF42600B376DD /* Authorization.swift */,
 			);
 			path = MenuButtonsViews;
 			sourceTree = "<group>";
@@ -180,6 +177,22 @@
 				2C2464CF29CAE2690021907A /* correctDate.swift */,
 			);
 			path = Units;
+			sourceTree = "<group>";
+		};
+		2CDCA55829D06B06009E75D2 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				2C24088329CCF42600B376DD /* Authorization.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
+		2CDCA55929D06B1C009E75D2 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				2C3FF28A29C85D760009AB1A /* Home.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		2CE0870929C83AF800710F98 = {
@@ -483,7 +496,6 @@
 				2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
-				2C5F96D829CA925F007D5B03 /* Deliveries.swift in Sources */,
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
 				2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,

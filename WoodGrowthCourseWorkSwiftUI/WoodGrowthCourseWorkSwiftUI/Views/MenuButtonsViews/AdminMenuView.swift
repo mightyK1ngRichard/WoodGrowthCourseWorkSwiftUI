@@ -59,9 +59,6 @@ struct AdminMenuView: View {
                 
             case "Участки":
                 Plots()
-
-            case "Поставки":
-                Deliveries()
                 
             case "Удобрения":
                 FertilizerView()
