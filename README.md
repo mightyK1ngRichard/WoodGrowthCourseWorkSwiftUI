@@ -17,42 +17,6 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 ├── WoodGrowthCourseWorkSwiftUI
 │   ├── APIModel
 │   │   └── APIManager.swift
-│   ├── Assets.xcassets
-│   │   ├── AccentColor.colorset
-│   │   │   └── Contents.json
-│   │   ├── AppIcon.appiconset
-│   │   │   └── Contents.json
-│   │   ├── Contents.json
-│   │   ├── auth.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── auth.jpeg
-│   │   ├── background.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── wallpaperflare.com_wallpaper.jpg
-│   │   ├── logo.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── logo.png
-│   │   ├── money.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── money.png
-│   │   ├── turnoffserver.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── RzxV0kCip7U.jpg
-│   │   ├── Дуб.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── Дуб.png
-│   │   ├── Ель.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── Ель.png
-│   │   ├── Сосна.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── Сосна.png
-│   │   ├── Бамбук.imageset
-│   │   │   ├── Contents.json
-│   │   │   └── Бамбук.png
-│   │   └── Берёза.imageset
-│   │       ├── Contents.json
-│   │       └── Берёза.jpg
 │   ├── ContentView.swift
 │   ├── Preview Content
 │   │   └── Preview Assets.xcassets
@@ -68,8 +32,8 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │   │   └── TurnOffServer.swift
 │   │   └── MenuButtonsViews
 │   │       ├── AdminMenuView.swift
-│   │       ├── Authorization.swift
-│   │       ├── Deliveries.swift
+│   │       ├── Authorization
+│   │       │   └── Authorization.swift
 │   │       ├── Employees
 │   │       │   ├── Components
 │   │       │   │   ├── DetailCard.swift
@@ -86,7 +50,8 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │       │   │   └── FertilizerView.swift
 │   │       │   └── Model
 │   │       │       └── FertilizerData.swift
-│   │       ├── Home.swift
+│   │       ├── Home
+│   │       │   └── Home.swift
 │   │       ├── Plots
 │   │       │   ├── Components
 │   │       │   │   ├── EditPlot.swift
@@ -95,6 +60,19 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │       │   │   └── Plots.swift
 │   │       │   └── Model
 │   │       │       └── PlotInfo.swift
+│   │       ├── Suppliers&Deliveries
+│   │       │   ├── Deliveries
+│   │       │   │   ├── Component
+│   │       │   │   └── Modul
+│   │       │   │       └── DeliveryData.swift
+│   │       │   ├── Main
+│   │       │   │   └── S&DVies.swift
+│   │       │   └── Suppliers
+│   │       │       ├── Component
+│   │       │       │   ├── SupplierCard.swift
+│   │       │       │   └── SupplierDetail.swift
+│   │       │       └── Modul
+│   │       │           └── SupplierData.swift
 │   │       └── Trees
 │   │           ├── Components
 │   │           │   ├── DetailCardTree.swift
@@ -124,5 +102,5 @@ Desktop app. Вёрстка написана ручками на SwifUI.
             └── xcschemes
                 └── xcschememanagement.plist
 
-49 directories, 61 files
+59 directories, 75 files
 ```

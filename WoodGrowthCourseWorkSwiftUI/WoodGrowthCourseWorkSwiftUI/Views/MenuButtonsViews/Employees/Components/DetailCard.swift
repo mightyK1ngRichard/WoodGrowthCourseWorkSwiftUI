@@ -122,6 +122,11 @@ struct DetailCard: View {
                         print(newSurname)
                         print(newPost)
                         print(newPhone)
+                        let fullName = newName + " " + newSurname
+                       //  let arrForUpdateDB = [("full_name", fullName), (newPost), (newPhone)].filter { $0 != "" }
+                        
+                        
+                        
                         
                     } label: {
                         HStack {
