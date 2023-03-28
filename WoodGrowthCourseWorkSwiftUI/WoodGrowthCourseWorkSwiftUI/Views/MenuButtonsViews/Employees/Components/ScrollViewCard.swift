@@ -58,6 +58,6 @@ struct ScrollViewCard: View {
 
 //struct ScrollViewCard_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ScrollViewCard(card: EmpoyeeResult(id: "1", fullName: "Dmitriy Permyakov", phone: "891685559942", post: "Boss", ava: URL(string: "")))
+//        ScrollViewCard(card: <#EmpoyeeResult#>, reader: <#GeometryProxy#>)
 //    }
 //}

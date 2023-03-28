@@ -13,7 +13,7 @@ struct Employees: View {
     @State private var search           = ""
     @State private var output           = ""
     @State private var peopleFromSearch = [EmpoyeeResult]()
-    @StateObject var employeesData      = employeesCardsViewModel()
+    @StateObject var employeesData   = employeesCardsViewModel()
     
     var body: some View {
         HStack {
@@ -96,7 +96,5 @@ struct Employees: View {
                 .padding()
             }
         }
-
     }
-    
 }

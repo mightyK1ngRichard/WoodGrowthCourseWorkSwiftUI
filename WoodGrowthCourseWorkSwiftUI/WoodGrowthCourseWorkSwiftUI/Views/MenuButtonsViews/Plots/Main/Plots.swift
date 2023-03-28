@@ -12,7 +12,7 @@ struct Plots: View {
     @ObservedObject var plotData = plotsCardsViewModel()
     
     var body: some View {
-        if plotData.plotInfo.count == 0 {
+        if !plotData.status {
             TurnOffServer()
             
         } else {
@@ -26,6 +26,7 @@ struct Plots: View {
                     }
                 }
             }
+            .environmentObject(plotData)
         }
     }
 }

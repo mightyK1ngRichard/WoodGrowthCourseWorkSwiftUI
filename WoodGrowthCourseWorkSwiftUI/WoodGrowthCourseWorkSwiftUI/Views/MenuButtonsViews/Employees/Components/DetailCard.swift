@@ -15,12 +15,11 @@ struct DetailCard: View {
     @State private var isHoveringPhoto    = false
     @State private var isHoveringWater    = false
     @State private var pressedWateringLog = false
-    @State private var newName            = ""
-    @State private var newSurname         = ""
+    @State private var newFullname        = ""
     @State private var newPost            = ""
     @State private var newPhone           = ""
-    var currentPersonInfo                 : EmpoyeeResult
     @State private var wateringLog        : [RowsWateringEmployee] = []
+    var currentPersonInfo                 : EmpoyeeResult
     
     var body: some View {
         VStack {
@@ -105,28 +104,35 @@ struct DetailCard: View {
                 }.padding(.top, 10)
             }
             
-            // pressedEdit
             if pressedEdit {
                 VStack {
                     Group {
-                        MyTextField(textForUser: "Введите новое имя", text: $newName)
-                        MyTextField(textForUser: "Введите новую фамилию", text: $newSurname)
+                        MyTextField(textForUser: "Введите новое ФИО", text: $newFullname)
                         MyTextField(textForUser: "Введите новую должность", text: $newPost)
                         MyTextField(textForUser: "Введите новый телефон", text: $newPhone)
                     }
                     
                     Button {
                         // TODO: Запрос обновы БД.
-                        self.pressedEdit = false
-                        print(newName)
-                        print(newSurname)
-                        print(newPost)
-                        print(newPhone)
-                        let fullName = newName + " " + newSurname
-                       //  let arrForUpdateDB = [("full_name", fullName), (newPost), (newPhone)].filter { $0 != "" }
+                        pressedEdit = false
                         
+                        // Форматируем для SQL запроса.
+                        let commands = [("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
                         
-                        
+                        // Если ничего не поменяли, выходим.
+                        if commands.count == 0 {
+                            pressedClose.pressed = false
+                            return
+                        }
+                        let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+                        let sqlString = "UPDATE employer SET \(changedInfo) where employer_id = \(currentPersonInfo.id);"
+                        APIManager.shared.updateEmployee(SQLQuery: sqlString) { _, error in
+                            if let error = error {
+                                print("== ERROR:", error)
+                            }
+                        }
+
+                        pressedClose.pressed = false
                         
                     } label: {
                         HStack {

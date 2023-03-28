@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct FertilizerView: View {
-    @State var pressedCard             = false // Редактор.
+    @State private var pressedCard     = false // Редактор.
     @ObservedObject var fertilizerData = FertilizerData()
-    @State var editingCard             : FertilizerResult? = nil
+    @State private var editingCard     : FertilizerResult?
     
     var body: some View {
         VStack {
@@ -40,11 +40,12 @@ struct FertilizerView: View {
                 
             }
         }
+        .environmentObject(fertilizerData)
     }
 }
 
 struct FertilizerView_Previews: PreviewProvider {
     static var previews: some View {
-        FertilizerView(editingCard: FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб"))
+        FertilizerView()
     }
 }

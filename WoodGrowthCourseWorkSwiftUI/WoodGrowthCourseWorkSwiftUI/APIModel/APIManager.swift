@@ -12,6 +12,7 @@ class APIManager {
     private let host  = "localhost"
     private let port  = 8010
     
+    // MARK: - Select.
     func getDataUsingCommand(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -246,6 +247,27 @@ class APIManager {
                     return
                 }
             }
+        }.resume()
+    }
+    
+    // MARK: - Updates.
+    func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
+        let urlString = "http://\(host):\(port)/database/"
+        let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let correctURL = urlString + encodedQuery
+        
+        guard let url = URL(string: correctURL) else {
+            completion(nil, "Неверный url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(nil, "Data is empty")
+                return
+            }
+            
+            completion(String(decoding: data, as: UTF8.self), nil)
         }.resume()
     }
 }
