@@ -17,7 +17,7 @@ class FertilizerData: ObservableObject {
                 return
             }
             for el in data.rows {
-                let newFertilizer = FertilizerResult(id: el.fertilizer_id, nameFertilizer: el.name, priceFertilizer: el.price, massFertilizer: el.mass, typeTree: el.name_type)
+                let newFertilizer = FertilizerResult(id: el.fertilizer_id, nameFertilizer: el.name, priceFertilizer: el.price, massFertilizer: el.mass, typeTree: el.name_type, nameSupplier: el.name_supplier)
                 self.fertilizerData.append(newFertilizer)
             }
         }

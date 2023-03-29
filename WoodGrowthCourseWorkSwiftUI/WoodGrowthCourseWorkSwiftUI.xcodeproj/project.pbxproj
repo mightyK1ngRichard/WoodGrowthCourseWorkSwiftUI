@@ -13,6 +13,7 @@
 		2C2464D029CAE2690021907A /* correctDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2464CF29CAE2690021907A /* correctDate.swift */; };
 		2C2464D429CAF1D00021907A /* DetailCardTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2464D329CAF1D00021907A /* DetailCardTree.swift */; };
 		2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */; };
+		2C3E1C5C29D45764001FEC5A /* WateringLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E1C5B29D45764001FEC5A /* WateringLog.swift */; };
 		2C3FF28B29C85D760009AB1A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28A29C85D760009AB1A /* Home.swift */; };
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
@@ -52,6 +53,7 @@
 		2C2464CF29CAE2690021907A /* correctDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = correctDate.swift; sourceTree = "<group>"; };
 		2C2464D329CAF1D00021907A /* DetailCardTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardTree.swift; sourceTree = "<group>"; };
 		2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewCard.swift; sourceTree = "<group>"; };
+		2C3E1C5B29D45764001FEC5A /* WateringLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WateringLog.swift; sourceTree = "<group>"; };
 		2C3FF28A29C85D760009AB1A /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 			children = (
 				2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */,
 				2CEEBA2E29CEA58B00403ECE /* EditPlot.swift */,
+				2C3E1C5B29D45764001FEC5A /* WateringLog.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
+				2C3E1C5C29D45764001FEC5A /* WateringLog.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
 				2C2464D029CAE2690021907A /* correctDate.swift in Sources */,

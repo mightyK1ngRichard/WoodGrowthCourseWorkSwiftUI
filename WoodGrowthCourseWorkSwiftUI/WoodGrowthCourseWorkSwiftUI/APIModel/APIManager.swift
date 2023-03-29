@@ -93,16 +93,18 @@ class APIManager {
     
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
         let SQLQuery = """
-        SELECT plot.plot_id, plot.name_plot, plot.date_planting, plot.address, type_tree.name_type,
-        employer.full_name, employer.photo
-        FROM plot
-        JOIN employer ON plot.employer_id=employer.employer_id
-        JOIN type_tree ON plot.plot_id=type_tree.type_id
-
+        SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
+        employer.full_name, employer.photo, f.name, COUNT(*) countTrees
+        FROM tree
+        JOIN plot p ON p.plot_id=tree.plot_id
+        JOIN employer ON p.employer_id=employer.employer_id
+        JOIN type_tree ON p.plot_id=type_tree.type_id
+        JOIN fertilizer f on type_tree.type_id = f.type_tree_id
+        GROUP BY p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
+        employer.full_name, employer.photo, f.name;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
-        
         guard let url = URL(string: urlString) else {
             completion(nil, "Uncorrected url")
             return
@@ -127,14 +129,15 @@ class APIManager {
     
     func getFertilizer(completion: @escaping (FeritilizerParse?, String?) -> Void) {
         let SQLQuery = """
-        select fertilizer.fertilizer_id, fertilizer.name, fertilizer.price, fertilizer.mass,
-        type_tree.name_type
-        from fertilizer
-        join type_tree on fertilizer.type_tree_id=type_tree.type_id
+        SELECT fertilizer.fertilizer_id, fertilizer.name, fertilizer.price, fertilizer.mass,
+        type_tree.name_type, s.name_supplier
+        FROM fertilizer
+        LEFT JOIN type_tree ON fertilizer.type_tree_id=type_tree.type_id
+        JOIN delivery d on fertilizer.fertilizer_id = d.fertilizer_id
+        JOIN supplier s on d.supplier_id = s.supplier_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
-        
         guard let url = URL(string: urlString) else {
             completion(nil, "Uncorrected url")
             return
@@ -250,6 +253,35 @@ class APIManager {
         }.resume()
     }
     
+    func getWateringPlots(plotsID: String, completion: @escaping (WateringPlots?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT date_watering
+        FROM watering
+        WHERE plot_id=\(plotsID);
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(WateringPlots.self, from: data) {
+                    completion(newInfo, nil)
+
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
     // MARK: - Updates.
     func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
@@ -324,6 +356,8 @@ struct RowsPlots: Decodable {
     let name_type: String
     let full_name: String
     let photo: URL?
+    let name: String
+    let counttrees: String
 }
 
 struct FeritilizerParse: Decodable {
@@ -335,7 +369,8 @@ struct RowsFeritilizer: Decodable {
     let name: String
     let price: Int
     let mass: Int
-    let name_type: String
+    let name_type: String?
+    let name_supplier: String
 }
 
 struct SupplierParse: Decodable {
@@ -361,6 +396,14 @@ struct RowsDelivery: Decodable {
     let price_order: Int
     let name_supplier: String
     let name: String
+}
+ 
+struct WateringPlots: Decodable {
+    let rows: [RowsWateringPlots]
+}
+
+struct RowsWateringPlots: Decodable {
+    let date_watering: String
 }
 
 // MARK: - Итоговые структуры.
@@ -394,6 +437,8 @@ struct PlotResult: Codable, Identifiable {
     let employee: String
     let emp_photo: URL?
     let type_tree: String
+    let fertilizerName: String
+    let countTrees: String
 }
 
 struct FertilizerResult: Codable, Identifiable {
@@ -401,7 +446,8 @@ struct FertilizerResult: Codable, Identifiable {
     let nameFertilizer: String
     let priceFertilizer: Int
     let massFertilizer: Int
-    let typeTree: String
+    let typeTree: String?
+    let nameSupplier: String
 }
 
 struct SupplierResult: Codable, Identifiable {

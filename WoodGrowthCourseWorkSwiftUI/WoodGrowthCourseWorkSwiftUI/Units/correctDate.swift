@@ -12,7 +12,7 @@ func correctDate(dateString: String) -> String {
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     let date = dateFormatter.date(from: dateString)
 
-    dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateFormatter.dateFormat = "dd-MM-yyyy   HH:mm"
     let result = dateFormatter.string(from: date!)
     return result
 }

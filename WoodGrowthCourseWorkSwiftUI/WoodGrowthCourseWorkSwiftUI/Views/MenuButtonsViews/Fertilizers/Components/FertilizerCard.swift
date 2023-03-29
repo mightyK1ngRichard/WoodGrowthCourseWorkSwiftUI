@@ -15,12 +15,21 @@ struct FertilizerCard: View {
     
     var body: some View {
         VStack {
-            Image(data.typeTree)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 300, height: 200)
-                .cornerRadius(20)
-                .shadow(color: .yellow, radius: 5)
+            if let typeTreeImage = data.typeTree {
+                Image(typeTreeImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 300, height: 200)
+                    .cornerRadius(20)
+                    .shadow(color: .yellow, radius: 5)
+            } else {
+                Image(systemName: "tree")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 300, height: 200)
+                    .cornerRadius(20)
+                    .shadow(color: .yellow, radius: 5)
+            }
             
             Text(data.nameFertilizer.capitalized)
                 .font(.system(size: 35))
@@ -29,9 +38,10 @@ struct FertilizerCard: View {
                 .offset(y: -13)
             
             VStack(spacing: 3) {
-                Text("Цена: \(data.priceFertilizer) ₽")
-                Text("Масса: \(data.massFertilizer) м³")
-                Text("Вид: \(data.typeTree)")
+                Text("**Цена:** \(data.priceFertilizer) ₽")
+                Text("**Масса:** \(data.massFertilizer) м³")
+                Text("**Вид:** \(data.typeTree ?? "Нету")")
+                Text("**Поставщик:** \(data.nameSupplier)")
             }
             .font(.system(size: 16))
         }
@@ -51,7 +61,7 @@ struct FertilizerCard: View {
 
 struct FertilizerCard_Previews: PreviewProvider {
     static var previews: some View {
-        let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб")
+        let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", nameSupplier: "Леруа Мерлен")
         
         return FertilizerCard(pressedCard: .constant(false), infoCardPressed: .constant(testData), data: testData)
     }
