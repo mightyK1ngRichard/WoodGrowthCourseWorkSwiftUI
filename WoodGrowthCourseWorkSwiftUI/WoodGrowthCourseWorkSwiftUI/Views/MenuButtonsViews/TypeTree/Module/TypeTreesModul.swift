@@ -7,6 +7,7 @@
 
 import Foundation
 
+// TODO: Переделать.
 class TypeTreesData: ObservableObject {
     @Published var types: [TypeTreesResult] = []
     @Published var status                   = true
@@ -24,50 +25,6 @@ class TypeTreesData: ObservableObject {
             }
             print("I am here 0 with \(self.types.count)")
             self.status = true
-        }
-    }
-}
-
-import SwiftUI
-struct Temp: View {
-    @State private var selectedColor = "Red"
-    @State private var showText = false
-    
-    let colors = ["Red", "Green", "Blue"]
-    
-    var body: some View {
-        VStack {
-            Picker("Select a color", selection: $selectedColor) {
-                ForEach(colors, id: \.self) {
-                    Text($0)
-                }
-            }
-            .padding()
-            
-            Button(action: {
-                self.showText.toggle()
-            }) {
-                Text("Show Text")
-            }
-            .padding()
-            
-            if showText {
-                Text("You selected \(selectedColor)")
-                    .foregroundColor(getTextColor())
-            }
-        }
-    }
-    
-    private func getTextColor() -> Color {
-        switch selectedColor {
-        case "Red":
-            return .red
-        case "Green":
-            return .green
-        case "Blue":
-            return .blue
-        default:
-            return .black
         }
     }
 }
