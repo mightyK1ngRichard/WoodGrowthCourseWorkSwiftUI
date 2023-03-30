@@ -9,11 +9,9 @@
 Desktop app. Вёрстка написана ручками на SwifUI.
 В основе базы данных лежит postgresql. Работа с бд осуществляестя засчёт передачи информации по API через сервер, написанный на [js](https://github.com/mightyK1ngRichard/APIServer), так как проблематично работать с postgresql прямиком через swift.
 
-## Previews:
-<img class="authorization" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/blob/main/Previews/Preview.png" width="1000"/>
-
 ## Иерархия:
 ```swift
+.
 ├── WoodGrowthCourseWorkSwiftUI
 │   ├── APIModel
 │   │   └── APIManager.swift
@@ -55,7 +53,8 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │       ├── Plots
 │   │       │   ├── Components
 │   │       │   │   ├── EditPlot.swift
-│   │       │   │   └── PlotCard.swift
+│   │       │   │   ├── PlotCard.swift
+│   │       │   │   └── WateringLog.swift
 │   │       │   ├── Main
 │   │       │   │   └── Plots.swift
 │   │       │   └── Model
@@ -73,14 +72,22 @@ Desktop app. Вёрстка написана ручками на SwifUI.
 │   │       │       │   └── SupplierDetail.swift
 │   │       │       └── Modul
 │   │       │           └── SupplierData.swift
-│   │       └── Trees
-│   │           ├── Components
-│   │           │   ├── DetailCardTree.swift
-│   │           │   └── TreeCard.swift
+│   │       ├── Trees
+│   │       │   ├── Components
+│   │       │   │   ├── DetailCardTree.swift
+│   │       │   │   └── TreeCard.swift
+│   │       │   ├── Main
+│   │       │   │   └── Trees.swift
+│   │       │   └── Model
+│   │       │       └── CardsTrees.swift
+│   │       └── TypeTree
+│   │           ├── Component
+│   │           │   ├── TreeCardForTypeTreeView.swift
+│   │           │   └── TypeTreeCard.swift
 │   │           ├── Main
-│   │           │   └── Trees.swift
-│   │           └── Model
-│   │               └── CardsTrees.swift
+│   │           │   └── TypeTrees.swift
+│   │           └── Module
+│   │               └── TypeTreesModul.swift
 │   ├── WoodGrowthCourseWorkSwiftUI.entitlements
 │   └── WoodGrowthCourseWorkSwiftUIApp.swift
 └── WoodGrowthCourseWorkSwiftUI.xcodeproj
@@ -102,5 +109,5 @@ Desktop app. Вёрстка написана ручками на SwifUI.
             └── xcschemes
                 └── xcschememanagement.plist
 
-59 directories, 75 files
+63 directories, 80 files
 ```
