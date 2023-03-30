@@ -34,7 +34,10 @@ class APIManager {
     
     func getEmployers(completion: @escaping (Employers?, String?) -> Void) {
         let SQLQuery = """
-        SELECT * FROM employer;
+        SELECT employer.employer_id, full_name, post, phone_number, photo, p.name_plot, tt.name_type
+        FROM employer
+        JOIN plot p on employer.employer_id = p.employer_id
+        JOIN type_tree tt on p.type_tree_id = tt.type_id
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -282,6 +285,40 @@ class APIManager {
             }
         }.resume()
     }
+    
+    func getTypesTrees(completion: @escaping (TypeTreesParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, COUNT(*) as count_trees
+        FROM tree
+        JOIN type_tree t ON tree.type_tree_id = t.type_id
+        JOIN fertilizer f ON t.type_id = f.type_tree_id
+        JOIN plot p on t.type_id = p.type_tree_id
+        GROUP BY t.name_type, t.notes, t.type_id, f.name, p.name_plot;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(TypeTreesParse.self, from: data) {
+                    completion(newInfo, nil)
+
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     // MARK: - Updates.
     func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
@@ -310,12 +347,13 @@ struct Employers: Decodable {
 }
 
 struct Rows: Decodable {
-    let employer_id: String
-    let full_name: String
-    let post: String
-    let phone_number: String
-    let photo: URL?
-    
+    let employer_id  : String
+    let full_name    : String
+    let post         : String
+    let phone_number : String
+    let photo        : URL?
+    let name_plot    : String
+    let name_type    : String
 }
 
 struct TreesParse: Decodable {
@@ -323,17 +361,17 @@ struct TreesParse: Decodable {
 }
 
 struct RowsTrees: Decodable {
-    let tree_id: String
-    let name_tree: String
-    let volume: Int
-    let date_measurements: String
-    let notes: String?
-    let name_type: String
-    let name_plot: String
-    let x_begin: Int
-    let x_end: Int
-    let y_begin: Int
-    let y_end: Int
+    let tree_id           : String
+    let name_tree         : String
+    let volume            : Int
+    let date_measurements : String
+    let notes             : String?
+    let name_type         : String
+    let name_plot         : String
+    let x_begin           : Int
+    let x_end             : Int
+    let y_begin           : Int
+    let y_end             : Int
 }
 
 struct WateringEmployee: Decodable {
@@ -349,15 +387,15 @@ struct PlotsParse: Decodable {
 }
 
 struct RowsPlots: Decodable {
-    let plot_id: String
-    let name_plot: String
-    let date_planting: String
-    let address: String
-    let name_type: String
-    let full_name: String
-    let photo: URL?
-    let name: String
-    let counttrees: String
+    let plot_id       : String
+    let name_plot     : String
+    let date_planting : String
+    let address       : String
+    let name_type     : String
+    let full_name     : String
+    let photo         : URL?
+    let name          : String
+    let counttrees    : String
 }
 
 struct FeritilizerParse: Decodable {
@@ -365,12 +403,12 @@ struct FeritilizerParse: Decodable {
 }
 
 struct RowsFeritilizer: Decodable {
-    let fertilizer_id: String
-    let name: String
-    let price: Int
-    let mass: Int
-    let name_type: String?
-    let name_supplier: String
+    let fertilizer_id : String
+    let name          : String
+    let price         : Int
+    let mass          : Int
+    let name_type     : String?
+    let name_supplier : String
 }
 
 struct SupplierParse: Decodable {
@@ -378,11 +416,11 @@ struct SupplierParse: Decodable {
 }
 
 struct RowsSupplier: Decodable {
-    let supplier_id: String
-    let name_supplier: String
-    let telephone: String?
-    let www: URL?
-    let photo: URL?
+    let supplier_id   : String
+    let name_supplier : String
+    let telephone     : String?
+    let www           : URL?
+    let photo         : URL?
 }
 
 struct DeliveriesParse: Decodable {
@@ -390,12 +428,12 @@ struct DeliveriesParse: Decodable {
 }
 
 struct RowsDelivery: Decodable {
-    let delivery_id: String
-    let date_delivery: String
-    let numbers_packets: Int
-    let price_order: Int
-    let name_supplier: String
-    let name: String
+    let delivery_id     : String
+    let date_delivery   : String
+    let numbers_packets : Int
+    let price_order     : Int
+    let name_supplier   : String
+    let name            : String
 }
  
 struct WateringPlots: Decodable {
@@ -406,6 +444,19 @@ struct RowsWateringPlots: Decodable {
     let date_watering: String
 }
 
+struct TypeTreesParse: Decodable {
+    let rows: [RowsTypeTrees]
+}
+
+struct RowsTypeTrees: Decodable {
+    let type_id         : String
+    let name_type       : String
+    let notes           : String?
+    let fertilizer_name : String
+    let plot_name       : String
+    let count_trees     : String
+}
+
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id: String
@@ -413,6 +464,8 @@ struct EmpoyeeResult: Codable, Identifiable {
     let phone: String
     let post: String
     let ava: URL?
+    let namePlot: String
+    let nameType: String
 }
 
 struct TreeResult: Codable, Identifiable {
@@ -465,4 +518,13 @@ struct DeliveryResult: Codable, Identifiable {
     let priceOrder: Int
     let supplierName: String
     let fertilizerName: String
+}
+
+struct TypeTreesResult: Codable, Identifiable {
+    let id             : String
+    let nameType       : String
+    let notes          : String?
+    let firtilizerName : String
+    let plotName       : String
+    let countTrees     : String
 }

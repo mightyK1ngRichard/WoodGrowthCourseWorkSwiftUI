@@ -23,4 +23,3 @@ class FertilizerData: ObservableObject {
         }
     }
 }
-

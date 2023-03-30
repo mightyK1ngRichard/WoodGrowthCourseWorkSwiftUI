@@ -30,7 +30,7 @@ class employeesCardsViewModel: ObservableObject {
             }
             self.statusParse = true
             for el in data.rows {
-                let newEmployeer = EmpoyeeResult(id: el.employer_id, fullName: el.full_name, phone: el.phone_number, post: el.post, ava: el.photo)
+                let newEmployeer = EmpoyeeResult(id: el.employer_id, fullName: el.full_name, phone: el.phone_number, post: el.post, ava: el.photo, namePlot: el.name_plot, nameType: el.name_type)
                 self.employeesInfo.append(newEmployeer)
 
             }

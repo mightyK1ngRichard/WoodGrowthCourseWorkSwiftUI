@@ -21,6 +21,9 @@
 		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
 		2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A729CE35A100530B94 /* PlotInfo.swift */; };
 		2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9AB29CE672F00530B94 /* Trees.swift */; };
+		2C8D7B6829D58EE4006C5AD3 /* TypeTreeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D7B6729D58EE4006C5AD3 /* TypeTreeCard.swift */; };
+		2C8D7B6A29D5A51D006C5AD3 /* TypeTrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D7B6929D5A51D006C5AD3 /* TypeTrees.swift */; };
+		2C8D7B6D29D5FA1F006C5AD3 /* TypeTreesModul.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D7B6C29D5FA1F006C5AD3 /* TypeTreesModul.swift */; };
 		2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE329C886FC00559E47 /* APIManager.swift */; };
 		2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE929C88FA200559E47 /* CardsEmployes.swift */; };
 		2CC72AED29C8937800559E47 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC72AEC29C8937800559E47 /* SDWebImageSwiftUI */; };
@@ -61,6 +64,9 @@
 		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
 		2C8CE9A729CE35A100530B94 /* PlotInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotInfo.swift; sourceTree = "<group>"; };
 		2C8CE9AB29CE672F00530B94 /* Trees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trees.swift; sourceTree = "<group>"; };
+		2C8D7B6729D58EE4006C5AD3 /* TypeTreeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTreeCard.swift; sourceTree = "<group>"; };
+		2C8D7B6929D5A51D006C5AD3 /* TypeTrees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTrees.swift; sourceTree = "<group>"; };
+		2C8D7B6C29D5FA1F006C5AD3 /* TypeTreesModul.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTreesModul.swift; sourceTree = "<group>"; };
 		2CC72AE329C886FC00559E47 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2CC72AE929C88FA200559E47 /* CardsEmployes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsEmployes.swift; sourceTree = "<group>"; };
 		2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
@@ -138,6 +144,40 @@
 			path = Plots;
 			sourceTree = "<group>";
 		};
+		2C8D7B6429D58EBF006C5AD3 /* TypeTree */ = {
+			isa = PBXGroup;
+			children = (
+				2C8D7B6B29D5FA00006C5AD3 /* Module */,
+				2C8D7B6529D58ECD006C5AD3 /* Component */,
+				2C8D7B6629D58ED5006C5AD3 /* Main */,
+			);
+			path = TypeTree;
+			sourceTree = "<group>";
+		};
+		2C8D7B6529D58ECD006C5AD3 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				2C8D7B6729D58EE4006C5AD3 /* TypeTreeCard.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		2C8D7B6629D58ED5006C5AD3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2C8D7B6929D5A51D006C5AD3 /* TypeTrees.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		2C8D7B6B29D5FA00006C5AD3 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				2C8D7B6C29D5FA1F006C5AD3 /* TypeTreesModul.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
 		2CBD8A2529CA3D4900471862 /* HelpViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +200,7 @@
 		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
+				2C8D7B6429D58EBF006C5AD3 /* TypeTree */,
 				2CDCA55929D06B1C009E75D2 /* Home */,
 				2CDCA55829D06B06009E75D2 /* Authorization */,
 				2C2464CA29CAC6BB0021907A /* Employees */,
@@ -491,6 +532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C8D7B6829D58EE4006C5AD3 /* TypeTreeCard.swift in Sources */,
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
 				2C3E1C5C29D45764001FEC5A /* WateringLog.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
@@ -509,11 +551,13 @@
 				2CCC1E8629C8D76900FB8088 /* Employees.swift in Sources */,
 				2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */,
 				2C24088429CCF42600B376DD /* Authorization.swift in Sources */,
+				2C8D7B6A29D5A51D006C5AD3 /* TypeTrees.swift in Sources */,
 				2C2464D429CAF1D00021907A /* DetailCardTree.swift in Sources */,
 				2CEEBA4829CF99C300403ECE /* SupplierCard.swift in Sources */,
 				2CEEBA4A29CF9C1F00403ECE /* S&DVies.swift in Sources */,
 				2CEEBA4129CF685300403ECE /* FertilizerEdit.swift in Sources */,
 				2C2464CE29CAD6570021907A /* CardsTrees.swift in Sources */,
+				2C8D7B6D29D5FA1F006C5AD3 /* TypeTreesModul.swift in Sources */,
 				2CEEBA5329CFBCA600403ECE /* DeliveryData.swift in Sources */,
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
 				2CEEBA4E29CFB37600403ECE /* SupplierDetail.swift in Sources */,

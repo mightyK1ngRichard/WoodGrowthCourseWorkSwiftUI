@@ -37,6 +37,7 @@ struct SideBar: View {
                     TabButton(image: "leaf.fill", title: "Удобрения", animation: animation)
                     TabButton(image: "person.2.fill", title: "Работники", animation: animation)
                     TabButton(image: "tree.fill", title: "Деревья", animation: animation)
+                    TabButton(image: "square.grid.3x3.bottomright.filled", title: "Виды", animation: animation)
                     TabButton(image: "cart.fill", title: "Посавщики &\nПоставки", animation: animation)
                 }
                 

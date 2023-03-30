@@ -32,7 +32,7 @@ struct ScrollViewCard: View {
                         .cornerRadius(15)
                 }
             }
-            .brightness(isHovering ? -0.2 : 0) // затемнение изображения
+            .brightness(isHovering ? -0.2 : 0)
             .onHover { hovering in
                 withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
                     self.isHovering = hovering
@@ -48,8 +48,10 @@ struct ScrollViewCard: View {
                 Text(card.fullName)
                     .font(.title2)
                     .bold()
-                Text(card.post)
+                Text("***Должность:*** \(card.post)")
                 Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
+                Text("***Ответсвтвенный за участок:*** \(card.namePlot)")
+                Text("***Вид дерева участка:*** \(card.nameType)")
             }
             .foregroundColor(Color.white)
         }
@@ -58,6 +60,6 @@ struct ScrollViewCard: View {
 
 //struct ScrollViewCard_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ScrollViewCard(card: <#EmpoyeeResult#>, reader: <#GeometryProxy#>)
+//        ScrollViewCard(card: EmpoyeeResult(id: "0", fullName: "Лол лол", phone: "89163442455", post: "Boss", ava: nil), reader: nil)
 //    }
 //}

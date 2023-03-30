@@ -13,13 +13,10 @@ struct TurnOffServer: View {
             Spacer()
             VStack {
                 Spacer()
-                Image("turnoffserver")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 350, height: 350)
-                Text("😭 Сервер отключен. 😭")
-                    .font(.system(size: 50))
-                    .foregroundColor(Color(red: 1, green: 0, blue: 0))
+                VStack {
+                    Text("Идёт подключение к серверу...")
+                    ProgressView()
+                }
                 Spacer()
             }
             Spacer()

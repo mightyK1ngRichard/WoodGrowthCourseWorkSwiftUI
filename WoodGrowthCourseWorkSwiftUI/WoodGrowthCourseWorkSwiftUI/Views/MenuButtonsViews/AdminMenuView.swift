@@ -57,6 +57,9 @@ struct AdminMenuView: View {
                     Trees()
                 }
                 
+            case "Виды":
+                TypeTrees()
+                
             case "Участки":
                 Plots()
                 
@@ -69,6 +72,7 @@ struct AdminMenuView: View {
             default:
                 HStack {
                     Text("Лол, а как ты тут оказался")
+                    Spacer()
                 }
             }
         }
