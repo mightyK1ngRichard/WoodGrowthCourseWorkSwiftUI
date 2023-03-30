@@ -15,7 +15,7 @@ struct TypeTreeCard: View {
     @Binding var typesData             : [TypeTreesResult]
     @Binding var selectedType          : String
     @State private var currentIndex    = 0
-    @Binding var treesOfThisType : [TreeResult]
+    @State private var treesOfThisType : [TreeResult] = []
     @State private var showTrees       = true
     @State private var isHover         = false
     @State private var closeEye        = true
@@ -73,6 +73,21 @@ struct TypeTreeCard: View {
                             }
                             .onTapGesture {
                                 closeEye.toggle()
+                                
+                                if !closeEye {
+                                    APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
+                                        guard let data = data else {
+                                            print("== ERROR", error!)
+                                            self.showTrees = false
+                                            return
+                                        }
+                                        for el in data.rows {
+                                            let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
+                                            self.treesOfThisType.append(info)
+                                        }
+                                        self.showTrees = true
+                                    }
+                                }
                             }
                     }
                 }
@@ -122,6 +137,6 @@ struct TypeTreeCard_Previews: PreviewProvider {
         let item4 = TypeTreesResult(id: "3", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
         let item5 = TypeTreesResult(id: "4", nameType: "!", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
         
-        TypeTreeCard(typesData: .constant([item1, item2, item3, item4, item5]), selectedType: .constant("Дуб"), treesOfThisType: .constant([]))
+        TypeTreeCard(typesData: .constant([item1, item2, item3, item4, item5]), selectedType: .constant("Дуб"))
     }
 }
