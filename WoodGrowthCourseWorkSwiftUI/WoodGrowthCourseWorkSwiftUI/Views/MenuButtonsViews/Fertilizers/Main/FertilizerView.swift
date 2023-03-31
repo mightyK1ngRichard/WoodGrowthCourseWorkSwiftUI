@@ -13,34 +13,39 @@ struct FertilizerView: View {
     @State private var editingCard     : FertilizerResult?
     
     var body: some View {
-        VStack {
-            GeometryReader { _ in
-                ScrollView (.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(fertilizerData.fertilizerData) { card in
-                            FertilizerCard(pressedCard: $pressedCard, infoCardPressed: $editingCard, data: card)
-                                .padding()
+        if !fertilizerData.status {
+            TurnOffServer()
+            
+        } else {
+            VStack {
+                GeometryReader { _ in
+                    ScrollView (.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(fertilizerData.fertilizerData) { card in
+                                FertilizerCard(pressedCard: $pressedCard, infoCardPressed: $editingCard, data: card)
+                                    .padding()
+                            }
                         }
                     }
                 }
-            }
-            
-            // Вид для редактирования.
-            if pressedCard {
-                if let currentNameFertilizer = editingCard?.nameFertilizer {
-                    VStack {
-                        Text("Редактируем данные по \(currentNameFertilizer)")
-                            .font(.title)
-                        FertilizerEdit(close: $pressedCard)
-                        Spacer()
-                    }
-                } else {
-                    Text("Произошла ошибка. Это невозмонжно, но если вдруг вы видите это сообщение, проверьте чтоль интернет, мб БД полетела.")
-                }
                 
+                // Вид для редактирования.
+                if pressedCard {
+                    if let currentNameFertilizer = editingCard?.nameFertilizer {
+                        VStack {
+                            Text("Редактируем данные по \(currentNameFertilizer)")
+                                .font(.title)
+                            FertilizerEdit(close: $pressedCard)
+                            Spacer()
+                        }
+                    } else {
+                        Text("Произошла ошибка. Это невозмонжно, но если вдруг вы видите это сообщение, проверьте чтоль интернет, мб БД полетела.")
+                    }
+                    
+                }
             }
+            .environmentObject(fertilizerData)
         }
-        .environmentObject(fertilizerData)
     }
 }
 

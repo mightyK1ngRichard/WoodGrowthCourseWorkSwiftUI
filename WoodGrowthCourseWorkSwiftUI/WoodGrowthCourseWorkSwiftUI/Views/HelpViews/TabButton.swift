@@ -23,6 +23,8 @@ struct TabButton: View {
                 Image(systemName: image)
                     .font(.title2)
                     .foregroundColor(selected.pressed == title ? Color.black : black)
+                    .frame(width: 15)
+                    .padding(.leading, 7)
                 
                 Text(title)
                     .fontWeight(selected.pressed == title ? .semibold : .none)
@@ -30,7 +32,6 @@ struct TabButton: View {
                     .padding(.horizontal)
                 Spacer()
                 
-                // Capsule ...
                 ZStack {
                     Capsule()
                         .fill(Color.clear)

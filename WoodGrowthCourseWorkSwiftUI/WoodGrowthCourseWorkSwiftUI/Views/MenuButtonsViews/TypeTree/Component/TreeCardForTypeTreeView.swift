@@ -41,7 +41,7 @@ struct TreeCardForTypeTreeView: View {
                 }
         }
         .padding()
-        .background(Color.blue.opacity(0.3))
+        .background(Color(red: 0, green: 105/255, blue: 87/255).opacity(0.6))
         .cornerRadius(20)
     }
 }

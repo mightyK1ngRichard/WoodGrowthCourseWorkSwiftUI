@@ -101,6 +101,7 @@ struct TypeTreeCard: View {
                     Text("*\(typesData[currentIndex].notes ?? "Описания нету")*")
                     Text("**Количество деревьев:** \(typesData[currentIndex].countTrees) шт.")
                 }
+                .padding(.leading, 30)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 10)
@@ -109,14 +110,17 @@ struct TypeTreeCard: View {
             
             if showTrees {
                 if !closeEye {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(treesOfThisType) { tree in
-                                TreeCardForTypeTreeView(treeInfo: tree)
+                    HStack (alignment: .center){
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(treesOfThisType) { tree in
+                                    TreeCardForTypeTreeView(treeInfo: tree)
+                                }
                             }
                         }
+                        .padding(.top, 50)
                     }
-                    .padding(.top, 50)
+                    .frame(width: 987)
                 }
 
             } else {

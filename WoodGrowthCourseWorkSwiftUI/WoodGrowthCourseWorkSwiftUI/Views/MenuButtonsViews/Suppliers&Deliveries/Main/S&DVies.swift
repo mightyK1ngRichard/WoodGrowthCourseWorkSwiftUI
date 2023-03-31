@@ -15,61 +15,69 @@ struct S_DViews: View {
     
     
     var body: some View {
-        GeometryReader { _ in
-            ZStack {
-                VStack {
-                    // Поставщики.
-                    ScrollView (.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(supplierData.supplierData) { card in
-                                SupplierCard(pressedCard: $pressedSupplierCard, currentCard: $currentCardSupplier, data: card)
-                                    .padding()
-                                
-                            }
-                        }
-                    }
-                    Text("История поставок")
-                        .padding(.horizontal, 25)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 40))
-                    
-                    ScrollView {
-                        ForEach(deliveryData.deliveryData) { item in
+        
+        if !supplierData.status || !deliveryData.status {
+            TurnOffServer()
+            
+        } else {
+            GeometryReader { _ in
+                ZStack {
+                    VStack {
+                        // Поставщики.
+                        ScrollView (.horizontal, showsIndicators: false) {
                             HStack {
-                                Text(correctDate(dateString: "\(item.dateDelivery)"))
-                                    .frame(width: 75)
-                                Divider()
-                                Text("\(item.numbersPackets)")
-                                    .frame(width: 40)
-                                Divider()
-                                Text("\(item.priceOrder)")
-                                    .frame(width: 100)
-                                Divider()
-                                Text(item.supplierName)
-                                    .frame(width: 200)
-                                Divider()
-                                Text(item.fertilizerName)
-                                    .frame(width: 100)
+                                ForEach(supplierData.supplierData) { card in
+                                    SupplierCard(pressedCard: $pressedSupplierCard, currentCard: $currentCardSupplier, data: card)
+                                        .padding()
+                                    
+                                }
                             }
-                            Divider()
                         }
-                        .frame(width: 600)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        Text("История поставок")
+                            .padding(.horizontal, 25)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.system(size: 40))
+                        
+                        ScrollView {
+                            ForEach(deliveryData.deliveryData) { item in
+                                HStack {
+                                    Text(correctDate(dateString: "\(item.dateDelivery)"))
+                                        .frame(width: 75)
+                                    Divider()
+                                    Text("\(item.numbersPackets)")
+                                        .frame(width: 40)
+                                    Divider()
+                                    Text("\(item.priceOrder)")
+                                        .frame(width: 100)
+                                    Divider()
+                                    Text(item.supplierName)
+                                        .frame(width: 200)
+                                    Divider()
+                                    Text(item.fertilizerName)
+                                        .frame(width: 100)
+                                }
+                                Divider()
+                            }
+                            .frame(width: 600)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
-                }
-                
-                if pressedSupplierCard {
-                    Rectangle()
-                        .foregroundColor(Color(red: 35/255, green: 36/255, blue: 76/255).opacity(0.7))
-                        .onTapGesture {
-                            pressedSupplierCard = false
-                        }
                     
-                    SupplierDetail(currentData: $currentCardSupplier, close: $pressedSupplierCard)
+                    if pressedSupplierCard {
+                        Rectangle()
+                            .foregroundColor(Color(red: 35/255, green: 36/255, blue: 76/255).opacity(0.7))
+                            .onTapGesture {
+                                pressedSupplierCard = false
+                            }
+                        
+                        SupplierDetail(currentData: $currentCardSupplier, close: $pressedSupplierCard)
 
+                    }
                 }
             }
+            .environmentObject(supplierData)
+            .environmentObject(deliveryData)
         }
     }
 }
