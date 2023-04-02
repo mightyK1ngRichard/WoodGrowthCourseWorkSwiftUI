@@ -36,11 +36,12 @@ class APIManager {
         let SQLQuery = """
         SELECT employer.employer_id, full_name, post, phone_number, photo, p.name_plot, tt.name_type
         FROM employer
-        JOIN plot p on employer.employer_id = p.employer_id
-        JOIN type_tree tt on p.type_tree_id = tt.type_id
+        LEFT JOIN plot p on employer.employer_id = p.employer_id
+        LEFT JOIN type_tree tt on p.type_tree_id = tt.type_id
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        
         guard let url = URL(string: urlString) else {
             completion(nil, "Uncorrected url")
             return
@@ -52,8 +53,10 @@ class APIManager {
                     completion(nil, "Data is nil")
                     return
                 }
+
                 if let newInfo = try? JSONDecoder().decode(Employers.self, from: data) {
                     completion(newInfo, nil)
+                    
                 } else {
                     completion(nil, "Parse error")
                     return
@@ -64,11 +67,11 @@ class APIManager {
     
     func getTrees(plotId: String? = nil, completion: @escaping (TreesParse?, String?) -> Void) {
         var SQLQuery = """
-        select tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, type_tree.name_type, plot.name_plot, coordinates.x_begin, coordinates.x_end, coordinates.y_begin, coordinates.y_end
-        from tree
-        join plot ON tree.plot_id=plot.plot_id
-        join coordinates ON coordinates.tree_id=tree.tree_id
-        join type_tree ON type_tree.type_id=tree.type_tree_id
+        SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, type_tree.name_type, plot.name_plot, coordinates.x_begin, coordinates.x_end, coordinates.y_begin, coordinates.y_end
+        FROM tree
+        JOIN plot ON tree.plot_id=plot.plot_id
+        JOIN coordinates ON coordinates.tree_id=tree.tree_id
+        JOIN type_tree ON type_tree.type_id=tree.type_tree_id
         """
         if let plotId = plotId {
             SQLQuery += " WHERE plot.plot_id=\(plotId);"
@@ -356,8 +359,8 @@ struct Rows: Decodable {
     let post         : String
     let phone_number : String
     let photo        : URL?
-    let name_plot    : String
-    let name_type    : String
+    let name_plot    : String?
+    let name_type    : String?
 }
 
 struct TreesParse: Decodable {

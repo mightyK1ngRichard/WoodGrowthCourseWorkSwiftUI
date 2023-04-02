@@ -37,7 +37,7 @@ struct DetailCard: View {
                         pressedEdit.toggle()
                     }
                 
-                Image(systemName: "eye.fill")
+                Image(systemName: pressedWateringLog ? "eye.fill" : "eye.slash.fill")
                     .offset(x: -96, y: 255)
                     .colorMultiply(isHoveringWater ? .blue : .black)
                     .onHover { hovering in
@@ -88,11 +88,9 @@ struct DetailCard: View {
                 .font(.title)
                 .bold()
             Text(currentPersonInfo.post)
-            if let phone = currentPersonInfo.phone {
-                Text((getCorrectPhone(phoneString: phone) ?? "Телефон некорректный"))
-            } else {
-                Text("Телефон отсутствует")
-            }
+            
+                Text((getCorrectPhone(phoneString: currentPersonInfo.phone) ?? "Телефон некорректный"))
+    
             if pressedWateringLog {
                 VStack {
                     Text("Даты поливки:")
