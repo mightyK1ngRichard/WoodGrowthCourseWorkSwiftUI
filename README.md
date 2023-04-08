@@ -6,8 +6,9 @@
 Курсовая работа по дисциплине "Базы данных" МГТУ им. Н.Э.Баумана 2023г.
 
 ## Про работу. 
-Desktop app. Вёрстка написана ручками на SwifUI.
-В основе базы данных лежит postgresql. Работа с бд осуществляестя засчёт передачи информации по API через сервер, написанный на [js](https://github.com/mightyK1ngRichard/APIServer), так как проблематично работать с postgresql прямиком через swift.
+Desktop app. В основе Framework'a лежит SwifUI.
+БДшка - postgresql. Коммуникация [nodejs](https://github.com/mightyK1ngRichard/APIServer) сервака с Swift осуществляется по APIшке.
+Дальнейшая бизнеслогика планируется на Джанго, если получится подружить их со Swift.
 
 ## Иерархия:
 ```swift
