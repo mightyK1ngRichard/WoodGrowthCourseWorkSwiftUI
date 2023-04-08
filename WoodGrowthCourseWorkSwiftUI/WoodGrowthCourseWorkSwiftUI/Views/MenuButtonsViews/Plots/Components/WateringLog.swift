@@ -45,8 +45,7 @@ struct WateringLog: View {
                 }
             }
         }
-        .frame(width: 500, height: 332)
-        .cornerRadius(10)
+//        .cornerRadius(10)
         .background(.black.opacity(0.8))
     }
 }

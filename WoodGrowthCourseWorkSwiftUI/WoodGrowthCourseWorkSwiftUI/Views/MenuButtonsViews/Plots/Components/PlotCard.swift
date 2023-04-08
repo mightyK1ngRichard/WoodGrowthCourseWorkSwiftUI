@@ -55,6 +55,7 @@ struct PlotCard: View {
                                 if dataLog.count != 0 {
                                     dataLog.removeAll()
                                 }
+                                
                                 APIManager.shared.getWateringPlots(plotsID: plotInfo.id) { data, error in
                                     guard let data = data else {
                                         print("== ERROR", error!)
@@ -63,12 +64,14 @@ struct PlotCard: View {
                                     for el in data.rows {
                                         self.dataLog.append(el.date_watering)
                                     }
+                                    
                                     openLogWatering = true
                                 }
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.trailing)
                             .opacity(isHoverOnImage ? (isShowCalendar ? 1 : 0.7) : 0)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.trailing, 10)
+                            .padding(.top, 10)
                         
                         VStack {
                             HStack(alignment: .top) {
@@ -106,10 +109,11 @@ struct PlotCard: View {
                                 Spacer()
                                 
                                 VStack (alignment: .center) {
-                                    Spacer()
+                                    
                                     Text("Ответсвенный:")
                                         .font(.title3)
                                         .bold()
+                                        .padding(.top, 20)
                                     
                                     if let img = plotInfo.emp_photo {
                                         WebImage(url: img)
@@ -129,18 +133,22 @@ struct PlotCard: View {
                                     Text(plotInfo.employee)
                                         .font(.title)
                                         .bold()
-                                    Spacer()
                                 }
                                 .foregroundColor(.black)
                                 .padding(.horizontal, 20)
                             }
                         }
-                        .frame(width: 500, height: 192)
                         .background(.white)
                         .offset(y: 144)
                         
                         
                         Text(plotInfo.name)
+                            .onHover { hovering in
+                                self.isHovering = hovering
+                            }
+                            .onTapGesture {
+                                self.openEdit.toggle()
+                            }
                             .padding(.horizontal, 46)
                             .offset(y: -3)
                             .font(.system(size: 70))
@@ -151,23 +159,17 @@ struct PlotCard: View {
                             }
                             .offset(y: 98)
                             .foregroundColor(.white)
-                            .onTapGesture {
-                                self.openEdit.toggle()
-                            }
                             .brightness(isHovering ? 0.4 : 0)
-                            .onHover { hovering in
-                                self.isHovering = hovering
-                            }
+                        
+                        if openLogWatering {
+                            WateringLog(pressedClose: $openLogWatering, wateringLog: dataLog)
+                                
+                        }
                         
                     }
                 }
-                .frame(width: 500, height: 332)
+                .frame(width: 500, height: 330)
                 .cornerRadius(10)
-                
-                if openLogWatering {
-                    WateringLog(pressedClose: $openLogWatering, wateringLog: dataLog)
-                        .padding()
-                }
             }
         )
     }
