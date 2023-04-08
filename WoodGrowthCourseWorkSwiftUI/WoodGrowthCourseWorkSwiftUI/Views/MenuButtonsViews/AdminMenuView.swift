@@ -22,10 +22,10 @@ class PressedButtonTree: ObservableObject {
 }
 
 struct AdminMenuView: View {
+    // Тоже стоило бы это делать в другом месте. Но я был молод.
     @ObservedObject var pressed             = PressedButton()
     @ObservedObject var pressedCardInfo     = PressedButtonDetailView()
     @ObservedObject var pressedTreeInfoCard = PressedButtonTree()
-    
     // Состояние для работников, нажатие глазика. Сорри что тут.
     @State private var pressedWateringLog   = false
     
