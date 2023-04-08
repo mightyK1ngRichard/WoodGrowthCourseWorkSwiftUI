@@ -26,6 +26,9 @@ struct AdminMenuView: View {
     @ObservedObject var pressedCardInfo     = PressedButtonDetailView()
     @ObservedObject var pressedTreeInfoCard = PressedButtonTree()
     
+    // Состояние для работников, нажатие глазика. Сорри что тут.
+    @State private var pressedWateringLog   = false
+    
     var body: some View {
         HStack {
             SideBar()
@@ -33,15 +36,14 @@ struct AdminMenuView: View {
             case "Home":
                 Home()
                     
+            // ДА-ДА, мне очень стыдно за мою реализацию, но переделывать уже лень.
             case "Работники":
-                // Если нажата кнопка обзор работника.
+                // Если нажата кнопка обзор работника. PS. Сорри за реализацию, это первая моя карточка на SwiftUI...
                 if pressedCardInfo.pressed {
                     HStack {
-                        Employees()
-                        Divider()
-                            .offset(x: 7)
+                        Employees(pressedWateringLog: $pressedWateringLog)
                         VStack {
-                            DetailCard(currentPersonInfo: pressedCardInfo.cardInfo!)
+                            DetailCard(pressedWateringLog: $pressedWateringLog, currentPersonInfo: pressedCardInfo.cardInfo!)
                             Spacer()
                         }
                         .padding(.top, 55)
@@ -49,13 +51,11 @@ struct AdminMenuView: View {
                     }
                     
                 } else {
-                    Employees()
+                    Employees(pressedWateringLog: $pressedWateringLog)
                 }
 
             case "Деревья":
-                HStack {
-                    Trees()
-                }
+                Trees()
                 
             case "Виды":
                 TypeTrees()

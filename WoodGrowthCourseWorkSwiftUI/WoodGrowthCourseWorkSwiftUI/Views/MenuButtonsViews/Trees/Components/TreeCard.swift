@@ -29,24 +29,21 @@ struct TreeCard: View {
                     .font(.title)
                     .bold()
                 
-                Text("Участок: \(treeInfo.name_plot)")
-                Text("Вид: \(treeInfo.name_type)")
-                Text("Объём: \(treeInfo.volume)")
+                Text("**Участок:** \(treeInfo.name_plot)")
+                Text("**Вид:** \(treeInfo.name_type)")
+                Text("**Объём:** \(treeInfo.volume)")
             }
             
-            Text("Дата заземления: ")
+            Text("**Дата заземления:**")
             Text(correctDate(dateString: treeInfo.date_measurements))
             Spacer()
             VStack {
-                Text("Кординаты:")
+                Text("**Кординаты:**")
                     .font(.headline)
                 Text("X: \(treeInfo.x_begin), \(treeInfo.x_end)")
                 Text("Y: \(treeInfo.y_begin), \(treeInfo.x_end)")
             }
         }
-        .padding(.horizontal)
-        .padding(.vertical, 10)
-        .brightness(isHovering ? -0.2 : 0)
         .onHover { hovering in
             withAnimation(.easeInOut(duration: 0.2)) {
                 self.isHovering = hovering
@@ -56,6 +53,11 @@ struct TreeCard: View {
             pressedTreeInfo.pressed = true
             pressedTreeInfo.treeInfo = treeInfo
         }
+        .padding(.vertical, 10)
+        .brightness(isHovering ? -0.2 : 0)
+        .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
+        .border(.white.opacity(0.4))
+        .padding(.vertical, 10)
     }
 }
 

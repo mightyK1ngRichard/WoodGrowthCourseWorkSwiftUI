@@ -14,7 +14,7 @@ struct DetailCard: View {
     @State private var isHovering         = false
     @State private var isHoveringPhoto    = false
     @State private var isHoveringWater    = false
-    @State private var pressedWateringLog = false
+    @Binding var pressedWateringLog       : Bool
     @State private var newFullname        = ""
     @State private var newPost            = ""
     @State private var newPhone           = ""

@@ -9,11 +9,12 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Employees: View {
-    var columns                         = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
-    @State private var search           = ""
-    @State private var output           = ""
-    @State private var peopleFromSearch = [EmpoyeeResult]()
-    @StateObject var employeesData   = employeesCardsViewModel()
+    var columns                            = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    @State private var search              = ""
+    @State private var output              = ""
+    @State private var peopleFromSearch    = [EmpoyeeResult]()
+    @StateObject private var employeesData = employeesCardsViewModel()
+    @Binding var pressedWateringLog        : Bool
     
     var body: some View {
         HStack {
@@ -73,7 +74,7 @@ struct Employees: View {
                             ScrollView {
                                 LazyVGrid(columns: columns, spacing: 15) {
                                     ForEach(employeesData.employeesInfo) {card in
-                                        ScrollViewCard(card: card, reader: reader)
+                                        ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
                                     }
                                 }
                             }
@@ -84,7 +85,7 @@ struct Employees: View {
                             ScrollView {
                                 LazyVGrid(columns: columns, spacing: 15) {
                                     ForEach(peopleFromSearch) {card in
-                                        ScrollViewCard(card: card, reader: reader)
+                                        ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
                                     }
                                 }
                             }
@@ -96,5 +97,12 @@ struct Employees: View {
                 .padding()
             }
         }
+    }
+}
+
+
+struct Employees_Previews: PreviewProvider {
+    static var previews: some View {
+        Employees(pressedWateringLog: .constant(true))
     }
 }

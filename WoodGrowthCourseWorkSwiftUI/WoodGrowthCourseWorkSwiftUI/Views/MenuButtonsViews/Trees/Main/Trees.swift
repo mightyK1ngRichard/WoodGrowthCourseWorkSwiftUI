@@ -50,11 +50,7 @@ struct ScrollTrees: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 5) {
                             ForEach(treesData.treesInfo) {card in
-                                TreeCard(treeInfo: card)
-                                    .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
-                                    .border(.white.opacity(0.4))
-                                    .padding(.vertical, 10)
-                                
+                                TreeCard(treeInfo: card)                                
                             }
                         }
                     }

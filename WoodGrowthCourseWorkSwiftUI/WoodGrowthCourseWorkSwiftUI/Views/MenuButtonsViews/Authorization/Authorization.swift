@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Authorization: View {
-    @State var isHover             = false
+    @State var isHover = false
     
     var body: some View {
         HStack {

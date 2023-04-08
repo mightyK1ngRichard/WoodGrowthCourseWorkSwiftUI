@@ -23,7 +23,6 @@ class TypeTreesData: ObservableObject {
                 let info = TypeTreesResult(id: el.type_id, nameType: el.name_type, notes: el.notes, firtilizerName: el.fertilizer_name, plotName: el.plot_name, countTrees: el.count_trees)
                 self.types.append(info)
             }
-            print("I am here 0 with \(self.types.count)")
             self.status = true
         }
     }
