@@ -48,9 +48,6 @@ struct PlotCard: View {
                                     .frame(width: 30, height: 30)
                                     .foregroundColor(.black)
                             }
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.trailing)
-                            .opacity(isHoverOnImage ? (isShowCalendar ? 1 : 0.7) : 0)
                             .onHover { hovering in
                                 isShowCalendar = hovering
                             }
@@ -69,6 +66,9 @@ struct PlotCard: View {
                                     openLogWatering = true
                                 }
                             }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.trailing)
+                            .opacity(isHoverOnImage ? (isShowCalendar ? 1 : 0.7) : 0)
                         
                         VStack {
                             HStack(alignment: .top) {

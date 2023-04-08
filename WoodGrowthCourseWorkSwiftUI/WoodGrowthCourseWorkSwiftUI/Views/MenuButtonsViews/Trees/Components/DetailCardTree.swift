@@ -42,24 +42,24 @@ struct DetailCardTree: View {
                             self.isHovering = hovering
                         }
                     }
-                    .animation(.easeInOut(duration: 0.2), value: isHovering)
                     .onTapGesture {
                         pressedTreeInfo.pressed = false
                     }
+                    .animation(.easeInOut(duration: 0.2), value: isHovering)
                     .padding()
                 
                 Image(systemName: "square.and.pencil")
-                    .offset(x: 63, y: 85)
-                    .colorMultiply(isHovering2 ? .yellow : .black)
                     .onHover { hovering in
                         withAnimation(.easeInOut(duration: 0.2)) {
                             self.isHovering2 = hovering
                         }
                     }
-                    .animation(.easeInOut(duration: 0.2), value: isHovering2)
                     .onTapGesture {
                         pressedEdit.toggle()
                     }
+                    .offset(x: 63, y: 85)
+                    .colorMultiply(isHovering2 ? .yellow : .black)
+                    .animation(.easeInOut(duration: 0.2), value: isHovering2)
             }
             
             VStack {
@@ -121,6 +121,6 @@ struct DetailCardTree: View {
 
 struct DetailCardTree_Previews: PreviewProvider {
     static var previews: some View {
-        DetailCardTree(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 1000, date_measurements: "14-03-2003", notes: "Дорого", name_type: "Дуб", name_plot: "А", x_begin: 0, x_end: 20, y_begin: 0, y_end: 20))
+        DetailCardTree(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 1000, date_measurements: "2023-02-14T21:00:00.000Z", notes: "Дорого", name_type: "Дуб", name_plot: "А", x_begin: 0, x_end: 20, y_begin: 0, y_end: 20))
     }
 }
