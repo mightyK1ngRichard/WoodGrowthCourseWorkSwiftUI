@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct Authorization: View {
-    @State var isHover = false
+    @EnvironmentObject var openMenu : OpenMenu
+    @Binding var email                     : String
+    @Binding var password                  : String
+    @State private var isSecurePassword    = true
+    @State private var signUp              = false
+    @State private var isHovered           = false
+    @State private var isHoverSignInButton = false
+    @State private var isHover             = false
     
     var body: some View {
         HStack {
@@ -43,16 +50,8 @@ struct Authorization: View {
         .frame(width: 1447, height: 830)
         .background(Image("auth"))
     }
-}
-
-struct Authorization_Previews: PreviewProvider {
-    static var previews: some View {
-        Authorization()
-    }
-}
-
-struct LeftSide: View {
-    var body: some View {
+    
+    func LeftSide() -> some View {
         HStack {
             VStack (alignment: .leading, spacing: 4) {
                 Spacer()
@@ -65,21 +64,9 @@ struct LeftSide: View {
         }
         .padding(.leading, 100)
         .padding(.bottom, 200)
-        
-        
     }
-}
-
-struct RightSide: View {
-    @EnvironmentObject var openMenu : OpenMenu
-    @State var email                = ""
-    @State var password             = ""
-    @State var isSecurePassword     = true
-    @State var signUp               = false
-    @State private var isHovered    = false
-    @State var isHoverSignInButton  = false
     
-    var body: some View {
+    func RightSide() -> some View {
         VStack(spacing: 0) {
             Text("Sign In")
                 .bold()
@@ -128,6 +115,7 @@ struct RightSide: View {
                     self.isHoverSignInButton = hovering
                 })
                 .onTapGesture {
+                    
                     openMenu.openMenu = true
                 }
                 .padding(.top, 20)
@@ -149,10 +137,16 @@ struct RightSide: View {
         .frame(width: 860 / 2, height: 1467 / 2)
         .padding(.trailing, 75)
     }
+    
+}
+
+struct Authorization_Previews: PreviewProvider {
+    static var previews: some View {
+        Authorization(email: .constant("dimapermyakov55@gmail.com"), password: .constant("boss"))
+    }
 }
 
 struct BackGround: View {
-    
     var body: some View {
         HStack {
         }

@@ -14,14 +14,16 @@ class OpenMenu: ObservableObject {
 
 struct ContentView: View {
     @ObservedObject var openMenu = OpenMenu()
+    @State private var email     = ""
+    @State private var password  = ""
     
     var body: some View {
         HStack {
             if openMenu.openMenu {
-                AdminMenuView()
+                AdminMenuView(email: $email, password: $password)
                 
             } else {
-                Authorization()
+                Authorization(email: $email, password: $password)
             }
         }
         .environmentObject(openMenu)

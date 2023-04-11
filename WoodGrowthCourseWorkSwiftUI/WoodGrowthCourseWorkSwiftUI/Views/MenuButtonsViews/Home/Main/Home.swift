@@ -9,11 +9,13 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Home: View {
-    @ObservedObject var userData = UserData(login: "dimapermyakov55@gmail.com", password: "boss")
+    @ObservedObject var userData = UserData()
+    @Binding var email           : String
+    @Binding var password        : String
     
     var body: some View {
-        if userData.status {
-            VStack {
+        VStack {
+            if userData.status {
                 HStack() {
                     Spacer()
                     profile()
@@ -22,12 +24,26 @@ struct Home: View {
                     Spacer()
                 }
                 Spacer()
+            } else {
+                TurnOffServer()
             }
             
-        } else {
-            TurnOffServer()
         }
-        
+        .onAppear() {
+            APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
+                guard let data = data else {
+                    print("== ERROR: ", error!)
+                    self.userData.status = false
+                    return
+                }
+                for el in data.rows {
+                    let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
+                    
+                    self.userData.userData = newUser
+                    self.userData.status = true
+                }
+            })
+        }
     }
     
     func profile() -> some View {
@@ -43,7 +59,7 @@ struct Home: View {
                 .foregroundColor(.white)
             
             VStack {
-                if let img = userData.userData?.photo {
+                if let img = userData.userData.photo {
                     WebImage(url: img)
                         .resizable()
                         .clipShape(Circle())
@@ -63,14 +79,14 @@ struct Home: View {
                         .clipShape(Circle())
                 }
                 
-                Text((userData.userData?.firstname ?? "") + " " + (userData.userData?.lastname ?? ""))
+                Text(userData.userData.firstname + " " + userData.userData.lastname)
                     .font(.system(size: 40, design: .serif))
                     .bold()
                     .padding(.top, -15)
                     .foregroundColor(.black)
 
                 
-                Text(userData.userData?.post ?? "")
+                Text(userData.userData.post)
                     .font(.system(size: 20, design: .serif))
                     .foregroundColor(.black)
                 
@@ -86,6 +102,6 @@ struct Home: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        Home(email: .constant("dimapermyakov55@gmail.com"), password: .constant("boss"))
     }
 }
