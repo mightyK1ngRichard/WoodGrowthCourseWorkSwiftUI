@@ -9,9 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Home: View {
-    @ObservedObject var userData = UserData()
-    @Binding var email           : String
-    @Binding var password        : String
+    @EnvironmentObject var userData : UserData
     
     var body: some View {
         VStack {
@@ -28,21 +26,6 @@ struct Home: View {
                 TurnOffServer()
             }
             
-        }
-        .onAppear() {
-            APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
-                guard let data = data else {
-                    print("== ERROR: ", error!)
-                    self.userData.status = false
-                    return
-                }
-                for el in data.rows {
-                    let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
-                    
-                    self.userData.userData = newUser
-                    self.userData.status = true
-                }
-            })
         }
     }
     
@@ -102,6 +85,6 @@ struct Home: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home(email: .constant("dimapermyakov55@gmail.com"), password: .constant("boss"))
+        Home()
     }
 }

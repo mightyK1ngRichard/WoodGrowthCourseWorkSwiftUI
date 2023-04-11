@@ -7,26 +7,19 @@
 
 import SwiftUI
 
-
-class OpenMenu: ObservableObject {
-    @Published var openMenu = false
-}
-
 struct ContentView: View {
-    @ObservedObject var openMenu = OpenMenu()
-    @State private var email     = ""
-    @State private var password  = ""
+    @ObservedObject var userData = UserData()
     
     var body: some View {
         HStack {
-            if openMenu.openMenu {
-                AdminMenuView(email: $email, password: $password)
+            if userData.status {
+                AdminMenuView()
                 
             } else {
-                Authorization(email: $email, password: $password)
+                Authorization()
             }
         }
-        .environmentObject(openMenu)
+        .environmentObject(userData)
     }
 }
 

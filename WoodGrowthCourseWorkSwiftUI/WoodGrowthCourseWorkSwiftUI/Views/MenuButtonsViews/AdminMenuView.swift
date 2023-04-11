@@ -28,15 +28,13 @@ struct AdminMenuView: View {
     @ObservedObject var pressedTreeInfoCard = PressedButtonTree()
     // Состояние для работников, нажатие глазика. Сорри что тут.
     @State private var pressedWateringLog   = false
-    @Binding var email                      : String
-    @Binding var password                   : String
-    
+
     var body: some View {
         HStack {
             SideBar()
             switch (pressed.pressed) {
             case "Home":
-                Home(email: $email, password: $password)
+                Home()
                     
             // ДА-ДА, мне очень стыдно за мою реализацию, но переделывать уже лень.
             case "Работники":
@@ -88,6 +86,6 @@ struct AdminMenuView: View {
 
 struct AdminMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        AdminMenuView(email: .constant("dimapermyakov55@gmail.com"), password: .constant("boss"))
+        AdminMenuView()
     }
 }

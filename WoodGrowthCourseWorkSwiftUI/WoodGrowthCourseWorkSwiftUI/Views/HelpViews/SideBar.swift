@@ -10,8 +10,8 @@ import SwiftUI
 struct SideBar: View {
     @Namespace var animation
     @State private var isHovering    = false
-    @EnvironmentObject var openMenu  : OpenMenu
     @State var isHoverExit           = false
+    @EnvironmentObject var userData  : UserData
     
     var body: some View {
         HStack(spacing: 0) {
@@ -53,7 +53,7 @@ struct SideBar: View {
                         }
                 }
                 .onTapGesture {
-                    openMenu.openMenu = false
+                    userData.status = false
                 }
                 .buttonStyle(PlainButtonStyle())
                 .padding(.bottom, 20)

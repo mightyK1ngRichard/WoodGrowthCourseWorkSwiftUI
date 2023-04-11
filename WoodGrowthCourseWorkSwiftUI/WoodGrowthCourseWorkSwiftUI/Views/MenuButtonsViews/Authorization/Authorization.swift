@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct Authorization: View {
-    @EnvironmentObject var openMenu : OpenMenu
-    @Binding var email                     : String
-    @Binding var password                  : String
+    @EnvironmentObject var userData        : UserData
+    @State private var email               = ""
+    @State private var password            = ""
     @State private var isSecurePassword    = true
     @State private var signUp              = false
     @State private var isHovered           = false
@@ -115,8 +115,21 @@ struct Authorization: View {
                     self.isHoverSignInButton = hovering
                 })
                 .onTapGesture {
+                    APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
+                        guard let data = data else {
+                            print("== ERROR: ", error!)
+                            self.userData.status = false
+                            return
+                        }
+                        for el in data.rows {
+                            let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
+                            
+                            self.userData.userData = newUser
+                            self.userData.status = true
+                        }
+                    })
                     
-                    openMenu.openMenu = true
+                    
                 }
                 .padding(.top, 20)
             
@@ -142,7 +155,7 @@ struct Authorization: View {
 
 struct Authorization_Previews: PreviewProvider {
     static var previews: some View {
-        Authorization(email: .constant("dimapermyakov55@gmail.com"), password: .constant("boss"))
+        Authorization()
     }
 }
 
