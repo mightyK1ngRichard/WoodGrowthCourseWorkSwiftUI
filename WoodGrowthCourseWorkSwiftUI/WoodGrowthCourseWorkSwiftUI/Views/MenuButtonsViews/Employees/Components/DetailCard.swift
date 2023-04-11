@@ -15,6 +15,7 @@ struct DetailCard: View {
     @State private var isHoveringPhoto    = false
     @State private var isHoveringWater    = false
     @Binding var pressedWateringLog       : Bool
+    @State private var newPhotoLink       = ""
     @State private var newFullname        = ""
     @State private var newPost            = ""
     @State private var newPhone           = ""
@@ -105,6 +106,7 @@ struct DetailCard: View {
             if pressedEdit {
                 VStack {
                     Group {
+                        MyTextField(textForUser: "Ссылка на фото", text: $newPhotoLink)
                         MyTextField(textForUser: "Введите новое ФИО", text: $newFullname)
                         MyTextField(textForUser: "Введите новую должность", text: $newPost)
                         MyTextField(textForUser: "Введите новый телефон", text: $newPhone)
@@ -114,7 +116,7 @@ struct DetailCard: View {
                         pressedEdit = false
                         
                         // Форматируем для SQL запроса.
-                        let commands = [("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
+                        let commands = [("photo", newPhotoLink), ("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
                         
                         // Если ничего не поменяли, выходим.
                         if commands.count == 0 {
@@ -122,7 +124,8 @@ struct DetailCard: View {
                             return
                         }
                         let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
-                        let sqlString = "UPDATE employer SET \(changedInfo) where employer_id = \(currentPersonInfo.id);"
+                        let sqlString = "UPDATE employer SET \(changedInfo) where employer_id=\(currentPersonInfo.id);"
+                        
                         APIManager.shared.updateEmployee(SQLQuery: sqlString) { _, error in
                             if let error = error {
                                 print("== ERROR:", error)

@@ -32,6 +32,38 @@ class APIManager {
         }.resume()
     }
     
+    func getAllEmpoyees(completion: @escaping (AllEmployees?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT employer_id, full_name
+        FROM employer;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        print(urlString)
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+
+                if let newInfo = try? JSONDecoder().decode(AllEmployees.self, from: data) {
+                    completion(newInfo, nil)
+                    
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     func getEmployers(completion: @escaping (Employers?, String?) -> Void) {
         let SQLQuery = """
         SELECT employer.employer_id, full_name, post, phone_number, photo, p.name_plot, tt.name_type
@@ -104,7 +136,7 @@ class APIManager {
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, COUNT(*) countTrees
+        employer.full_name, employer.photo, f.name, p.employer_id, COUNT(*) countTrees
         FROM tree
         JOIN plot p ON p.plot_id=tree.plot_id
         JOIN employer ON p.employer_id=employer.employer_id
@@ -369,7 +401,8 @@ class APIManager {
             completion(nil, "Неверный url")
             return
         }
-        
+        print("======")
+        print(url)
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -395,6 +428,15 @@ struct Rows: Decodable {
     let photo        : URL?
     let name_plot    : String?
     let name_type    : String?
+}
+
+struct AllEmployees: Decodable {
+    let rows: [AllEmployeesRows]
+}
+
+struct AllEmployeesRows: Decodable {
+    let employer_id  : String
+    let full_name    : String
 }
 
 struct TreesParse: Decodable {
@@ -437,6 +479,7 @@ struct RowsPlots: Decodable {
     let photo         : URL?
     let name          : String
     let counttrees    : String
+    let employer_id   : String
 }
 
 struct FeritilizerParse: Decodable {
@@ -523,6 +566,11 @@ struct EmpoyeeResult: Codable, Identifiable {
     let nameType : String
 }
 
+struct AllEmpoyeesResult: Codable, Identifiable {
+    let id       : String
+    let fullName : String
+}
+
 struct TreeResult: Codable, Identifiable {
     let id                : String
     let name_tree         : String
@@ -547,6 +595,7 @@ struct PlotResult: Codable, Identifiable {
     let type_tree      : String
     let fertilizerName : String
     let countTrees     : String
+    let employerID    : String
 }
 
 struct FertilizerResult: Codable, Identifiable {

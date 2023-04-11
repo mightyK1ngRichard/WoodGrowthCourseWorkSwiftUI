@@ -117,8 +117,11 @@ struct Authorization: View {
                 })
                 .onTapGesture {
                     if email == "" || password == "" {
-                        showAlert = true
-                        return
+                        // TODO: расскоментировать при завершении курсовой.
+//                        showAlert = true
+//                        return
+                        email = "dimapermyakov55@gmail.com"
+                        password = "boss"
                     }
                     
                     APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in

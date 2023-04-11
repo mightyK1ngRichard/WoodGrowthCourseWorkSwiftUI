@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SupplierDetail: View {
     @Binding var currentData    : SupplierResult?
-    @Binding var close  : Bool
+    @Binding var close          : Bool
     @State private var newName  = ""
     @State private var newPhone = ""
     @State private var newWWW   = ""
@@ -18,14 +18,15 @@ struct SupplierDetail: View {
     var body: some View {
         VStack {
             Image(systemName: "x.circle")
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .foregroundColor(isHover ? .red : .white)
                 .onHover { hovering in
                     isHover = hovering
                 }
                 .onTapGesture {
                     close = false
                 }
+                .foregroundColor(isHover ? .yellow : .white)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                
             
             HStack {
                 VStack(alignment: .leading) {

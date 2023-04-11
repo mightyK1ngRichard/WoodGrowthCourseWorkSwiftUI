@@ -13,14 +13,15 @@ struct PlotCard: View {
     @State private var isHovering      = false
     @State private var isShowCalendar  = false
     @State private var isHoverOnImage  = false
-    @State private var dataLog         : [String] = []
     @State private var openLogWatering = false
+    @State private var dataLog         : [String] = []
+    @State private var allEmployees    : [AllEmpoyeesResult] = []
     var plotInfo                       : PlotResult
     
     var body: some View {
         if openEdit {
             return AnyView(
-                EditPlot(currentData: plotInfo, pressedClose: $openEdit)
+                EditPlot(currentData: plotInfo, pressedClose: $openEdit, allEmployees: allEmployees)
                 
             )
         }
@@ -147,7 +148,20 @@ struct PlotCard: View {
                                 self.isHovering = hovering
                             }
                             .onTapGesture {
-                                self.openEdit.toggle()
+                                APIManager.shared.getAllEmpoyees { data, error in
+                                    guard let data = data else {
+                                        print("== ERROR FROM EditPlot:", error!)
+                                        return
+                                    }
+
+                                    DispatchQueue.main.async {
+                                        for el in data.rows {
+                                            let info = AllEmpoyeesResult(id: el.employer_id, fullName: el.full_name)
+                                            self.allEmployees.append(info)
+                                        }
+                                    }
+                                    self.openEdit.toggle()
+                                }
                             }
                             .padding(.horizontal, 46)
                             .offset(y: -3)
@@ -177,6 +191,6 @@ struct PlotCard: View {
 
 struct PlotCard_Previews: PreviewProvider {
     static var previews: some View {
-        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23"))
+        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0"))
     }
 }
