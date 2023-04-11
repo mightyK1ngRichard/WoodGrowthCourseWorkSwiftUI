@@ -11,9 +11,9 @@ import SDWebImageSwiftUI
 struct ScrollViewCard: View {
     @EnvironmentObject var selectedButtonDetailView : PressedButtonDetailView
     var card                                        : EmpoyeeResult
-    var reader                                      :  CGFloat
+    var reader                                      : CGFloat
+    @Binding var pressedWateringLog                 : Bool
     @State private var isHovering                   = false
-    @Binding var pressedWateringLog       : Bool
     
     var body: some View {
         VStack {

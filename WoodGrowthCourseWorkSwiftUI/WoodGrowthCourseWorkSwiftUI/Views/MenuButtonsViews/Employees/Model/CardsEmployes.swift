@@ -6,12 +6,9 @@
 //
 
 import Foundation
-
 import SwiftUI
 
 class employeesCardsViewModel: ObservableObject {
-    // Получаем данные из БД по работникам.
-    
     @Published var employeesInfo: [EmpoyeeResult] = []
     @Published var statusParse                    = true
     

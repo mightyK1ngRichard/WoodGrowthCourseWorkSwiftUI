@@ -8,8 +8,9 @@
 import SwiftUI
 
 func getGradient() -> LinearGradient {
-    let colors = Gradient(colors: [.purple, .blue])
-    return LinearGradient(gradient: colors, startPoint: .top, endPoint: .bottom)
+//    let colors = Gradient(colors: [.purple, .blue])
+    let colors = [Color(red: 1.0, green: 0.25, blue: 1.0), Color(red: 0.02, green: 0.2, blue: 1.0)]
+    return LinearGradient(gradient: Gradient(colors: colors), startPoint: .top, endPoint: .bottom)
 }
 
 func getTabBackground() -> Color {

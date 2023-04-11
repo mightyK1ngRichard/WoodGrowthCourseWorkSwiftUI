@@ -111,7 +111,6 @@ struct DetailCard: View {
                     }
                     
                     Button {
-                        // TODO: Запрос обновы БД.
                         pressedEdit = false
                         
                         // Форматируем для SQL запроса.

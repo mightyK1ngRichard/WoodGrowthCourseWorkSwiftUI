@@ -62,7 +62,6 @@ Desktop app. В основе Framework'a лежит SwifUI.
 │   │       │       └── PlotInfo.swift
 │   │       ├── Suppliers&Deliveries
 │   │       │   ├── Deliveries
-│   │       │   │   ├── Component
 │   │       │   │   └── Modul
 │   │       │   │       └── DeliveryData.swift
 │   │       │   ├── Main
@@ -105,10 +104,8 @@ Desktop app. В основе Framework'a лежит SwifUI.
     │           └── UserInterfaceState.xcuserstate
     └── xcuserdata
         └── dmitriy.xcuserdatad
-            ├── xcdebugger
-            │   └── Breakpoints_v2.xcbkptlist
             └── xcschemes
                 └── xcschememanagement.plist
 
-63 directories, 80 files
+61 directories, 79 files
 ```

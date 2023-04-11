@@ -7,7 +7,7 @@
 
 import Foundation
 
-// TODO: Переделать.
+
 class TypeTreesData: ObservableObject {
     @Published var types: [TypeTreesResult] = []
     @Published var status                   = true

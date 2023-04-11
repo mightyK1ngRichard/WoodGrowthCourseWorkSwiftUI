@@ -79,6 +79,6 @@ struct SupplierCard: View {
 
 //struct SupplierCard_Previews: PreviewProvider {
 //    static var previews: some View {
-//        SupplierCard(data: SupplierResult(id: "0", name_supplier: "Перекрёсток", telephone: "89168559942", www: nil, photo: nil))
+//        SupplierCard(pressedCard: SupplierResult(id: "0", name_supplier: "TestApple", telephone: "89154252463", www: nil, photo: nil), currentCard: .constant(true), currentCard: nil, data: SupplierResult(id: "0", name_supplier: "TestApple", telephone: "89154252463", www: nil, photo: nil))
 //    }
 //}

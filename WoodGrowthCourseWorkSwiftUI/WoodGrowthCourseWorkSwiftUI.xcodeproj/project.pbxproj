@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0BA1AA29E4D2B1006F0114 /* UserDataModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0BA1A929E4D2B1006F0114 /* UserDataModule.swift */; };
 		2C24088429CCF42600B376DD /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C24088329CCF42600B376DD /* Authorization.swift */; };
 		2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2464CB29CAC7120021907A /* TreeCard.swift */; };
 		2C2464CE29CAD6570021907A /* CardsTrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2464CD29CAD6570021907A /* CardsTrees.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C0BA1A929E4D2B1006F0114 /* UserDataModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModule.swift; sourceTree = "<group>"; };
 		2C24088329CCF42600B376DD /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
 		2C2464CB29CAC7120021907A /* TreeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeCard.swift; sourceTree = "<group>"; };
 		2C2464CD29CAD6570021907A /* CardsTrees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsTrees.swift; sourceTree = "<group>"; };
@@ -107,6 +109,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C0BA1A629E4B3C3006F0114 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2C3FF28A29C85D760009AB1A /* Home.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		2C0BA1A729E4B3C8006F0114 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		2C0BA1A829E4B3D1006F0114 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				2C0BA1A929E4D2B1006F0114 /* UserDataModule.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
 		2C2464C929CAC6B00021907A /* Trees */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,7 +261,9 @@
 		2CDCA55929D06B1C009E75D2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				2C3FF28A29C85D760009AB1A /* Home.swift */,
+				2C0BA1A829E4B3D1006F0114 /* Module */,
+				2C0BA1A729E4B3C8006F0114 /* Component */,
+				2C0BA1A629E4B3C3006F0114 /* Main */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -439,16 +466,8 @@
 			isa = PBXGroup;
 			children = (
 				2CEEBA5129CFBA7100403ECE /* Modul */,
-				2CEEBA5029CFBA6A00403ECE /* Component */,
 			);
 			path = Deliveries;
-			sourceTree = "<group>";
-		};
-		2CEEBA5029CFBA6A00403ECE /* Component */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Component;
 			sourceTree = "<group>";
 		};
 		2CEEBA5129CFBA7100403ECE /* Modul */ = {
@@ -548,6 +567,7 @@
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
 				2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
+				2C0BA1AA29E4D2B1006F0114 /* UserDataModule.swift in Sources */,
 				2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */,
 				2CEEBA3F29CF636200403ECE /* FertilizerData.swift in Sources */,
 				2CE0872529C8401900710F98 /* AdminMenuView.swift in Sources */,

@@ -326,12 +326,43 @@ class APIManager {
         }.resume()
     }
     
+    func getUserInfo(user userEmail: String = "dimapermyakov55@gmail.com", password userPassword: String = "boss", completion: @escaping (UsersParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT *
+        FROM users
+        WHERE password='\(userPassword)' AND login = '\(userEmail)';
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                
+                if let newInfo = try? JSONDecoder().decode(UsersParse.self, from: data) {
+                    completion(newInfo, nil)
+
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
     // MARK: - Updates.
     func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
         let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let correctURL = urlString + encodedQuery
-        
+
         guard let url = URL(string: correctURL) else {
             completion(nil, "Неверный url")
             return
@@ -464,67 +495,81 @@ struct RowsTypeTrees: Decodable {
     let count_trees     : String
 }
 
+struct UsersParse: Decodable {
+    let rows: [RowsUser]
+}
+
+struct RowsUser: Decodable {
+    let userid    : Int
+    let login     : String
+    let password  : String
+    let photo     : URL?
+    let firstname : String
+    let lastname  : String
+    let post      : String
+}
+
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
-    let id: String
-    let fullName: String
-    let phone: String
-    let post: String
-    let ava: URL?
-    let namePlot: String
-    let nameType: String
+    let id       : String
+    let fullName : String
+    let phone    : String
+    let post     : String
+    let ava      : URL?
+    let namePlot : String
+    let nameType : String
 }
 
 struct TreeResult: Codable, Identifiable {
-    let id: String
-    let name_tree: String
-    let volume: Int
-    let date_measurements: String
-    let notes: String?
-    let name_type: String
-    let name_plot: String
-    let x_begin: Int
-    let x_end: Int
-    let y_begin: Int
-    let y_end: Int
+    let id                : String
+    let name_tree         : String
+    let volume            : Int
+    let date_measurements : String
+    let notes             : String?
+    let name_type         : String
+    let name_plot         : String
+    let x_begin           : Int
+    let x_end             : Int
+    let y_begin           : Int
+    let y_end             : Int
 }
 
 struct PlotResult: Codable, Identifiable {
-    let id: String
-    let name: String
-    let date: String
-    let address: String
-    let employee: String
-    let emp_photo: URL?
-    let type_tree: String
-    let fertilizerName: String
-    let countTrees: String
+    let id             : String
+    let name           : String
+    let date           : String
+    let address        : String
+    let employee       : String
+    let emp_photo      : URL?
+    let type_tree      : String
+    let fertilizerName : String
+    let countTrees     : String
 }
 
 struct FertilizerResult: Codable, Identifiable {
-    let id: String
-    let nameFertilizer: String
-    let priceFertilizer: Int
-    let massFertilizer: Int
-    let typeTree: String?
-    let nameSupplier: String
+    let id              : String
+    let nameFertilizer  : String
+    let priceFertilizer : Int
+    let massFertilizer  : Int
+    let typeTree        : String?
+    let nameSupplier    : String
 }
 
 struct SupplierResult: Codable, Identifiable {
-    let id: String
-    let name_supplier: String
-    let telephone: String?
-    let www: URL?
-    let photo: URL?
+    let id            : String
+    let name_supplier : String
+    let telephone     : String?
+    let www           : URL?
+    let photo         : URL?
 }
 
 struct DeliveryResult: Codable, Identifiable {
-    let id: String
-    let dateDelivery: String
-    let numbersPackets: Int
-    let priceOrder: Int
-    let supplierName: String
-    let fertilizerName: String
+    let id             : String
+    let dateDelivery   : String
+    let numbersPackets : Int
+    let priceOrder     : Int
+    let supplierName   : String
+    let fertilizerName : String
 }
 
 struct TypeTreesResult: Codable, Identifiable {
@@ -534,4 +579,14 @@ struct TypeTreesResult: Codable, Identifiable {
     let firtilizerName : String
     let plotName       : String
     let countTrees     : String
+}
+
+struct UserResult: Codable, Identifiable {
+    let id        : Int
+    let login     : String
+    let password  : String
+    let photo     : URL?
+    let firstname : String
+    let lastname  : String
+    let post      : String
 }
