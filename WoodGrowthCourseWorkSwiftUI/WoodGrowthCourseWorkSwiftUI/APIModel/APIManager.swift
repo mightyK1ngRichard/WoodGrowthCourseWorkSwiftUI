@@ -332,13 +332,15 @@ class APIManager {
         FROM users
         WHERE password='\(userPassword)' AND login = '\(userEmail)';
         """
-        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
-        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        let urlString = "http://\(host):\(port)/database/"
+        let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let correctURL = urlString + encodedQuery
         
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: correctURL) else {
             completion(nil, "Uncorrected url")
             return
         }
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -367,6 +369,7 @@ class APIManager {
             completion(nil, "Неверный url")
             return
         }
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {

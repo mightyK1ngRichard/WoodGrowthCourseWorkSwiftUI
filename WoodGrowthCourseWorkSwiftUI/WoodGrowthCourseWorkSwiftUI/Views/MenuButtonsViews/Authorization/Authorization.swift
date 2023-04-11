@@ -16,6 +16,8 @@ struct Authorization: View {
     @State private var isHovered           = false
     @State private var isHoverSignInButton = false
     @State private var isHover             = false
+    //
+    @State private var showAlert          = false
     
     var body: some View {
         HStack {
@@ -115,23 +117,59 @@ struct Authorization: View {
                     self.isHoverSignInButton = hovering
                 })
                 .onTapGesture {
-                    APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
-                        guard let data = data else {
-                            print("== ERROR: ", error!)
-                            self.userData.status = false
+                    let queue = OperationQueue()
+                    
+                    let operation1 = BlockOperation {
+                        if email == "" || password == "" {
+                            showAlert = true
                             return
                         }
-                        for el in data.rows {
-                            let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
+                        
+                        var isCompleted = false
+                        APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
+                            guard let data = data else {
+                                print("== ERROR: ", error!)
+                                DispatchQueue.main.async {
+                                    self.userData.status = false
+                                }
+                                isCompleted = true
+                                return
+                            }
+                            DispatchQueue.main.async {
+                                for el in data.rows {
+                                    let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
+                                    
+                                    self.userData.userData = newUser
+                                    self.userData.status = true
+                                }
+                                isCompleted = true
+                            }
                             
-                            self.userData.userData = newUser
-                            self.userData.status = true
+                        })
+                        
+                        // TODO: понять, как можно сделать очередь из асинхронной и обычной функции без этого криж-цикла.
+                        while !isCompleted {
+                            // Цикл - пустышка, чисто ждём пока отвечает БД.
                         }
-                    })
+                    }
                     
+                    let operation2 = BlockOperation {
+                        if !userData.status {
+                            showAlert = true
+                            email = ""
+                            password = ""
+                        }
+                    }
+                    
+                    operation2.addDependency(operation1)
+                    queue.addOperation(operation1)
+                    queue.addOperation(operation2)
                     
                 }
                 .padding(.top, 20)
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Ошибка входа"), message: Text("Неверный логин или пароль"), dismissButton: .default(Text("OK")))
+                }
             
             HStack {
                 Text("Don't have an account?")
