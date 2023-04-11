@@ -8,6 +8,6 @@
 import Foundation
 
 class UserData: ObservableObject {
-    @Published var userData = UserResult(id: 0, login: "test", password: "test", photo: nil, firstname: "test", lastname: "test", post: "test")
+    @Published var userData = UserResult(id: 0, login: "test", password: "test", photo: nil, firstname: "Дмитрий", lastname: "Пермяков", post: "Тестировщик")
     @Published var status = false
 }

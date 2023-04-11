@@ -46,7 +46,7 @@ struct FertilizerCard: View {
             .font(.system(size: 16))
         }
         .padding()
-        .background(Color.purple.opacity(0.1))
+        .background(getGradient().opacity(0.2))
         .cornerRadius(10)
         .onTapGesture {
             infoCardPressed = data

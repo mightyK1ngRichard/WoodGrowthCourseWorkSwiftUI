@@ -15,13 +15,13 @@ struct PlotCard: View {
     @State private var isHoverOnImage  = false
     @State private var dataLog         : [String] = []
     @State private var openLogWatering = false
-    var plotInfo: PlotResult
+    var plotInfo                       : PlotResult
     
     var body: some View {
-        
         if openEdit {
             return AnyView(
-                EditPlot(pressedClose: $openEdit)
+                EditPlot(currentData: plotInfo, pressedClose: $openEdit)
+                
             )
         }
         

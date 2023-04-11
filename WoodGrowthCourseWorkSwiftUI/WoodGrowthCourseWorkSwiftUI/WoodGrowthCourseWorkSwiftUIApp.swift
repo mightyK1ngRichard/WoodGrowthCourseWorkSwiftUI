@@ -12,7 +12,10 @@ struct WoodGrowthCourseWorkSwiftUIApp: App {
     
     var body: some Scene {
         WindowGroup {
+            
+            // TODO: Включить потом. И расскоментировать в Home 'userData.status'
             ContentView()
+//            AdminMenuView()
         }
         .windowStyle(HiddenTitleBarWindowStyle())
     }

@@ -27,7 +27,6 @@ struct FertilizerEdit: View {
                     close = false
                 }
             
-            
             Spacer()
             MyTextField(textForUser: "Новое название корма", text: $fertilizerName)
             MyTextField(textForUser: "Новая цена", text: $fertilizerPrice)
@@ -38,7 +37,6 @@ struct FertilizerEdit: View {
                 // TODO: ?
                 print(fertilizerName, fertilizerPrice, fertilizerMass, typeTree, separator: "\n")
                 
-                
             }) {
                 Text("Save")
                     .padding()
@@ -48,8 +46,10 @@ struct FertilizerEdit: View {
         }
         .padding()
         .frame(width: 400, height: 300)
-        .background(Color.blue.opacity(0.1))
-        .cornerRadius(15)
+        .overlay {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(getGradient().opacity(0.7), lineWidth: 3)
+        }
     }
 }
 

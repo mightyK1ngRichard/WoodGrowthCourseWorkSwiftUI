@@ -13,6 +13,7 @@ struct Home: View {
     
     var body: some View {
         VStack {
+            // userData.status
             if userData.status {
                 HStack() {
                     Spacer()
@@ -30,56 +31,58 @@ struct Home: View {
     }
     
     func profile() -> some View {
-        ZStack {
-            Image("profile")
-                .resizable()
-                .frame(height: 300)
-                .aspectRatio(contentMode: .fit)
-            
-            Rectangle()
-                .frame(height: 150)
-                .offset(y: 100)
-                .foregroundColor(.white)
-            
-            VStack {
-                if let img = userData.userData.photo {
-                    WebImage(url: img)
-                        .resizable()
-                        .clipShape(Circle())
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.black)
-                        .padding(3)
-                        .background(.white)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "person.circle")
-                        .resizable()
-                        .clipShape(Circle())
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.black)
-                        .padding(3)
-                        .background(.white)
-                        .clipShape(Circle())
-                }
+            ZStack {
+                Image("profile")
+                    .resizable()
+                    .frame(height: 400)
+                    .aspectRatio(contentMode: .fit)
                 
-                Text(userData.userData.firstname + " " + userData.userData.lastname)
-                    .font(.system(size: 40, design: .serif))
-                    .bold()
-                    .padding(.top, -15)
-                    .foregroundColor(.black)
-
+                Rectangle()
+                    .frame(height: 230)
+                    .offset(y: 135)
+                    .foregroundColor(.white)
                 
-                Text(userData.userData.post)
-                    .font(.system(size: 20, design: .serif))
-                    .foregroundColor(.black)
-                
+                VStack {
+                    if let img = userData.userData.photo {
+                        WebImage(url: img)
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 150, height: 150)
+                            .foregroundColor(.black)
+                            .padding(3)
+                            .background(.white)
+                            .clipShape(Circle())
+                        
+                    } else {
+                        Image(systemName: "person.circle")
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 150, height: 150)
+                            .foregroundColor(.black)
+                            .padding(3)
+                            .background(.white)
+                            .clipShape(Circle())
+                            
+                    }
                     
+                    Text(userData.userData.firstname + " " + userData.userData.lastname)
+                        .font(.system(size: 40, design: .serif))
+                        .bold()
+                        .padding(.top, -10)
+                        .foregroundColor(.black)
+
+                    
+                    Text(userData.userData.post)
+                        .font(.system(size: 20, design: .serif))
+                        .foregroundColor(.black)
+                    
+                        
+                }
+                .offset(y: 50)
             }
-            .offset(y: 50)
-            
-        }
-        .frame(width: 800)
+            .frame(width: 800)
         .cornerRadius(20)
+
     }
 }
 
