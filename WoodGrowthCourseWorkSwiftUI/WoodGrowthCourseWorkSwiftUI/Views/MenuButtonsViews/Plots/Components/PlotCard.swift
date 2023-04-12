@@ -177,13 +177,11 @@ struct PlotCard: View {
                         
                         if openLogWatering {
                             WateringLog(pressedClose: $openLogWatering, wateringLog: dataLog)
-                                
                         }
-                        
                     }
                 }
                 .frame(width: 500, height: 330)
-                .cornerRadius(10)
+                .cornerRadius(15)
             }
         )
     }

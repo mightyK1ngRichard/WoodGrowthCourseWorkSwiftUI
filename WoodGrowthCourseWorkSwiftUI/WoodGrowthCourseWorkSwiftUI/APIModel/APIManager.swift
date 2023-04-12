@@ -44,7 +44,7 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
-        print(urlString)
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -393,7 +393,7 @@ class APIManager {
     }
     // MARK: - Updates.
     func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
-        let urlString = "http://\(host):\(port)/database/"
+        let urlString = "http://\(host):\(port)/database/update/"
         let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let correctURL = urlString + encodedQuery
 
@@ -401,8 +401,7 @@ class APIManager {
             completion(nil, "Неверный url")
             return
         }
-        print("======")
-        print(url)
+
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {

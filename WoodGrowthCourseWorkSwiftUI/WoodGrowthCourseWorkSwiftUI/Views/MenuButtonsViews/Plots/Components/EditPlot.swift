@@ -32,79 +32,78 @@ struct EditPlot: View {
     }
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.black)
-            VStack {
-                HStack {
-                    Spacer()
-                    Image(systemName: "x.circle")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(isHover ? .red : .white)
-                        .padding(.trailing, 0)
-                        .padding(.top, 10)
-                        .onTapGesture {
-                            pressedClose = false
-                        }
-                        .onHover { hovering in
-                            isHover = hovering
-                        }
-
-                }
-
+    
+        VStack {
+            HStack {
                 Spacer()
-                MyTextField(textForUser: "Имя участка", text: $plotName)
-                MyTextField(textForUser: "Название вида", text: $typeTreeOnPlot)
-                MyTextField(textForUser: "Адрес участка", text: $address)
-//                MyTextField(textForUser: "Ответственный", text: $employee)
-                HStack {
-                    Text("Ответственный")
-                        .foregroundColor(Color.secondary)
-                        .padding(.leading, 4.1)
-                    Spacer()
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                    Picker(selection: $employee, label: Text("")) {
-                        ForEach(allEmployees) { person in
-                            Text(person.fullName)
-                        }
+                Image(systemName: "x.circle")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(isHover ? .red : .white)
+                    .padding(.trailing, 0)
+                    .padding(.top, 10)
+                    .onTapGesture {
+                        pressedClose = false
                     }
+                    .onHover { hovering in
+                        isHover = hovering
+                    }
+
+            }
+
+            Spacer()
+            MyTextField(textForUser: "Имя участка", text: $plotName)
+            MyTextField(textForUser: "Название вида", text: $typeTreeOnPlot)
+            MyTextField(textForUser: "Адрес участка", text: $address)
+            HStack {
+                Text("Ответственный")
+                    .foregroundColor(Color.secondary)
+                    .padding(.leading, 4.1)
+                Spacer()
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                Picker(selection: $employee, label: Text("")) {
+                    ForEach(allEmployees) { person in
+                        Text(person.fullName)
+                    }
+                }
+                .labelsHidden()
+                .frame(width: 150)
+            }
+            
+            HStack {
+                Text("Дата заземления")
+                    .foregroundColor(Color.secondary)
+                    .padding(.leading, 4)
+                    
+                Spacer()
+                Image(systemName: "calendar.badge.clock")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                DatePicker("", selection: $datePlanting, in: ...Date(), displayedComponents: [.date, .hourAndMinute])
                     .labelsHidden()
                     .frame(width: 150)
-                }
-                
-                HStack {
-                    Text("Дата заземления")
-                        .foregroundColor(Color.secondary)
-                        .padding(.leading, 4)
-                        
-                    Spacer()
-                    Image(systemName: "calendar.badge.clock")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                    DatePicker("", selection: $datePlanting, in: ...Date(), displayedComponents: [.date, .hourAndMinute])
-                        .labelsHidden()
-                        .frame(width: 150)
-                }
-
-
-                Button(action: {
-                    
-                    
-                }, label: {
-                    Text("Save")
-                })
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                
-                       
-                Spacer()
             }
-            .padding(.horizontal)
+
+
+            Button(action: {
+                
+                
+            }, label: {
+                Text("Save")
+            })
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            
+                   
+            Spacer()
         }
-        .frame(width: 500, height: 332)
-        .cornerRadius(10)
+        .padding(.horizontal)
+        .overlay {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(getGradient().opacity(0.7), lineWidth: 3)
+        }
+        .frame(width: 500, height: 330)
     }
 }
 

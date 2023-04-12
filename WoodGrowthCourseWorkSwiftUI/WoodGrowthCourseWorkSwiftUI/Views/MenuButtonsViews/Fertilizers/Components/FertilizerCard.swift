@@ -48,13 +48,13 @@ struct FertilizerCard: View {
         .padding()
         .background(getGradient().opacity(0.2))
         .cornerRadius(10)
-        .onTapGesture {
-            infoCardPressed = data
-            pressedCard = true
-        }
         .brightness(isHover ? -0.2 : 0)
         .onHover { hovering in
             isHover = hovering
+        }
+        .onTapGesture {
+            infoCardPressed = data
+            pressedCard = true
         }
     }
 }

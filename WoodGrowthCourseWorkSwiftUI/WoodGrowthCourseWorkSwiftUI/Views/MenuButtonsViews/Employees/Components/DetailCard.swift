@@ -62,6 +62,7 @@ struct DetailCard: View {
                 if let image = currentPersonInfo.ava {
                     WebImage(url: image)
                         .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 200, height: 200)
                         .padding(.top, 0)
                         .clipShape(Circle())
@@ -114,7 +115,9 @@ struct DetailCard: View {
                     
                     Button {
                         pressedEdit = false
-                        
+                        if newPhotoLink != "" {
+                            newPhotoLink = newPhotoLink.replacingOccurrences(of: "/", with: "%2F")
+                        }
                         // Форматируем для SQL запроса.
                         let commands = [("photo", newPhotoLink), ("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
                         
