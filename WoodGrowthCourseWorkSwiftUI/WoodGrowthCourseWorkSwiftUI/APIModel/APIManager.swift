@@ -62,7 +62,7 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
-        print(urlString)
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -122,7 +122,7 @@ class APIManager {
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, COUNT(*) countTrees
+        employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, type_tree.photo AS typePhoto, COUNT(*) countTrees
         FROM tree
         FULL JOIN plot p ON p.type_tree_id=tree.type_tree_id
         LEFT JOIN employer ON p.employer_id=employer.employer_id
@@ -139,7 +139,6 @@ class APIManager {
             return
         }
         
-        print(urlString)
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -316,7 +315,7 @@ class APIManager {
     
     func getTypesTrees(completion: @escaping (TypeTreesParse?, String?) -> Void) {
         let SQLQuery = """
-        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, COUNT(*) as count_trees
+        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, t.photo, COUNT(*) as count_trees
         FROM tree
         FULL JOIN type_tree t ON tree.type_tree_id = t.type_id
         LEFT JOIN fertilizer f ON t.type_id = f.type_tree_id
@@ -493,6 +492,7 @@ struct RowsPlots: Decodable {
     let counttrees    : String
     let employer_id   : String
     let type_tree_id  : Int
+    let typephoto     : URL
 }
 
 struct FeritilizerParse: Decodable {
@@ -552,6 +552,7 @@ struct RowsTypeTrees: Decodable {
     let fertilizer_name : String?
     let plot_name       : String?
     let count_trees     : String
+    let photo           : URL
 }
 
 struct UsersParse: Decodable {
@@ -612,6 +613,7 @@ struct PlotResult: Codable, Identifiable {
     let countTrees     : String
     let employerID     : String
     let typeTreeID     : Int
+    let typephoto      : URL
 }
 
 struct FertilizerResult: Codable, Identifiable {
@@ -647,6 +649,7 @@ struct TypeTreesResult: Codable, Identifiable {
     let firtilizerName : String?
     let plotName       : String?
     let countTrees     : String
+    let photo          : URL
 }
 
 struct UserResult: Codable, Identifiable {

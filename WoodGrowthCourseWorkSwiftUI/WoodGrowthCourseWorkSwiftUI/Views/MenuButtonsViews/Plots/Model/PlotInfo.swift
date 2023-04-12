@@ -25,7 +25,7 @@ class plotsCardsViewModel: ObservableObject {
             self.status = true
             var temp: [PlotResult] = []
             for el in data.rows {
-                let newEmployeer = PlotResult(id: el.plot_id, name: el.name_plot, date: el.date_planting, address: el.address, employee: el.full_name, emp_photo: el.photo, type_tree: el.name_type, fertilizerName: el.name, countTrees: el.counttrees, employerID: el.employer_id, typeTreeID: el.type_tree_id)
+                let newEmployeer = PlotResult(id: el.plot_id, name: el.name_plot, date: el.date_planting, address: el.address, employee: el.full_name, emp_photo: el.photo, type_tree: el.name_type, fertilizerName: el.name, countTrees: el.counttrees, employerID: el.employer_id, typeTreeID: el.type_tree_id, typephoto: el.typephoto)
                 temp.append(newEmployeer)
             }
             self.plotInfo = temp

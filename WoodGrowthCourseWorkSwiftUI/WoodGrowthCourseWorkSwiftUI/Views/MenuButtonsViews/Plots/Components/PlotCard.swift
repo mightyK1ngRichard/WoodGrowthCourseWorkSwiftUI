@@ -32,7 +32,7 @@ struct PlotCard: View {
     
     private func CardPreview() -> some View {
         ZStack(alignment: .top) {
-            Image(plotInfo.type_tree)
+            WebImage(url: plotInfo.typephoto)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(height: 300)
@@ -205,6 +205,6 @@ struct PlotCard: View {
 
 struct PlotCard_Previews: PreviewProvider {
     static var previews: some View {
-        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0))
+        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!))
     }
 }

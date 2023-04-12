@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 private func getDetailInfoUsingTypeName(data: [TypeTreesResult], key: String) -> Int {
     return data.firstIndex { $0.nameType == key }!
@@ -53,8 +54,10 @@ struct TypeTreeCard: View {
             
             HStack {
                 ZStack {
-                    Image(selectedType)
+                    
+                    WebImage(url: typesData[currentIndex].photo)
                         .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
                         .frame(width: 200, height: 200)
                         .overlay {
@@ -147,11 +150,12 @@ struct TypeTreeCard: View {
 
 struct TypeTreeCard_Previews: PreviewProvider {
     static var previews: some View {
-        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
-        let item2 = TypeTreesResult(id: "1", nameType: "O", notes: nil, firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
-        let item3 = TypeTreesResult(id: "2", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
-        let item4 = TypeTreesResult(id: "3", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
-        let item5 = TypeTreesResult(id: "4", nameType: "!", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100")
+        let tempPhoto = URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!
+        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
+        let item2 = TypeTreesResult(id: "1", nameType: "O", notes: nil, firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
+        let item3 = TypeTreesResult(id: "2", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
+        let item4 = TypeTreesResult(id: "3", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
+        let item5 = TypeTreesResult(id: "4", nameType: "!", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
         
         TypeTreeCard(typesData: .constant([item1, item2, item3, item4, item5]), selectedType: .constant("Дуб"))
     }

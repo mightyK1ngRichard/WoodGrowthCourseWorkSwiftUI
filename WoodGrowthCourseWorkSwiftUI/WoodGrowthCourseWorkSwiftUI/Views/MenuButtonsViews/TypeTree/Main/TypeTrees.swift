@@ -29,7 +29,7 @@ struct TypeTrees: View {
                     return
                 }
                 for el in data.rows {
-                    let info = TypeTreesResult(id: el.type_id, nameType: el.name_type, notes: el.notes, firtilizerName: el.fertilizer_name, plotName: el.plot_name, countTrees: el.count_trees)
+                    let info = TypeTreesResult(id: el.type_id, nameType: el.name_type, notes: el.notes, firtilizerName: el.fertilizer_name, plotName: el.plot_name, countTrees: el.count_trees, photo: el.photo)
                     self.typesData.append(info)
                 }
                 if self.typesData.count != 0 {
