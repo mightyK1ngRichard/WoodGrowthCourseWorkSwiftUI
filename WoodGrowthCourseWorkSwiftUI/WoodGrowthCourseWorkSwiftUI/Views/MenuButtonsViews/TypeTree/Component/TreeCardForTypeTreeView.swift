@@ -17,7 +17,7 @@ struct TreeCardForTypeTreeView: View {
                     .font(.title)
                     .bold()
                 
-                Text("**Участок:** \(treeInfo.name_plot)")
+                Text("**Участок:** \(treeInfo.name_plot ?? "Не задан")")
                 Text("**Вид:** \(treeInfo.name_type)")
                 Text("**Объём:** \(treeInfo.volume)")
             }

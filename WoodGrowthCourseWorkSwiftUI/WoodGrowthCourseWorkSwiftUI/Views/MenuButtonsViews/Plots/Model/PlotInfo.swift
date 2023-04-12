@@ -29,11 +29,6 @@ class plotsCardsViewModel: ObservableObject {
                 temp.append(newEmployeer)
             }
             self.plotInfo = temp
-            print("==============================")
-            for el in self.plotInfo {
-                print(el.name, el.typeTreeID, el.type_tree, el.employee)
-            }
-            print("==============================")
         }
     }
     

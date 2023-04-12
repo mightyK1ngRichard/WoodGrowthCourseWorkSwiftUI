@@ -50,8 +50,10 @@ class APIManager {
     
     func getEmployers(completion: @escaping (Employers?, String?) -> Void) {
         let SQLQuery = """
-        SELECT employer_id, full_name
-        FROM employer;
+        SELECT e.employer_id, e.full_name, e.post, e.phone_number, e.photo, p.name_plot AS name_plot, tt.name_type AS name_type
+        FROM employer e
+        LEFT JOIN plot p on e.employer_id = p.employer_id
+        LEFT JOIN type_tree tt on p.type_tree_id = tt.type_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -60,6 +62,7 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
+        print(urlString)
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -81,14 +84,14 @@ class APIManager {
     
     func getTrees(plotId: String? = nil, completion: @escaping (TreesParse?, String?) -> Void) {
         var SQLQuery = """
-        SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, type_tree.name_type, plot.name_plot, coordinates.x_begin, coordinates.x_end, coordinates.y_begin, coordinates.y_end
+        SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, tt.name_type, p.name_plot, c.x_begin, c.x_end, c.y_begin, c.y_end
         FROM tree
-        JOIN plot ON tree.plot_id=plot.plot_id
-        JOIN coordinates ON coordinates.tree_id=tree.tree_id
-        JOIN type_tree ON type_tree.type_id=tree.type_tree_id
+        LEFT JOIN type_tree tt ON tree.type_tree_id=tt.type_id
+        LEFT JOIN plot p ON p.type_tree_id=tt.type_id
+        JOIN coordinates c ON c.tree_id=tree.tree_id
         """
         if let plotId = plotId {
-            SQLQuery += " WHERE plot.plot_id=\(plotId);"
+            SQLQuery += " WHERE p.plot_id=\(plotId);"
         }
         
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
@@ -97,6 +100,7 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -314,9 +318,9 @@ class APIManager {
         let SQLQuery = """
         SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, COUNT(*) as count_trees
         FROM tree
-        JOIN type_tree t ON tree.type_tree_id = t.type_id
-        JOIN fertilizer f ON t.type_id = f.type_tree_id
-        JOIN plot p on t.type_id = p.type_tree_id
+        FULL JOIN type_tree t ON tree.type_tree_id = t.type_id
+        LEFT JOIN fertilizer f ON t.type_id = f.type_tree_id
+        LEFT JOIN plot p on t.type_id = p.type_tree_id
         GROUP BY t.name_type, t.notes, t.type_id, f.name, p.name_plot;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
@@ -376,6 +380,7 @@ class APIManager {
             }
         }.resume()
     }
+    
     // MARK: - Updates.
     func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
@@ -457,7 +462,7 @@ struct RowsTrees: Decodable {
     let date_measurements : String
     let notes             : String?
     let name_type         : String
-    let name_plot         : String
+    let name_plot         : String?
     let x_begin           : Int
     let x_end             : Int
     let y_begin           : Int
@@ -544,8 +549,8 @@ struct RowsTypeTrees: Decodable {
     let type_id         : String
     let name_type       : String
     let notes           : String?
-    let fertilizer_name : String
-    let plot_name       : String
+    let fertilizer_name : String?
+    let plot_name       : String?
     let count_trees     : String
 }
 
@@ -588,7 +593,7 @@ struct TreeResult: Codable, Identifiable {
     let date_measurements : String
     let notes             : String?
     let name_type         : String
-    let name_plot         : String
+    let name_plot         : String?
     let x_begin           : Int
     let x_end             : Int
     let y_begin           : Int
@@ -639,8 +644,8 @@ struct TypeTreesResult: Codable, Identifiable {
     let id             : String
     let nameType       : String
     let notes          : String?
-    let firtilizerName : String
-    let plotName       : String
+    let firtilizerName : String?
+    let plotName       : String?
     let countTrees     : String
 }
 

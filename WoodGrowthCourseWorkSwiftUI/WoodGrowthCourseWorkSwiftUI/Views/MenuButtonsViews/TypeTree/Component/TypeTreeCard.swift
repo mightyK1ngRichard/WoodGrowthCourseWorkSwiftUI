@@ -27,8 +27,9 @@ struct TypeTreeCard: View {
                     Text($0.nameType)
                 }
             }
+            .labelsHidden()
             .pickerStyle(.segmented)
-            .padding(.vertical)
+            .padding()
             .onChange(of: selectedType) { _ in
                 currentIndex = getDetailInfoUsingTypeName(data: typesData, key: selectedType)
                 treesOfThisType.removeAll()
@@ -96,7 +97,7 @@ struct TypeTreeCard: View {
                 VStack (alignment: .leading, spacing: 5) {
                     Text("\(selectedType)")
                         .font(.system(size: 40))
-                    Text("**Удобрение:** \(typesData[currentIndex].firtilizerName)")
+                    Text("**Удобрение:** \(typesData[currentIndex].firtilizerName ?? "Не задано")")
                     Text("**Примечание:**")
                     Text("*\(typesData[currentIndex].notes ?? "Описания нету")*")
                     Text("**Количество деревьев:** \(typesData[currentIndex].countTrees) шт.")
@@ -110,17 +111,14 @@ struct TypeTreeCard: View {
             
             if showTrees {
                 if !closeEye {
-                    HStack (alignment: .center){
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(treesOfThisType) { tree in
-                                    TreeCardForTypeTreeView(treeInfo: tree)
-                                }
-                            }
-                        }
-                        .padding(.top, 50)
+                    if treesOfThisType.count != 0 {
+                        getCardsTrees()
+                    } else {
+                        Text("Деревьев этого вида не существует.")
+                            .font(.title)
+                            .bold()
                     }
-                    .frame(width: 987)
+
                 }
 
             } else {
@@ -130,6 +128,20 @@ struct TypeTreeCard: View {
             Spacer()
         }
         .frame(minHeight: 600)
+    }
+    
+    func getCardsTrees() -> some View {
+        HStack (alignment: .center) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(treesOfThisType) { tree in
+                        TreeCardForTypeTreeView(treeInfo: tree)
+                    }
+                }
+            }
+            .padding(.top, 50)
+        }
+        .frame(width: 987)
     }
 }
 
