@@ -17,8 +17,9 @@ class APIManager {
         let SQLQuery = """
         SELECT e.employer_id, e.full_name, tt.type_id, tt.name_type
         FROM plot
-        RIGHT JOIN employer e on plot.employer_id = e.employer_id
-        RIGHT JOIN type_tree tt on plot.type_tree_id = tt.type_id;
+        FULL JOIN employer e on plot.employer_id = e.employer_id
+        FULL JOIN type_tree tt on plot.type_tree_id = tt.type_id
+        WHERE e.employer_id is NULL or tt.type_id is NULL;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -49,10 +50,8 @@ class APIManager {
     
     func getEmployers(completion: @escaping (Employers?, String?) -> Void) {
         let SQLQuery = """
-        SELECT employer.employer_id, full_name, post, phone_number, photo, p.name_plot, tt.name_type
-        FROM employer
-        LEFT JOIN plot p on employer.employer_id = p.employer_id
-        LEFT JOIN type_tree tt on p.type_tree_id = tt.type_id
+        SELECT employer_id, full_name
+        FROM employer;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -119,12 +118,13 @@ class APIManager {
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, p.employer_id, type_tree.type_id, COUNT(*) countTrees
+        employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, COUNT(*) countTrees
         FROM tree
-        JOIN plot p ON p.plot_id=tree.plot_id
-        JOIN employer ON p.employer_id=employer.employer_id
-        JOIN type_tree ON p.plot_id=type_tree.type_id
-        JOIN fertilizer f on type_tree.type_id = f.type_tree_id
+        FULL JOIN plot p ON p.type_tree_id=tree.type_tree_id
+        LEFT JOIN employer ON p.employer_id=employer.employer_id
+        LEFT JOIN type_tree ON p.type_tree_id=type_tree.type_id
+        LEFT JOIN fertilizer f ON type_tree.type_id = f.type_tree_id
+        WHERE p.plot_id IS NOT NULL
         GROUP BY p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
         employer.full_name, employer.photo, f.name, type_tree.type_id;
         """
@@ -135,6 +135,7 @@ class APIManager {
             return
         }
         
+        print(urlString)
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -376,6 +377,27 @@ class APIManager {
         }.resume()
     }
     // MARK: - Updates.
+    func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
+        let urlString = "http://\(host):\(port)/database/"
+        let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let correctURL = urlString + encodedQuery
+        guard let url = URL(string: correctURL) else {
+            completion(nil, "Неверный url")
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(nil, "Data is empty")
+                return
+            }
+            
+            completion(String(decoding: data, as: UTF8.self), nil)
+        }.resume()
+        
+    }
+    
     func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/update/"
         let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -418,10 +440,10 @@ struct AllEmployeesAndTypes: Decodable {
 }
 
 struct AllEmployeesAndTypesRows: Decodable {
-    let employer_id  : String
-    let full_name    : String
-    let type_id      : String
-    let name_type    : String
+    let employer_id  : String?
+    let full_name    : String?
+    let type_id      : String?
+    let name_type    : String?
 }
 
 struct TreesParse: Decodable {
@@ -462,10 +484,10 @@ struct RowsPlots: Decodable {
     let name_type     : String
     let full_name     : String
     let photo         : URL?
-    let name          : String
+    let name          : String?
     let counttrees    : String
     let employer_id   : String
-    let type_id       : String
+    let type_tree_id  : Int
 }
 
 struct FeritilizerParse: Decodable {
@@ -553,10 +575,10 @@ struct EmpoyeeResult: Codable, Identifiable {
 }
 
 struct AllEmpoyeesResult: Codable, Identifiable {
-    let id       : String
-    let fullName : String
-    let typeID   : String
-    let typeName : String
+    let id       : String?
+    let fullName : String?
+    let typeID   : String?
+    let typeName : String?
 }
 
 struct TreeResult: Codable, Identifiable {
@@ -581,10 +603,10 @@ struct PlotResult: Codable, Identifiable {
     let employee       : String
     let emp_photo      : URL?
     let type_tree      : String
-    let fertilizerName : String
+    let fertilizerName : String?
     let countTrees     : String
     let employerID     : String
-    let typeTreeID     : String
+    let typeTreeID     : Int
 }
 
 struct FertilizerResult: Codable, Identifiable {

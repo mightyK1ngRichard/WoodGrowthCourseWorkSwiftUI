@@ -17,10 +17,12 @@ struct PlotCard: View {
     @State private var dataLog         : [String] = []
     @State private var allEmployees    : [AllEmpoyeesResult] = []
     var plotInfo                       : PlotResult
+    @State private var allFreeTypes    : [(String, String)] = []
+    @State private var allFreeEmployees    : [(String, String)] = []
     
     var body: some View {
         if openEdit {
-            EditPlot(currentData: plotInfo, pressedClose: $openEdit, allEmployees: allEmployees)
+            EditPlot(currentData: plotInfo, pressedClose: $openEdit, allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees)
             
         } else {
             CardPreview()
@@ -28,7 +30,7 @@ struct PlotCard: View {
 
     }
     
-    func CardPreview() -> some View {
+    private func CardPreview() -> some View {
         ZStack(alignment: .top) {
             Image(plotInfo.type_tree)
                 .resizable()
@@ -84,7 +86,7 @@ struct PlotCard: View {
                     Text("Удобрение: ")
                         .font(.title3)
                         .bold()
-                    + Text(plotInfo.fertilizerName)
+                    + Text(plotInfo.fertilizerName ?? "Не задано")
                     
                     Text("**Вид:** ")
                         .font(.title3)
@@ -150,14 +152,32 @@ struct PlotCard: View {
                             print("== ERROR FROM EditPlot:", error!)
                             return
                         }
-                        var tempList: [AllEmpoyeesResult] = []
+                        
+                        var tempTypes: [(String, String)] = [("\(plotInfo.typeTreeID)", plotInfo.type_tree)]
+                        var tempEmployees: [(String, String)] = [(plotInfo.employerID, plotInfo.employee)]
+
                         for el in data.rows {
-                            let info = AllEmpoyeesResult(id: el.employer_id, fullName: el.full_name, typeID: el.type_id, typeName: el.name_type)
-                            tempList.append(info)
+                            if el.type_id == nil {
+                                guard let t1 = el.employer_id, let t2 = el.full_name else {
+                                    print("== ERROR2 PlotCard. Невозможная ситуация, nil там, где его не может быть. Мб неверно заполнена БД. А именно для работника = \(el.employer_id ?? "Пусто"), или вида дерева \(String(describing: el.type_id))")
+                                    return }
+                                
+                                tempEmployees.append((t1, t2))
+                            }
+                            
+                            else if el.employer_id == nil {
+                                guard let t1 = el.type_id, let t2 = el.name_type else {
+                                    print("== ERROR2 PlotCard. Невозможная ситуация, nil там, где его не может быть. Мб неверно заполнена БД. А именно для работника = \(el.employer_id ?? "Пусто"), или вида дерева \(String(describing: el.type_id))")
+                                    return
+                                }
+                                
+                                tempTypes.append((t1, t2))
+                            }
                         }
                         
                         DispatchQueue.main.async {
-                            self.allEmployees = tempList
+                            self.allFreeTypes = tempTypes
+                            self.allFreeEmployees = tempEmployees
                             self.openEdit.toggle()
                         }
                     }
@@ -185,6 +205,6 @@ struct PlotCard: View {
 
 struct PlotCard_Previews: PreviewProvider {
     static var previews: some View {
-        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: "0"))
+        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0))
     }
 }

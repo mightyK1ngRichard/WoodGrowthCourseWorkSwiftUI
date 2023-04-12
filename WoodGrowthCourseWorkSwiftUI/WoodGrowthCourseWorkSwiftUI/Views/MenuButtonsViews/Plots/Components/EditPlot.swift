@@ -17,9 +17,11 @@ struct EditPlot: View {
     @State private var employee       = ""
     @State private var isHover        = false
     @Binding var pressedClose         : Bool
-    var allEmployees                  : [AllEmpoyeesResult]
+    var allTypesFree                  : [(String, String)]
+    var allEmployeesFree              : [(String, String)]
+    @EnvironmentObject var plotsData  : plotsCardsViewModel
     
-    init(currentData: PlotResult, pressedClose: Binding<Bool>, allEmployees: [AllEmpoyeesResult]) {
+    init(currentData: PlotResult, pressedClose: Binding<Bool>, allTypesFree: [(String, String)], allEmployeesFree: [(String, String)]) {
         // Декодируем дату из строки в Date().
         self.currentData = currentData
         let dateFormatter = DateFormatter()
@@ -28,14 +30,14 @@ struct EditPlot: View {
         self._datePlanting = State(initialValue: newDate)
         
         self._employee = State(initialValue: currentData.employerID)
-        self._typeTreeOnPlot = State(initialValue: currentData.typeTreeID)
+        self._typeTreeOnPlot = State(initialValue: "\(currentData.typeTreeID)")
         
         self._pressedClose = pressedClose
-        self.allEmployees = allEmployees
+        self.allTypesFree = allTypesFree
+        self.allEmployeesFree = allEmployeesFree
     }
     
     var body: some View {
-    
         VStack {
             HStack {
                 Spacer()
@@ -51,7 +53,6 @@ struct EditPlot: View {
                     .onHover { hovering in
                         isHover = hovering
                     }
-
             }
 
             Spacer()
@@ -66,8 +67,8 @@ struct EditPlot: View {
                     .resizable()
                     .frame(width: 20, height: 20)
                 Picker(selection: $typeTreeOnPlot, label: Text("")) {
-                    ForEach(allEmployees, id: \.typeID) { type in
-                        Text(type.typeName)
+                    ForEach(allTypesFree, id: \.0) { type in
+                        Text(type.1)
                     }
                 }
                 .labelsHidden()
@@ -83,8 +84,8 @@ struct EditPlot: View {
                     .resizable()
                     .frame(width: 20, height: 20)
                 Picker(selection: $employee, label: Text("")) {
-                    ForEach(allEmployees) { person in
-                        Text(person.fullName)
+                    ForEach(allEmployeesFree, id: \.0) { person in
+                        Text(person.1)
                     }
                 }
                 .labelsHidden()
@@ -121,6 +122,20 @@ struct EditPlot: View {
                 }
                 let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
                 let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
+                
+                APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
+                    guard let data = data else {
+                        print("== ERROR FROM EditPlot [Button]<Save>", error!)
+                        // .... Что-то выводить при ошибке
+                        return
+                    }
+                    print("Обновление выполнено успешно\n", data)
+                    DispatchQueue.main.async  {
+                        pressedClose = false
+                        plotsData.refresh()
+                    }
+                    
+                }
                                 
             }, label: {
                 Text("Save")
@@ -141,6 +156,6 @@ struct EditPlot: View {
 
 struct EditPlot_Previews: PreviewProvider {
     static var previews: some View {
-        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: "0"), pressedClose: .constant(false), allEmployees: [AllEmpoyeesResult(id: "0", fullName: "Стэс Стэсович", typeID: "0", typeName: "Берёза")])
+        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0), pressedClose: .constant(false), allTypesFree: [("", "")], allEmployeesFree: [("", "")])
     }
 }

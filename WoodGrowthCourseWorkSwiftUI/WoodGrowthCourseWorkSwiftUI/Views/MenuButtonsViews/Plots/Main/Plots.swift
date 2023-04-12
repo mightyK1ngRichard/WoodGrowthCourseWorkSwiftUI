@@ -21,6 +21,7 @@ struct Plots: View {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(plotData.plotInfo) {card in
                             PlotCard(plotInfo: card)
+//                                .frame(width: reader.size.width / 2 - 40, height: 330)
                                 .padding()
                         }
                     }
