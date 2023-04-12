@@ -153,14 +153,16 @@ struct PlotCard: View {
                                         print("== ERROR FROM EditPlot:", error!)
                                         return
                                     }
-
-                                    DispatchQueue.main.async {
-                                        for el in data.rows {
-                                            let info = AllEmpoyeesResult(id: el.employer_id, fullName: el.full_name)
-                                            self.allEmployees.append(info)
-                                        }
+                                    var tempList: [AllEmpoyeesResult] = []
+                                    for el in data.rows {
+                                        let info = AllEmpoyeesResult(id: el.employer_id, fullName: el.full_name)
+                                        tempList.append(info)
                                     }
-                                    self.openEdit.toggle()
+                                    
+                                    DispatchQueue.main.async {
+                                        self.allEmployees = tempList
+                                        self.openEdit.toggle()
+                                    }
                                 }
                             }
                             .padding(.horizontal, 46)
