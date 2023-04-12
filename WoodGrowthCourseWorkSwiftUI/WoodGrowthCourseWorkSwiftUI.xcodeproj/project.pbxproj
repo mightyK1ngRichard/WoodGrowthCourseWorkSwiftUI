@@ -228,13 +228,13 @@
 		2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */ = {
 			isa = PBXGroup;
 			children = (
-				2C8D7B6429D58EBF006C5AD3 /* TypeTree */,
 				2CDCA55929D06B1C009E75D2 /* Home */,
-				2CDCA55829D06B06009E75D2 /* Authorization */,
+				2C8CE9A029CE1B4000530B94 /* Plots */,
+				2C8D7B6429D58EBF006C5AD3 /* TypeTree */,
+				2CEEBA3629CF5CFA00403ECE /* Fertilizers */,
 				2C2464CA29CAC6BB0021907A /* Employees */,
 				2C2464C929CAC6B00021907A /* Trees */,
-				2CEEBA3629CF5CFA00403ECE /* Fertilizers */,
-				2C8CE9A029CE1B4000530B94 /* Plots */,
+				2CDCA55829D06B06009E75D2 /* Authorization */,
 				2CEEBA4229CF98CC00403ECE /* Suppliers&Deliveries */,
 				2CE0872429C8401900710F98 /* AdminMenuView.swift */,
 			);
@@ -358,8 +358,8 @@
 		2CEEBA3329CEB10800403ECE /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */,
 				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
+				2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

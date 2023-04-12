@@ -116,12 +116,12 @@ struct TypeTreeCard: View {
                 if !closeEye {
                     if treesOfThisType.count != 0 {
                         getCardsTrees()
+                        
                     } else {
                         Text("Деревьев этого вида не существует.")
                             .font(.title)
                             .bold()
                     }
-
                 }
 
             } else {

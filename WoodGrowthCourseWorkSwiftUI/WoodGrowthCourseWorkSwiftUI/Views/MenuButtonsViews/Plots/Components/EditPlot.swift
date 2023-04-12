@@ -120,16 +120,17 @@ struct EditPlot: View {
                     pressedClose = false
                     return
                 }
+                
                 let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
                 let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
                 
                 APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
-                    guard let data = data else {
+                    guard let _ = data else {
                         print("== ERROR FROM EditPlot [Button]<Save>", error!)
                         // .... Что-то выводить при ошибке
                         return
                     }
-                    print("Обновление выполнено успешно\n", data)
+//                    print("Обновление выполнено успешно\n", data)
                     DispatchQueue.main.async  {
                         pressedClose = false
                         plotsData.refresh()

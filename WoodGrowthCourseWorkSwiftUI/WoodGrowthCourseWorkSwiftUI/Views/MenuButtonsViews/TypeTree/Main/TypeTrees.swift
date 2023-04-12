@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TypeTrees: View {
-    @State private var showScreen = false
+    @State private var showScreen           = false
     @State var typesData: [TypeTreesResult] = []
-    @State var selectedType = ""
+    @State var selectedType                 = ""
     
     var body: some View {
         HStack {
