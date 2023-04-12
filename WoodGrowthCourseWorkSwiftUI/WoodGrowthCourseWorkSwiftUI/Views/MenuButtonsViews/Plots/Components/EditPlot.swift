@@ -17,16 +17,19 @@ struct EditPlot: View {
     @State private var employee       = ""
     @State private var isHover        = false
     @Binding var pressedClose         : Bool
-    var allEmployees         : [AllEmpoyeesResult]
+    var allEmployees                  : [AllEmpoyeesResult]
     
     init(currentData: PlotResult, pressedClose: Binding<Bool>, allEmployees: [AllEmpoyeesResult]) {
         // Декодируем дату из строки в Date().
         self.currentData = currentData
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        self._datePlanting = State(initialValue: dateFormatter.date(from: currentData.date) ?? Date())
+        let newDate = dateFormatter.date(from: currentData.date)!
+        self._datePlanting = State(initialValue: newDate)
         
         self._employee = State(initialValue: currentData.employerID)
+        self._typeTreeOnPlot = State(initialValue: currentData.typeTreeID)
+        
         self._pressedClose = pressedClose
         self.allEmployees = allEmployees
     }
@@ -53,8 +56,24 @@ struct EditPlot: View {
 
             Spacer()
             MyTextField(textForUser: "Имя участка", text: $plotName)
-            MyTextField(textForUser: "Название вида", text: $typeTreeOnPlot)
             MyTextField(textForUser: "Адрес участка", text: $address)
+            HStack {
+                Text("Вид дерева")
+                    .foregroundColor(Color.secondary)
+                    .padding(.leading, 4.1)
+                Spacer()
+                Image(systemName: "tree.circle.fill")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                Picker(selection: $typeTreeOnPlot, label: Text("")) {
+                    ForEach(allEmployees, id: \.typeID) { type in
+                        Text(type.typeName)
+                    }
+                }
+                .labelsHidden()
+                .frame(width: 150)
+            }
+            
             HStack {
                 Text("Ответственный")
                     .foregroundColor(Color.secondary)
@@ -86,10 +105,23 @@ struct EditPlot: View {
                     .frame(width: 150)
             }
 
-
             Button(action: {
+                let commands = [
+                    ("name_plot", plotName),
+                    ("date_planting", correctDateWithTime(datePlanting)),
+                    ("type_tree_id", typeTreeOnPlot),
+                    ("address", address),
+                    ("employer_id", employee)
+                ].filter { $0.1 != "" }
                 
-                
+                // Если ничего не поменяли, выходим.
+                if commands.count == 0 {
+                    pressedClose = false
+                    return
+                }
+                let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+                let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
+                                
             }, label: {
                 Text("Save")
             })
@@ -109,6 +141,6 @@ struct EditPlot: View {
 
 struct EditPlot_Previews: PreviewProvider {
     static var previews: some View {
-        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2023-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0"), pressedClose: .constant(false), allEmployees: [AllEmpoyeesResult(id: "0", fullName: "Стэс Стэсович")])
+        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: "0"), pressedClose: .constant(false), allEmployees: [AllEmpoyeesResult(id: "0", fullName: "Стэс Стэсович", typeID: "0", typeName: "Берёза")])
     }
 }

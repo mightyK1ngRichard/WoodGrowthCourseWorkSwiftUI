@@ -13,29 +13,12 @@ class APIManager {
     private let port  = 8010
     
     // MARK: - Select.
-    func getDataUsingCommand(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
-        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
-        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
-        guard let url = URL(string: urlString) else {
-            completion(nil, "== Uncorrected url")
-            return
-        }
-        let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                completion(nil, "Data is empty")
-                return
-            }
-            
-            // ... Сделать механизм распарсинга.
-            completion(String(decoding: data, as: UTF8.self), nil)
-        }.resume()
-    }
-    
-    func getAllEmpoyees(completion: @escaping (AllEmployees?, String?) -> Void) {
+    func getAllEmpoyeesAndTypes(completion: @escaping (AllEmployeesAndTypes?, String?) -> Void) {
         let SQLQuery = """
-        SELECT employer_id, full_name
-        FROM employer;
+        SELECT e.employer_id, e.full_name, tt.type_id, tt.name_type
+        FROM plot
+        RIGHT JOIN employer e on plot.employer_id = e.employer_id
+        RIGHT JOIN type_tree tt on plot.type_tree_id = tt.type_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -53,7 +36,7 @@ class APIManager {
                     return
                 }
 
-                if let newInfo = try? JSONDecoder().decode(AllEmployees.self, from: data) {
+                if let newInfo = try? JSONDecoder().decode(AllEmployeesAndTypes.self, from: data) {
                     completion(newInfo, nil)
                     
                 } else {
@@ -136,14 +119,14 @@ class APIManager {
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, p.employer_id, COUNT(*) countTrees
+        employer.full_name, employer.photo, f.name, p.employer_id, type_tree.type_id, COUNT(*) countTrees
         FROM tree
         JOIN plot p ON p.plot_id=tree.plot_id
         JOIN employer ON p.employer_id=employer.employer_id
         JOIN type_tree ON p.plot_id=type_tree.type_id
         JOIN fertilizer f on type_tree.type_id = f.type_tree_id
         GROUP BY p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name;
+        employer.full_name, employer.photo, f.name, type_tree.type_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -151,6 +134,7 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -429,13 +413,15 @@ struct Rows: Decodable {
     let name_type    : String?
 }
 
-struct AllEmployees: Decodable {
-    let rows: [AllEmployeesRows]
+struct AllEmployeesAndTypes: Decodable {
+    let rows: [AllEmployeesAndTypesRows]
 }
 
-struct AllEmployeesRows: Decodable {
+struct AllEmployeesAndTypesRows: Decodable {
     let employer_id  : String
     let full_name    : String
+    let type_id      : String
+    let name_type    : String
 }
 
 struct TreesParse: Decodable {
@@ -479,6 +465,7 @@ struct RowsPlots: Decodable {
     let name          : String
     let counttrees    : String
     let employer_id   : String
+    let type_id       : String
 }
 
 struct FeritilizerParse: Decodable {
@@ -568,6 +555,8 @@ struct EmpoyeeResult: Codable, Identifiable {
 struct AllEmpoyeesResult: Codable, Identifiable {
     let id       : String
     let fullName : String
+    let typeID   : String
+    let typeName : String
 }
 
 struct TreeResult: Codable, Identifiable {
@@ -594,7 +583,8 @@ struct PlotResult: Codable, Identifiable {
     let type_tree      : String
     let fertilizerName : String
     let countTrees     : String
-    let employerID    : String
+    let employerID     : String
+    let typeTreeID     : String
 }
 
 struct FertilizerResult: Codable, Identifiable {

@@ -16,3 +16,11 @@ func correctDate(dateString: String) -> String {
     let result = dateFormatter.string(from: date!)
     return result
 }
+
+func correctDateWithTime(_ dateTime: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+    let date = dateFormatter.date(from: "\(dateTime)")!
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return dateFormatter.string(from: date)
+}
