@@ -12,7 +12,7 @@ struct Plots: View {
     @State private var search           = ""
     @State private var output           = ""
     @State private var plusTap          = false
-    @State private var isLoaded         = false
+    @State private var isLoaded         = true
     @State private var showAlert        = false
     @State private var willNotShowCard  = false
     @State private var allFreeTypes     : [(String, String)] = []
@@ -22,10 +22,7 @@ struct Plots: View {
     var body: some View {
         ZStack {
             mainView()
-                .onAppear() {
-                    getFreeData()
-                }
-
+                
             if !isLoaded {
                 TurnOffServer()
             }
@@ -97,7 +94,7 @@ struct Plots: View {
             .buttonStyle(PlainButtonStyle())
             
             Button {
-                plusTap = true
+                getFreeData()
                 
             } label: {
                 Image(systemName: "plus")
@@ -165,6 +162,7 @@ struct Plots: View {
                 self.allFreeEmployees = tempEmployees
                 self.allFreeTypes = tempTypes
                 self.isLoaded = true
+                self.plusTap = true
             }
         }
     }
