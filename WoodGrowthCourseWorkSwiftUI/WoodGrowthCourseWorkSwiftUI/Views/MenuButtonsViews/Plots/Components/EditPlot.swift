@@ -28,11 +28,9 @@ struct EditPlot: View {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let newDate = dateFormatter.date(from: currentData.date)!
         self._datePlanting = State(initialValue: newDate)
-        
+        self._pressedClose = pressedClose
         self._employee = State(initialValue: currentData.employerID)
         self._typeTreeOnPlot = State(initialValue: "\(currentData.typeTreeID)")
-        
-        self._pressedClose = pressedClose
         self.allTypesFree = allTypesFree
         self.allEmployeesFree = allEmployeesFree
     }
@@ -58,6 +56,59 @@ struct EditPlot: View {
             Spacer()
             MyTextField(textForUser: "Имя участка", text: $plotName)
             MyTextField(textForUser: "Адрес участка", text: $address)
+            
+            myPickers()
+            
+            Button(action: {
+                let commands = [
+                    ("name_plot", plotName),
+                    ("date_planting", correctDateWithTime(datePlanting)),
+                    ("type_tree_id", typeTreeOnPlot),
+                    ("address", address),
+                    ("employer_id", employee)
+                ].filter { $0.1 != "" }
+                
+                // Если ничего не поменяли, выходим.
+                if commands.count == 0 {
+                    pressedClose = false
+                    return
+                }
+                
+                let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+                let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
+                
+                APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
+                    guard let _ = data else {
+                        print("== ERROR FROM EditPlot [Button]<Save>", error!)
+                        // .... Что-то выводить при ошибке
+                        return
+                    }
+//                    print("Обновление выполнено успешно\n", data)
+                    DispatchQueue.main.async  {
+                        plotsData.refresh()
+                        pressedClose = false
+                    }
+                    
+                }
+                                
+            }, label: {
+                Text("Save")
+            })
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            
+                   
+            Spacer()
+        }
+        .padding(.horizontal)
+        .overlay {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(getGradient().opacity(0.7), lineWidth: 3)
+        }
+        .frame(width: 500, height: 330)
+    }
+    
+    private func myPickers() -> some View {
+        VStack {
             HStack {
                 Text("Вид дерева")
                     .foregroundColor(Color.secondary)
@@ -105,58 +156,12 @@ struct EditPlot: View {
                     .labelsHidden()
                     .frame(width: 150)
             }
-
-            Button(action: {
-                let commands = [
-                    ("name_plot", plotName),
-                    ("date_planting", correctDateWithTime(datePlanting)),
-                    ("type_tree_id", typeTreeOnPlot),
-                    ("address", address),
-                    ("employer_id", employee)
-                ].filter { $0.1 != "" }
-                
-                // Если ничего не поменяли, выходим.
-                if commands.count == 0 {
-                    pressedClose = false
-                    return
-                }
-                
-                let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
-                let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
-                
-                APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
-                    guard let _ = data else {
-                        print("== ERROR FROM EditPlot [Button]<Save>", error!)
-                        // .... Что-то выводить при ошибке
-                        return
-                    }
-//                    print("Обновление выполнено успешно\n", data)
-                    DispatchQueue.main.async  {
-                        pressedClose = false
-                        plotsData.refresh()
-                    }
-                    
-                }
-                                
-            }, label: {
-                Text("Save")
-            })
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            
-                   
-            Spacer()
         }
-        .padding(.horizontal)
-        .overlay {
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(getGradient().opacity(0.7), lineWidth: 3)
-        }
-        .frame(width: 500, height: 330)
     }
 }
 
 struct EditPlot_Previews: PreviewProvider {
     static var previews: some View {
-        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!), pressedClose: .constant(false), allTypesFree: [("", "")], allEmployeesFree: [("", "")])
+        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
     }
 }

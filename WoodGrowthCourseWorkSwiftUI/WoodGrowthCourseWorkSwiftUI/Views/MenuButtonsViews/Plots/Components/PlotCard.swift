@@ -9,16 +9,16 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PlotCard: View {
-    @State private var openEdit        = false
-    @State private var isHovering      = false
-    @State private var isShowCalendar  = false
-    @State private var isHoverOnImage  = false
-    @State private var openLogWatering = false
-    @State private var dataLog         : [String] = []
-    @State private var allEmployees    : [AllEmpoyeesResult] = []
-    var plotInfo                       : PlotResult
-    @State private var allFreeTypes    : [(String, String)] = []
-    @State private var allFreeEmployees    : [(String, String)] = []
+    @State private var openEdit         = false
+    @State private var isHovering       = false
+    @State private var isShowCalendar   = false
+    @State private var isHoverOnImage   = false
+    @State private var openLogWatering  = false
+    @State private var dataLog          : [String] = []
+    @State private var allEmployees     : [AllEmpoyeesResult] = []
+    @State private var allFreeTypes     : [(String, String)] = []
+    @State private var allFreeEmployees : [(String, String)] = []
+    var plotInfo                        : PlotResult
     
     var body: some View {
         if openEdit {
@@ -147,40 +147,7 @@ struct PlotCard: View {
                     self.isHovering = hovering
                 }
                 .onTapGesture {
-                    APIManager.shared.getAllEmpoyeesAndTypes { data, error in
-                        guard let data = data else {
-                            print("== ERROR FROM EditPlot:", error!)
-                            return
-                        }
-                        
-                        var tempTypes: [(String, String)] = [("\(plotInfo.typeTreeID)", plotInfo.type_tree)]
-                        var tempEmployees: [(String, String)] = [(plotInfo.employerID, plotInfo.employee)]
-
-                        for el in data.rows {
-                            if el.type_id == nil {
-                                guard let t1 = el.employer_id, let t2 = el.full_name else {
-                                    print("== ERROR2 PlotCard. Невозможная ситуация, nil там, где его не может быть. Мб неверно заполнена БД. А именно для работника = \(el.employer_id ?? "Пусто"), или вида дерева \(String(describing: el.type_id))")
-                                    return }
-                                
-                                tempEmployees.append((t1, t2))
-                            }
-                            
-                            else if el.employer_id == nil {
-                                guard let t1 = el.type_id, let t2 = el.name_type else {
-                                    print("== ERROR2 PlotCard. Невозможная ситуация, nil там, где его не может быть. Мб неверно заполнена БД. А именно для работника = \(el.employer_id ?? "Пусто"), или вида дерева \(String(describing: el.type_id))")
-                                    return
-                                }
-                                
-                                tempTypes.append((t1, t2))
-                            }
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.allFreeTypes = tempTypes
-                            self.allFreeEmployees = tempEmployees
-                            self.openEdit.toggle()
-                        }
-                    }
+                    getFreeDate()
                 }
                 .padding(.horizontal, 46)
                 .offset(y: -3)
@@ -200,6 +167,43 @@ struct PlotCard: View {
         }
         .frame(width: 500, height: 330)
         .cornerRadius(15)
+    }
+    
+    private func getFreeDate() {
+        APIManager.shared.getAllEmpoyeesAndTypes { data, error in
+            guard let data = data else {
+                print("== ERROR FROM EditPlot:", error!)
+                return
+            }
+            
+            var tempTypes: [(String, String)] = [("\(plotInfo.typeTreeID)", plotInfo.type_tree)]
+            var tempEmployees: [(String, String)] = [(plotInfo.employerID, plotInfo.employee)]
+
+            for el in data.rows {
+                if el.type_id == nil {
+                    guard let t1 = el.employer_id, let t2 = el.full_name else {
+                        print("== ERROR2 PlotCard. Невозможная ситуация, nil там, где его не может быть. Мб неверно заполнена БД. А именно для работника = \(el.employer_id ?? "Пусто"), или вида дерева \(String(describing: el.type_id))")
+                        return }
+                    
+                    tempEmployees.append((t1, t2))
+                }
+                
+                else if el.employer_id == nil {
+                    guard let t1 = el.type_id, let t2 = el.name_type else {
+                        print("== ERROR2 PlotCard. Невозможная ситуация, nil там, где его не может быть. Мб неверно заполнена БД. А именно для работника = \(el.employer_id ?? "Пусто"), или вида дерева \(String(describing: el.type_id))")
+                        return
+                    }
+                    
+                    tempTypes.append((t1, t2))
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.allFreeTypes = tempTypes
+                self.allFreeEmployees = tempEmployees
+                self.openEdit.toggle()
+            }
+        }
     }
 }
 
