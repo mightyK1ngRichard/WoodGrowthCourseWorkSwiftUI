@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct Trees: View {
-    @EnvironmentObject var pressedTreeInfo: PressedButtonTree
+    @ObservedObject var pressedTreeInfo = PressedButtonTree()
     
     var body: some View {
         HStack{
             ScrollTrees()
+            
             if pressedTreeInfo.pressed {
                 VStack {
                     DetailCardTree(treeInfo: pressedTreeInfo.treeInfo!)
@@ -22,6 +23,7 @@ struct Trees: View {
                 .background(getGradient())
             }
         }
+        .environmentObject(pressedTreeInfo)
         .frame(minWidth: 1235)
     }
 }
@@ -59,5 +61,11 @@ struct ScrollTrees: View {
         }
         .environmentObject(treesData)
     
+    }
+}
+
+struct Trees_Previews: PreviewProvider {
+    static var previews: some View {
+        Trees()
     }
 }

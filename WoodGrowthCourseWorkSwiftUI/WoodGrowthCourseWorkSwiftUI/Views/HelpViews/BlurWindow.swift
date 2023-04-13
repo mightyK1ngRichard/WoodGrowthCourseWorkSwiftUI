@@ -16,3 +16,28 @@ func getGradient() -> LinearGradient {
 func getTabBackground() -> Color {
     return Color(red: 35/255, green: 36/255, blue: 76/255)
 }
+
+struct MyTextField: View {
+    var textForUser: String
+    @Binding var text: String
+    
+    var body: some View {
+        HStack(spacing: 3){
+            TextField(textForUser, text: $text)
+                .editBackGround()
+        }
+        
+    }
+}
+
+extension TextField {
+    func editBackGround() -> some View {
+        return self
+            .padding(2)
+            .textFieldStyle(PlainTextFieldStyle())
+            .foregroundColor(Color.white)
+            .padding(2)
+            .border(Color.white.opacity(0.3))
+            .cornerRadius(2.4)
+    }
+}

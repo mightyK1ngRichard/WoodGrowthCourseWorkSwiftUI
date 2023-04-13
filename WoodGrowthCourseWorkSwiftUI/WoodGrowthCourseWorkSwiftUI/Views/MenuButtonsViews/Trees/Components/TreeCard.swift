@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TreeCard: View {
-    @State var isHovering                  = false
-    @EnvironmentObject var pressedTreeInfo : PressedButtonTree
-    var treeInfo                           : TreeResult
+    @State var isHovering                   = false
+    @EnvironmentObject var pressedTreeInfo  : PressedButtonTree
+    var treeInfo                            : TreeResult
     
     var body: some View {
         VStack() {
@@ -58,6 +58,7 @@ struct TreeCard: View {
         .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
         .border(.white.opacity(0.4))
         .padding(.vertical, 10)
+        .environmentObject(pressedTreeInfo)
     }
 }
 

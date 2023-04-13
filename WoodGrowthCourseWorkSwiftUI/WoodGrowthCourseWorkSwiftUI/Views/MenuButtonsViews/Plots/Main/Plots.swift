@@ -116,6 +116,7 @@ struct Plots: View {
                 searchBar()
                 
                 ScrollView {
+                    
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(plotData.plotInfo) {card in
                             PlotCard(plotInfo: card)

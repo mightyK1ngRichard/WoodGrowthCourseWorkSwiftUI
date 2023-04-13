@@ -202,7 +202,7 @@ struct PlotCard: View {
                 if let img = plotInfo.emp_photo {
                     WebImage(url: img)
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 80, height: 80)
                         .cornerRadius(10)
                     
