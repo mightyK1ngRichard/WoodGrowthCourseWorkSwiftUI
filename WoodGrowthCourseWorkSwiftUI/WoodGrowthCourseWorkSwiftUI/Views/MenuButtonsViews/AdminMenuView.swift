@@ -15,6 +15,11 @@ struct AdminMenuView: View {
     @ObservedObject var pressed = PressedButton()
     
     var body: some View {
+        mainView()
+            .environmentObject(pressed)
+    }
+    
+    private func mainView() -> some View {
         HStack {
             SideBar()
             
@@ -48,7 +53,6 @@ struct AdminMenuView: View {
                 }
             }
         }
-        .environmentObject(pressed)
         .preferredColorScheme(.none)
         .background(Color(red: 35/255, green: 36/255, blue: 76/255))
     }
