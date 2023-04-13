@@ -9,16 +9,20 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PlotCard: View {
+    var plotInfo                        : PlotResult
     @State private var openEdit         = false
     @State private var isHovering       = false
     @State private var isShowCalendar   = false
+    @State private var isShowTrash      = false
     @State private var isHoverOnImage   = false
     @State private var openLogWatering  = false
     @State private var dataLog          : [String] = []
     @State private var allEmployees     : [AllEmpoyeesResult] = []
     @State private var allFreeTypes     : [(String, String)] = []
     @State private var allFreeEmployees : [(String, String)] = []
-    var plotInfo                        : PlotResult
+    @State private var showAlert        = false
+    @State private var alertText        = ""
+    @EnvironmentObject var plotsData    : plotsCardsViewModel
     
     var body: some View {
         if openEdit {
@@ -41,6 +45,62 @@ struct PlotCard: View {
                     isHoverOnImage = hovering
                 }
             
+            ImagesView()
+            InfoAboutPlotView()
+            NamePlotView()
+            
+            if openLogWatering {
+                WateringLog(pressedClose: $openLogWatering, wateringLog: dataLog)
+            }
+        }
+        .frame(width: 500, height: 330)
+        .cornerRadius(15)
+    }
+    
+    private func ImagesView() -> some View {
+        HStack {
+            // Кнопка удалить.
+            Circle()
+                .frame(width: 60, height: 60)
+                .foregroundColor(.white)
+                .overlay {
+                    Image(systemName: "trash.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(isShowTrash ? .red : .black)
+                }
+                .opacity(isHoverOnImage ? (isShowTrash ? 1 : 0.7) : 0)
+                .onHover { hovering in
+                    isShowTrash = hovering
+                }
+                .onTapGesture {
+                    showAlert = true
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 10)
+                .padding(.top, 10)
+                .alert("Удаление", isPresented: $showAlert, actions: {
+                    SecureField("Пароль", text: $alertText)
+                    Button("Удалить", action: {
+                        if alertText == "430133" {
+                            let SQLQuery = "DELETE FROM plot WHERE plot_id='\(plotInfo.id)';"
+                            APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+                                guard let _ = data else {
+                                    print("== ERROR FROM ", error!)
+                                    return
+                                }
+                                plotsData.refresh()
+                                // ... Можно додумать что-то.
+                            }
+                        }
+                    })
+                    Button("Отмена", role: .cancel, action: {})
+                    
+                }, message: {
+                    Text("Введите пароль, чтобы подтвердить право на удаление.")
+                })
+            
+            // Кнопка календарь.
             Circle()
                 .frame(width: 60, height: 60)
                 .foregroundColor(.white)
@@ -73,100 +133,96 @@ struct PlotCard: View {
                 .opacity(isHoverOnImage ? (isShowCalendar ? 1 : 0.7) : 0)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, 10)
-                .padding(.top, 10)
-            
-            
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    Text("Дата заземления: ")
-                        .font(.title3)
-                        .bold()
-                        .padding(.top)
-                    Text(correctDate(dateString: plotInfo.date))
-                    Text("Удобрение: ")
-                        .font(.title3)
-                        .bold()
-                    + Text(plotInfo.fertilizerName ?? "Не задано")
-                    
-                    Text("**Вид:** ")
-                        .font(.title3)
-                    + Text(plotInfo.type_tree)
-                    Text("Количество деревьев: ")
-                        .font(.title3)
-                        .bold()
-                    + Text(plotInfo.countTrees)
-                    
-                    Text("Адрес: ")
-                        .font(.title3)
-                        .bold()
-                        .padding(.top)
-                    
-                    Text(plotInfo.address)
-                    
-                    Spacer()
-                }
-                .foregroundColor(.black)
-                .padding(.leading)
+            .padding(.top, 10)
+        }
+    }
+    
+    private func NamePlotView() -> some View {
+        Text(plotInfo.name)
+            .onHover { hovering in
+                self.isHovering = hovering
+            }
+            .onTapGesture {
+                getFreeDate()
+            }
+            .padding(.horizontal, 46)
+            .offset(y: -3)
+            .font(.system(size: 70))
+            .background(.black)
+            .clipShape(Circle())
+            .overlay {
+                Circle().stroke(getGradient(), lineWidth: 3)
+            }
+            .offset(y: 98)
+            .foregroundColor(.white)
+            .brightness(isHovering ? 0.4 : 0)
+    }
+    
+    private func InfoAboutPlotView() -> some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
+                Text("Дата заземления: ")
+                    .font(.title3)
+                    .bold()
+                    .padding(.top)
+                Text(correctDate(dateString: plotInfo.date))
+                Text("Удобрение: ")
+                    .font(.title3)
+                    .bold()
+                + Text(plotInfo.fertilizerName ?? "Не задано")
+                
+                Text("**Вид:** ")
+                    .font(.title3)
+                + Text(plotInfo.type_tree)
+                Text("Количество деревьев: ")
+                    .font(.title3)
+                    .bold()
+                + Text(plotInfo.countTrees)
+                
+                Text("Адрес: ")
+                    .font(.title3)
+                    .bold()
+                    .padding(.top)
+                
+                Text(plotInfo.address)
                 
                 Spacer()
+            }
+            .foregroundColor(.black)
+            .padding(.leading)
+            
+            Spacer()
+            
+            VStack (alignment: .center) {
+                Text("Ответсвенный:")
+                    .font(.title3)
+                    .bold()
+                    .padding(.top, 20)
                 
-                VStack (alignment: .center) {
+                if let img = plotInfo.emp_photo {
+                    WebImage(url: img)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(10)
                     
-                    Text("Ответсвенный:")
-                        .font(.title3)
-                        .bold()
-                        .padding(.top, 20)
-                    
-                    if let img = plotInfo.emp_photo {
-                        WebImage(url: img)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(10)
-                        
-                    } else {
-                        Image(systemName: "person")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(10)
-                    }
-                    
-                    Text(plotInfo.employee)
-                        .font(.title)
-                        .bold()
+                } else {
+                    Image(systemName: "person")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(10)
                 }
-                .foregroundColor(.black)
-                .padding(.horizontal, 20)
+                
+                Text(plotInfo.employee)
+                    .font(.title)
+                    .bold()
             }
-            .background(.white)
-            .offset(y: 144)
-            
-            Text(plotInfo.name)
-                .onHover { hovering in
-                    self.isHovering = hovering
-                }
-                .onTapGesture {
-                    getFreeDate()
-                }
-                .padding(.horizontal, 46)
-                .offset(y: -3)
-                .font(.system(size: 70))
-                .background(.black)
-                .clipShape(Circle())
-                .overlay {
-                    Circle().stroke(getGradient(), lineWidth: 3)
-                }
-                .offset(y: 98)
-                .foregroundColor(.white)
-                .brightness(isHovering ? 0.4 : 0)
-            
-            if openLogWatering {
-                WateringLog(pressedClose: $openLogWatering, wateringLog: dataLog)
-            }
+            .foregroundColor(.black)
+            .padding(.horizontal, 20)
         }
-        .frame(width: 500, height: 330)
-        .cornerRadius(15)
+        .background(.white)
+        .offset(y: 144)
     }
     
     private func getFreeDate() {

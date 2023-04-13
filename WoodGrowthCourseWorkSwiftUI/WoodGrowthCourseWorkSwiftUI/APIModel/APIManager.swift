@@ -380,7 +380,7 @@ class APIManager {
         }.resume()
     }
     
-    // MARK: - Updates.
+    // MARK: - Updates or Delete or Insert.
     func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
         let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -422,6 +422,7 @@ class APIManager {
             completion(String(decoding: data, as: UTF8.self), nil)
         }.resume()
     }
+    
 }
 
 // MARK: - Распрарсинг.
