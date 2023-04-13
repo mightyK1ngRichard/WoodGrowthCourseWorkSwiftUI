@@ -11,48 +11,20 @@ class PressedButton: ObservableObject {
     @Published var pressed = "Home"
 }
 
-class PressedButtonDetailView: ObservableObject {
-    @Published var pressed                  = false
-    @Published var cardInfo: EmpoyeeResult? = nil
-}
-
-class PressedButtonTree: ObservableObject {
-    @Published var pressed                  = false
-    @Published var treeInfo: TreeResult?    = nil
-}
-
 struct AdminMenuView: View {
-    // Тоже стоило бы это делать в другом месте. Но я был молод.
-    @ObservedObject var pressed             = PressedButton()
-    @ObservedObject var pressedCardInfo     = PressedButtonDetailView()
-    @ObservedObject var pressedTreeInfoCard = PressedButtonTree()
-    // Состояние для работников, нажатие глазика. Сорри что тут.
-    @State private var pressedWateringLog   = false
-
+    @ObservedObject var pressed = PressedButton()
+    
     var body: some View {
         HStack {
             SideBar()
-            switch (pressed.pressed) {
+            
+            switch (self.pressed.pressed) {
+                
             case "Home":
                 Home()
                     
-            // ДА-ДА, мне очень стыдно за мою реализацию, но переделывать уже лень.
             case "Работники":
-                // Если нажата кнопка обзор работника. PS. Сорри за реализацию, это первая моя карточка на SwiftUI...
-                if pressedCardInfo.pressed {
-                    HStack {
-                        Employees(pressedWateringLog: $pressedWateringLog)
-                        VStack {
-                            DetailCard(pressedWateringLog: $pressedWateringLog, currentPersonInfo: pressedCardInfo.cardInfo!)
-                            Spacer()
-                        }
-                        .padding(.top, 55)
-                        .background(getGradient())
-                    }
-                    
-                } else {
-                    Employees(pressedWateringLog: $pressedWateringLog)
-                }
+                Employees()
 
             case "Деревья":
                 Trees()
@@ -76,11 +48,9 @@ struct AdminMenuView: View {
                 }
             }
         }
+        .environmentObject(pressed)
         .preferredColorScheme(.none)
         .background(Color(red: 35/255, green: 36/255, blue: 76/255))
-        .environmentObject(pressed)
-        .environmentObject(pressedCardInfo)
-        .environmentObject(pressedTreeInfoCard)
     }
 }
 

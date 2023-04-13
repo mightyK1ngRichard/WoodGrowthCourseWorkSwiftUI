@@ -16,48 +16,59 @@ struct ScrollViewCard: View {
     @State private var isHovering                   = false
     
     var body: some View {
+        mainView()
+    }
+    
+    private func mainView() -> some View {
         VStack {
-            Group {
-                if let photo = card.ava {
-                    WebImage(url: photo)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: (reader - 45) / 4, height: 150)
-                        .cornerRadius(15)
-                    
-                } else {
-                    Image(systemName: "person")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: (reader - 45) / 4, height: 150)
-                        .cornerRadius(15)
-                }
-            }
-            .brightness(isHovering ? -0.2 : 0)
-            .onHover { hovering in
-                withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
-                    self.isHovering = hovering
-                }
-            }
-            .animation(.easeInOut(duration: 0.2), value: isHovering) // применение анимации к изменению состояния
-            .onTapGesture {
-                selectedButtonDetailView.pressed = true
-                selectedButtonDetailView.cardInfo = card
-                pressedWateringLog = false
-            }
-            
-            Group {
-                Text(card.fullName)
-                    .font(.title2)
-                    .bold()
-                    .lineLimit(1)
-                Text("***Должность:*** \(card.post)")
-                Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
-                Text("***Ответсвтвенный за участок:*** \(card.namePlot)")
-                Text("***Вид дерева участка:*** \(card.nameType)")
-            }
-            .foregroundColor(Color.white)
+            photoEmployee()
+            infoEmployee()
         }
+    }
+    
+    private func photoEmployee() -> some View {
+        Group {
+            if let photo = card.ava {
+                WebImage(url: photo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: (reader - 45) / 4, height: 150)
+                    .cornerRadius(15)
+                
+            } else {
+                Image(systemName: "person")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: (reader - 45) / 4, height: 150)
+                    .cornerRadius(15)
+            }
+        }
+        .brightness(isHovering ? -0.2 : 0)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
+                self.isHovering = hovering
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: isHovering) // применение анимации к изменению состояния
+        .onTapGesture {
+            selectedButtonDetailView.pressed = true
+            selectedButtonDetailView.cardInfo = card
+            pressedWateringLog = false
+        }
+    }
+    
+    private func infoEmployee() -> some View {
+        Group {
+            Text(card.fullName)
+                .font(.title2)
+                .bold()
+                .lineLimit(1)
+            Text("***Должность:*** \(card.post)")
+            Text(getCorrectPhone(phoneString: card.phone) ?? "Неверный телефон")
+            Text("***Ответсвтвенный за участок:*** \(card.namePlot)")
+            Text("***Вид дерева участка:*** \(card.nameType)")
+        }
+        .foregroundColor(Color.white)
     }
 }
 

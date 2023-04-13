@@ -22,6 +22,10 @@ struct TypeTreeCard: View {
     @State private var closeEye        = true
     
     var body: some View {
+        mainView()
+    }
+    
+    private func mainView() -> some View {
         VStack {
             Picker("", selection: $selectedType) {
                 ForEach(typesData, id: \.self.nameType) {
@@ -35,38 +39,22 @@ struct TypeTreeCard: View {
                 currentIndex = getDetailInfoUsingTypeName(data: typesData, key: selectedType)
                 
                 if !closeEye {
-                    APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
-                        guard let data = data else {
-                            print("== ERROR", error!)
-                            self.showTrees = false
-                            return
-                        }
-                        var tempData: [TreeResult] = []
-                        for el in data.rows {
-                            let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
-                                tempData.append(info)
-                        }
-                        DispatchQueue.main.async {
-                            self.treesOfThisType = tempData
-                            self.showTrees = true
-                        }
-                    }
+                    getTreesInThisPlot()
                 }
             }
             
             HStack {
                 ZStack {
-                    
                     WebImage(url: typesData[currentIndex].photo)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
+                        .onHover { hovering in
+                            isHover = hovering
+                        }
                         .clipShape(Circle())
                         .frame(width: 200, height: 200)
                         .overlay {
                             Circle().stroke(getGradient(), lineWidth: 3)
-                        }
-                        .onHover { hovering in
-                            isHover = hovering
                         }
                         .brightness(isHover ? -0.6 : 0)
                         
@@ -98,7 +86,6 @@ struct TypeTreeCard: View {
                     }
                 }
                 
-                
                 VStack (alignment: .leading, spacing: 5) {
                     Text("\(selectedType)")
                         .font(.system(size: 40))
@@ -113,7 +100,6 @@ struct TypeTreeCard: View {
             .padding(.leading, 10)
             
             Spacer()
-            
             if showTrees {
                 if !closeEye {
                     if treesOfThisType.count != 0 {
@@ -129,13 +115,12 @@ struct TypeTreeCard: View {
             } else {
                 ProgressView()
             }
-            
             Spacer()
         }
         .frame(minHeight: 600)
     }
     
-    func getCardsTrees() -> some View {
+    private func getCardsTrees() -> some View {
         HStack (alignment: .center) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -148,6 +133,26 @@ struct TypeTreeCard: View {
         }
         .frame(width: 987)
     }
+    
+    private func getTreesInThisPlot() {
+        APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
+            guard let data = data else {
+                print("== ERROR", error!)
+                self.showTrees = false
+                return
+            }
+            var tempData: [TreeResult] = []
+            for el in data.rows {
+                let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
+                    tempData.append(info)
+            }
+            DispatchQueue.main.async {
+                self.treesOfThisType = tempData
+                self.showTrees = true
+            }
+        }
+    }
+    
 }
 
 struct TypeTreeCard_Previews: PreviewProvider {

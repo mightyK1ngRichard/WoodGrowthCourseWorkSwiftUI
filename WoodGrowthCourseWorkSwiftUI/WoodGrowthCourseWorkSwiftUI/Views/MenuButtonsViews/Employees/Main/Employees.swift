@@ -9,44 +9,83 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Employees: View {
+    
     var columns                            = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
     @State private var search              = ""
     @State private var output              = ""
     @State private var peopleFromSearch    = [EmpoyeeResult]()
-    @StateObject private var employeesData = employeesCardsViewModel()
-    @Binding var pressedWateringLog        : Bool
+    @State private var pressedPlus         = false
+    @State private var pressedWateringLog  = false
+    @ObservedObject var pressedCardInfo    = PressedButtonDetailView()
+    @ObservedObject var employeesData      = employeesCardsViewModel()
+    
     
     var body: some View {
-        HStack {
-            // Если ошибка на сервере.
-            if !employeesData.statusParse {
-                TurnOffServer()
+        mainView()
+            .environmentObject(pressedCardInfo)
+            .environmentObject(employeesData)
+    }
+    
+    private func mainView() -> some View {
+        
+        VStack {
+            if pressedCardInfo.pressed {
+                HStack {
+                    infoView()
+                    
+                    VStack {
+                        DetailCard(pressedWateringLog: $pressedWateringLog, currentPersonInfo: pressedCardInfo.cardInfo!)
+                        Spacer()
+                    }
+                    .padding(.top, 55)
+                    .background(getGradient())
+                }
                 
             } else {
+                infoView()
+            }
+        }
+    }
+    
+    private func infoView() -> some View {
+        ZStack {
+            // Меню редактирования.
+            if pressedPlus {
+                AddEmployee(closeScreen: $pressedPlus)
+            
+            } else {
+                // Карточки работников.
                 VStack {
                     searchBar()
-                    
-                    GeometryReader { reader in
-                        ScrollView {
-                            LazyVGrid(columns: columns, spacing: 15) {
-                                if output == "" {
-                                    ForEach(employeesData.employeesInfo) {card in
-                                        ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
-                                    }
-                                    
-                                } else {
-                                    ForEach(peopleFromSearch) {card in
-                                        ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
-                                    }
-                                }
-                                
-                            }
+                    cardEmployees()
+                }
+                .padding()
+            }
+            
+            // Анимация загрузки.
+            if !employeesData.statusParse {
+                TurnOffServer()
+            }
+            
+        }
+    }
+    
+    private func cardEmployees() -> some View {
+        GeometryReader { reader in
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 15) {
+                    if output == "" {
+                        ForEach(employeesData.employeesInfo) {card in
+                            ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
+                        }
+                        
+                    } else {
+                        ForEach(peopleFromSearch) {card in
+                            ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
                         }
                     }
                     
-                    Spacer()
                 }
-                .padding()
             }
         }
     }
@@ -83,7 +122,7 @@ struct Employees: View {
             .buttonStyle(PlainButtonStyle())
             
             Button {
-                // TODO: Сделать
+                pressedPlus = true
                 
             } label: {
                 Image(systemName: "plus")
@@ -96,11 +135,12 @@ struct Employees: View {
             
         }
     }
+    
 }
 
 
 struct Employees_Previews: PreviewProvider {
     static var previews: some View {
-        Employees(pressedWateringLog: .constant(true))
+        Employees()
     }
 }

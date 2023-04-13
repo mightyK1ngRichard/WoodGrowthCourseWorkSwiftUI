@@ -402,11 +402,11 @@ class APIManager {
         
     }
     
-    func updateEmployee(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
+    func updateWithSlash(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
+        let correctSQL = SQLQuery.replacingOccurrences(of: "/", with: "%2F")
         let urlString = "http://\(host):\(port)/database/update/"
-        let encodedQuery = SQLQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let encodedQuery = correctSQL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let correctURL = urlString + encodedQuery
-
         guard let url = URL(string: correctURL) else {
             completion(nil, "Неверный url")
             return

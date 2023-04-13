@@ -27,6 +27,7 @@
 		2C8D7B6A29D5A51D006C5AD3 /* TypeTrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D7B6929D5A51D006C5AD3 /* TypeTrees.swift */; };
 		2C8D7B6D29D5FA1F006C5AD3 /* TypeTreesModul.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D7B6C29D5FA1F006C5AD3 /* TypeTreesModul.swift */; };
 		2C8D7B6F29D61D9C006C5AD3 /* TreeCardForTypeTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D7B6E29D61D9C006C5AD3 /* TreeCardForTypeTreeView.swift */; };
+		2CA79B3D29E8766200045ACB /* AddEmployee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA79B3C29E8766200045ACB /* AddEmployee.swift */; };
 		2CC72AE429C886FC00559E47 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE329C886FC00559E47 /* APIManager.swift */; };
 		2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC72AE929C88FA200559E47 /* CardsEmployes.swift */; };
 		2CC72AED29C8937800559E47 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC72AEC29C8937800559E47 /* SDWebImageSwiftUI */; };
@@ -73,6 +74,7 @@
 		2C8D7B6929D5A51D006C5AD3 /* TypeTrees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTrees.swift; sourceTree = "<group>"; };
 		2C8D7B6C29D5FA1F006C5AD3 /* TypeTreesModul.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTreesModul.swift; sourceTree = "<group>"; };
 		2C8D7B6E29D61D9C006C5AD3 /* TreeCardForTypeTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeCardForTypeTreeView.swift; sourceTree = "<group>"; };
+		2CA79B3C29E8766200045ACB /* AddEmployee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployee.swift; sourceTree = "<group>"; };
 		2CC72AE329C886FC00559E47 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2CC72AE929C88FA200559E47 /* CardsEmployes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsEmployes.swift; sourceTree = "<group>"; };
 		2CCC1E8329C8CD5B00FB8088 /* SideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 			children = (
 				2CCC1E9329C90CF200FB8088 /* DetailCard.swift */,
 				2C2F79DF29CA6E1300157DDB /* ScrollViewCard.swift */,
+				2CA79B3C29E8766200045ACB /* AddEmployee.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
 				2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */,
+				2CA79B3D29E8766200045ACB /* AddEmployee.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
 				2C0BA1AA29E4D2B1006F0114 /* UserDataModule.swift in Sources */,
 				2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */,
