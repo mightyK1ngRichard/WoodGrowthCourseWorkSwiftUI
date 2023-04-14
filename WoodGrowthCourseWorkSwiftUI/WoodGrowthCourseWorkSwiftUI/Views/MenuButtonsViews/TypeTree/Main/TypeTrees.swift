@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TypeTrees: View {
-    //@ObservedObject var typesData = TypeTreesData()
     @State private var showScreen   = false
     @State private var typesData    : [TypeTreesResult] = []
     @State private var selectedType = ""
@@ -22,7 +21,6 @@ struct TypeTrees: View {
                 TypeTreeCard(typesData: $typesData, selectedType: $selectedType)
             }
         }
-        //.environmentObject(typesData)
         .frame(minWidth: 600, minHeight: 600)
         .onAppear {
             getData()
@@ -35,16 +33,12 @@ struct TypeTrees: View {
                 print("== ERROR", error!)
                 return
             }
-            
-            var tempData: [TypeTreesResult] = []
             for el in data.rows {
                 let info = TypeTreesResult(id: el.type_id, nameType: el.name_type, notes: el.notes, firtilizerName: el.fertilizer_name, plotName: el.plot_name, countTrees: el.count_trees, photo: el.photo)
-                tempData.append(info)
+                self.typesData.append(info)
             }
-            
-            if tempData.count != 0 {
-                self.typesData = tempData
-                self.selectedType =  tempData[0].nameType
+            if self.typesData.count != 0 {
+                self.selectedType = self.typesData[0].nameType
                 self.showScreen = true
             }
         }
