@@ -10,10 +10,14 @@ import SDWebImageSwiftUI
 
 struct ScrollViewCard: View {
     @EnvironmentObject var selectedButtonDetailView : PressedButtonDetailView
+    @EnvironmentObject var allDataEmp               : employeesCardsViewModel
     var card                                        : EmpoyeeResult
     var reader                                      : CGFloat
     @Binding var pressedWateringLog                 : Bool
     @State private var isHovering                   = false
+    @State private var isHoveringTrash              = false
+    @State private var showAlert                    = false
+    @State private var alertText                    = ""
     
     var body: some View {
         mainView()
@@ -27,7 +31,7 @@ struct ScrollViewCard: View {
     }
     
     private func photoEmployee() -> some View {
-        Group {
+        ZStack {
             if let photo = card.ava {
                 WebImage(url: photo)
                     .resizable()
@@ -42,6 +46,8 @@ struct ScrollViewCard: View {
                     .frame(width: (reader - 45) / 4, height: 150)
                     .cornerRadius(15)
             }
+            
+            TrashImage()
         }
         .brightness(isHovering ? -0.2 : 0)
         .onHover { hovering in
@@ -69,6 +75,54 @@ struct ScrollViewCard: View {
             Text("***Вид дерева участка:*** \(card.nameType)")
         }
         .foregroundColor(Color.white)
+    }
+    
+    private func TrashImage() -> some View {
+        VStack {
+            HStack {
+                Spacer()
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 20, height: 20)
+                    .overlay {
+                        Image(systemName: "trash")
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(isHoveringTrash ? Color(red: 1, green: 0, blue: 0) : .black)
+                            .onHover { hovering in
+                                self.isHoveringTrash = hovering
+                            }
+                    }
+                    .opacity(isHovering ? (isHoveringTrash ? 1 : 0.7) : 0)
+                    .onTapGesture {
+                        showAlert = true
+                    }
+            }
+            Spacer()
+        }
+        .padding(5)
+        .alert("Удаление", isPresented: $showAlert, actions: {
+            SecureField("Пароль", text: $alertText)
+            Button("Удалить", action: {
+                if alertText == "430133" {
+                    let SQLQuery = "DELETE FROM employer WHERE employer_id=\(card.id);"
+                    APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+                        guard let _ = data else {
+                            print("== ERROR FROM ScrollViewCard", error!)
+                            return
+                        }
+                        self.allDataEmp.refresh()
+                        
+                        // ... Можно додумать что-то.
+                    }
+                }
+            })
+            Button("Отмена", role: .cancel, action: {})
+            
+        }, message: {
+            Text("Введите пароль, чтобы подтвердить право на удаление.")
+        })
+
     }
 }
 
