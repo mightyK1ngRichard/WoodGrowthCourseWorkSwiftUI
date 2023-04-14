@@ -9,12 +9,14 @@ import SwiftUI
 
 struct AddEmployee: View {
     @State private var isHover      = false
+    @State private var showAlert    = false
     @State private var newFullName  = ""
     @State private var newPost      = ""
     @State private var newPhone     = ""
     @State private var newPhotoLink = ""
     @Binding var closeScreen        : Bool
     @EnvironmentObject var allData  : employeesCardsViewModel
+    
     
     var body: some View {
         VStack {
@@ -38,6 +40,9 @@ struct AddEmployee: View {
                 
                 Spacer()
             }
+        }
+        .alert("Заполните данные!", isPresented: $showAlert) {
+            Text("OK") 
         }
     }
     
@@ -68,6 +73,11 @@ struct AddEmployee: View {
             MyTextField(textForUser: "Введите ссылку на фото", text: $newPhotoLink)
             
             Button {
+                if newFullName == "" && newPost == "" && newPhone == "" {
+                    showAlert = true
+                    return
+                }
+                
                 var SQLQuery = "INSERT INTO employer (full_name, post, phone_number, photo) VALUES ('\(newFullName)', '\(newPost)', '\(newPhone)'"
                 
                 if newPhotoLink != "" {
@@ -104,6 +114,7 @@ struct AddEmployee: View {
             self.closeScreen = false
         }
     }
+    
 }
 
 struct AddEmployee_Previews: PreviewProvider {
