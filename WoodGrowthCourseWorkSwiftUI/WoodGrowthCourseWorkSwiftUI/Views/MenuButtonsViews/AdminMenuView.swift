@@ -54,7 +54,7 @@ struct AdminMenuView: View {
             }
         }
         .preferredColorScheme(.none)
-        .background(Color(red: 35/255, green: 36/255, blue: 76/255))
+        .background(getTabBackground())
     }
 }
 

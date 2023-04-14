@@ -20,9 +20,25 @@ struct TypeTreeCard: View {
     @State private var showTrees       = true
     @State private var isHover         = false
     @State private var closeEye        = true
+    @State private var showThisView    = true
+    
+    init(typesData: Binding<[TypeTreesResult]>, selectedType: Binding<String>) {
+        self._typesData = typesData
+        self._selectedType = selectedType
+        if typesData.count != 0 {
+            self._showThisView = State(initialValue: true)
+            self._currentIndex = State(initialValue: 0)
+        } else {
+            self._showThisView = State(initialValue: false)
+        }
+    }
     
     var body: some View {
-        mainView()
+        if showThisView {
+            mainView()
+        } else {
+            secondView()
+        }
     }
     
     private func mainView() -> some View {
@@ -42,6 +58,7 @@ struct TypeTreeCard: View {
                     getTreesInThisPlot()
                 }
             }
+        
             
             HStack {
                 ZStack {
@@ -150,6 +167,20 @@ struct TypeTreeCard: View {
                 self.treesOfThisType = tempData
                 self.showTrees = true
             }
+        }
+    }
+    
+    private func secondView() -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Text("Видов деревьев нету.")
+                    .font(.system(size: 50))
+                Spacer()
+            }
+            ProgressView()
+            Spacer()
         }
     }
     

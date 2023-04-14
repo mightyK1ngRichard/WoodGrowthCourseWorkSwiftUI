@@ -66,7 +66,7 @@ struct S_DViews: View {
                     
                     if pressedSupplierCard {
                         Rectangle()
-                            .foregroundColor(Color(red: 35/255, green: 36/255, blue: 76/255).opacity(0.7))
+                            .foregroundColor(getTabBackground().opacity(0.7))
                             .onTapGesture {
                                 pressedSupplierCard = false
                             }
