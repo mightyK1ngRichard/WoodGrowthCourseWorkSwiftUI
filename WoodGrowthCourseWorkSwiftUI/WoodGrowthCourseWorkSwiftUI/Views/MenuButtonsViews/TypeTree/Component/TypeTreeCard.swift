@@ -43,80 +43,10 @@ struct TypeTreeCard: View {
     
     private func mainView() -> some View {
         VStack {
-            Picker("", selection: $selectedType) {
-                ForEach(typesData, id: \.self.nameType) {
-                    Text($0.nameType)
-                }
-            }
-            .labelsHidden()
-            .pickerStyle(.segmented)
-            .padding()
-            .onChange(of: selectedType) { _ in
-                currentIndex = getDetailInfoUsingTypeName(data: typesData, key: selectedType)
-                
-                if !closeEye {
-                    getTreesInThisPlot()
-                }
-            }
-        
-            
-            HStack {
-                ZStack {
-                    WebImage(url: typesData[currentIndex].photo)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .onHover { hovering in
-                            isHover = hovering
-                        }
-                        .clipShape(Circle())
-                        .frame(width: 200, height: 200)
-                        .overlay {
-                            Circle().stroke(getGradient(), lineWidth: 3)
-                        }
-                        .brightness(isHover ? -0.6 : 0)
-                        
-                    if isHover {
-                        Image(systemName: closeEye ? "eye.slash" : "eye")
-                            .resizable()
-                            .frame(width: 120, height: 90)
-                            .onHover { hovering in
-                                isHover = hovering
-                            }
-                            .onTapGesture {
-                                closeEye.toggle()
-                                
-                                if !closeEye {
-                                    APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
-                                        guard let data = data else {
-                                            print("== ERROR", error!)
-                                            self.showTrees = false
-                                            return
-                                        }
-                                        for el in data.rows {
-                                            let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
-                                            self.treesOfThisType.append(info)
-                                        }
-                                        self.showTrees = true
-                                    }
-                                }
-                            }
-                    }
-                }
-                
-                VStack (alignment: .leading, spacing: 5) {
-                    Text("\(selectedType)")
-                        .font(.system(size: 40))
-                    Text("**Удобрение:** \(typesData[currentIndex].firtilizerName ?? "Не задано")")
-                    Text("**Примечание:**")
-                    Text("*\(typesData[currentIndex].notes ?? "Описания нету")*")
-                    Text("**Количество деревьев:** \(typesData[currentIndex].countTrees) шт.")
-                }
-                .padding(.leading, 30)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 10)
-            
+            getPickerWithTypes()
+            getImageWithText()
             Spacer()
+            
             if showTrees {
                 if !closeEye {
                     if treesOfThisType.count != 0 {
@@ -135,6 +65,82 @@ struct TypeTreeCard: View {
             Spacer()
         }
         .frame(minHeight: 600)
+    }
+    
+    private func getPickerWithTypes() -> some View {
+        Picker("", selection: $selectedType) {
+            ForEach(typesData, id: \.self.nameType) {
+                Text($0.nameType)
+            }
+        }
+        .labelsHidden()
+        .pickerStyle(.segmented)
+        .padding()
+        .onChange(of: selectedType) { _ in
+            currentIndex = getDetailInfoUsingTypeName(data: typesData, key: selectedType)
+            
+            if !closeEye {
+                getTreesInThisPlot()
+            }
+        }
+    }
+    
+    private func getImageWithText() -> some View {
+        HStack {
+            ZStack {
+                WebImage(url: typesData[currentIndex].photo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .onHover { hovering in
+                        isHover = hovering
+                    }
+                    .clipShape(Circle())
+                    .frame(width: 200, height: 200)
+                    .overlay {
+                        Circle().stroke(getGradient(), lineWidth: 3)
+                    }
+                    .brightness(isHover ? -0.6 : 0)
+                    
+                if isHover {
+                    Image(systemName: closeEye ? "eye.slash" : "eye")
+                        .resizable()
+                        .frame(width: 120, height: 90)
+                        .onHover { hovering in
+                            isHover = hovering
+                        }
+                        .onTapGesture {
+                            closeEye.toggle()
+                            
+                            if !closeEye {
+                                APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
+                                    guard let data = data else {
+                                        print("== ERROR", error!)
+                                        self.showTrees = false
+                                        return
+                                    }
+                                    for el in data.rows {
+                                        let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
+                                        self.treesOfThisType.append(info)
+                                    }
+                                    self.showTrees = true
+                                }
+                            }
+                        }
+                }
+            }
+            
+            VStack (alignment: .leading, spacing: 5) {
+                Text("\(selectedType)")
+                    .font(.system(size: 40))
+                Text("**Удобрение:** \(typesData[currentIndex].firtilizerName ?? "Не задано")")
+                Text("**Примечание:**")
+                Text("*\(typesData[currentIndex].notes ?? "Описания нету")*")
+                Text("**Количество деревьев:** \(typesData[currentIndex].countTrees) шт.")
+            }
+            .padding(.leading, 30)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading, 10)
     }
     
     private func getCardsTrees() -> some View {
