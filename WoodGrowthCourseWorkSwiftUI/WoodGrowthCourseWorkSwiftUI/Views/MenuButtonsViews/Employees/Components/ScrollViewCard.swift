@@ -51,11 +51,11 @@ struct ScrollViewCard: View {
         }
         .brightness(isHovering ? -0.2 : 0)
         .onHover { hovering in
-            withAnimation(.easeInOut(duration: 0.2)) { // добавление плавности анимации
+            withAnimation(.easeInOut(duration: 0.2)) {
                 self.isHovering = hovering
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: isHovering) // применение анимации к изменению состояния
+        .animation(.easeInOut(duration: 0.2), value: isHovering)
         .onTapGesture {
             selectedButtonDetailView.pressed = true
             selectedButtonDetailView.cardInfo = card
@@ -103,7 +103,7 @@ struct ScrollViewCard: View {
         .padding(5)
         .alert("Удаление", isPresented: $showAlert, actions: {
             SecureField("Пароль", text: $alertText)
-            Button("Удалить", action: {
+            Button("Удалить") {
                 if alertText == "430133" {
                     let SQLQuery = "DELETE FROM employer WHERE employer_id=\(card.id);"
                     APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
@@ -116,7 +116,7 @@ struct ScrollViewCard: View {
                         // ... Можно додумать что-то.
                     }
                 }
-            })
+            }
             Button("Отмена", role: .cancel, action: {})
             
         }, message: {
