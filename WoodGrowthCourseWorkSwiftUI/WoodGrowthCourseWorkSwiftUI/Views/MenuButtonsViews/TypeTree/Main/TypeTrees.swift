@@ -29,7 +29,7 @@ struct TypeTrees: View {
                     ZStack {
                         VStack {
                             getPickerWithTypes()
-                            TypeTreeCard(currentCard: currentCard, treesOfThisType: treesOfThisType, closeEye: $closeEye, showTrees: $showTrees)
+                            TypeTreeCard(treesOfThisType: treesOfThisType, currentCard: $currentCard, selectedType: $selectedType, closeEye: $closeEye, showTrees: $showTrees)
                         }
                         if !showScreen {
                             ProgressView()
@@ -134,7 +134,7 @@ struct TypeTrees: View {
             }
             var tempData: [TreeResult] = []
             for el in data.rows {
-                let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
+                let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end, photo: el.photo)
                     tempData.append(info)
             }
             

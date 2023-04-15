@@ -84,7 +84,7 @@ class APIManager {
     
     func getTrees(typeID: String? = nil, completion: @escaping (TreesParse?, String?) -> Void) {
         var SQLQuery = """
-        SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, tt.name_type, p.name_plot, c.x_begin, c.x_end, c.y_begin, c.y_end
+        SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, tt.name_type, p.name_plot, c.x_begin, c.x_end, c.y_begin, c.y_end, tt.photo
         FROM tree
         LEFT JOIN type_tree tt ON tree.type_tree_id=tt.type_id
         LEFT JOIN plot p ON p.type_tree_id=tt.type_id
@@ -99,6 +99,7 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
+        print(url)
         
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -159,9 +160,9 @@ class APIManager {
     func getFertilizer(completion: @escaping (FeritilizerParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT fertilizer.fertilizer_id, fertilizer.name, fertilizer.price, fertilizer.mass,
-        type_tree.name_type, s.name_supplier
+        tt.name_type, s.name_supplier, tt.photo
         FROM fertilizer
-        LEFT JOIN type_tree ON fertilizer.type_tree_id=type_tree.type_id
+        LEFT JOIN type_tree tt ON fertilizer.type_tree_id=tt.type_id
         JOIN delivery d on fertilizer.fertilizer_id = d.fertilizer_id
         JOIN supplier s on d.supplier_id = s.supplier_id;
         """
@@ -466,6 +467,7 @@ struct RowsTrees: Decodable {
     let x_end             : Int
     let y_begin           : Int
     let y_end             : Int
+    let photo             : URL
 }
 
 struct WateringEmployee: Decodable {
@@ -506,6 +508,7 @@ struct RowsFeritilizer: Decodable {
     let mass          : Int
     let name_type     : String?
     let name_supplier : String
+    let photo         : URL?
 }
 
 struct SupplierParse: Decodable {
@@ -599,6 +602,7 @@ struct TreeResult: Codable, Identifiable {
     let x_end             : Int
     let y_begin           : Int
     let y_end             : Int
+    let photo             : URL
 }
 
 struct PlotResult: Codable, Identifiable {
@@ -623,6 +627,7 @@ struct FertilizerResult: Codable, Identifiable {
     let massFertilizer  : Int
     let typeTree        : String?
     let nameSupplier    : String
+    let photo           : URL?
 }
 
 struct SupplierResult: Codable, Identifiable {

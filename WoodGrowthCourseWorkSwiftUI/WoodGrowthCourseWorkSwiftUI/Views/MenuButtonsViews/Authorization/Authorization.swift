@@ -116,42 +116,13 @@ struct Authorization: View {
                     self.isHoverSignInButton = hovering
                 })
                 .onTapGesture {
-                    if email == "" || password == "" {
-                        // TODO: расскоментировать при завершении курсовой.
-//                        showAlert = true
-//                        return
-                        email = "dimapermyakov55@gmail.com"
-                        password = "boss"
-                    }
-                    
-                    APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
-                        guard let data = data else {
-                            print("== ERROR: ", error!)
-                            DispatchQueue.main.async {
-                                self.userData.status = false
-                            }
-                            return
-                        }
-                        DispatchQueue.main.async {
-                            for el in data.rows {
-                                let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
-                                
-                                self.userData.userData = newUser
-                                self.userData.status = true
-                            }
-                            if !userData.status {
-                                showAlert = true
-                                email = ""
-                                password = ""
-                            }
-                        }
-                        
-                    })
+                    pressedSignIn()
                 }
                 .padding(.top, 20)
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Ошибка входа"), message: Text("Неверный логин или пароль"), dismissButton: .default(Text("OK")))
                 }
+                
             
             HStack {
                 Text("Don't have an account?")
@@ -171,6 +142,39 @@ struct Authorization: View {
         .padding(.trailing, 75)
     }
     
+    private func pressedSignIn() {
+        if email == "" || password == "" {
+            // TODO: расскоментировать при завершении курсовой.
+//                        showAlert = true
+//                        return
+            email = "dimapermyakov55@gmail.com"
+            password = "boss"
+        }
+        
+        APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
+            guard let data = data else {
+                print("== ERROR: ", error!)
+                DispatchQueue.main.async {
+                    self.userData.status = false
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                for el in data.rows {
+                    let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
+                    
+                    self.userData.userData = newUser
+                    self.userData.status = true
+                }
+                if !userData.status {
+                    showAlert = true
+                    email = ""
+                    password = ""
+                }
+            }
+            
+        })
+    }
 }
 
 struct Authorization_Previews: PreviewProvider {
