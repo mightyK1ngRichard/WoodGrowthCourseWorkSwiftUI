@@ -29,11 +29,12 @@ struct TypeTreeCard: View {
         case .addTypeTree:
             AddTypeTree(closeScreen: $switchView)
             
-        case .addTree:
-            Text("Добавим")
+        case .editTypeTree:
+            EditTypeTree(closeScreen: $switchView, currentType: $currentCard)
             
+        case .addTree:
+            AddTreeForType()
         }
-        
     }
     
     private func mainView() -> some View {
@@ -59,7 +60,6 @@ struct TypeTreeCard: View {
             Spacer()
         }
         .frame(minHeight: 600)
-        
         .alert("Удаление", isPresented: $showAlert, actions: {
             SecureField("Пароль", text: $alertText)
             Button("Удалить") {
@@ -136,7 +136,7 @@ struct TypeTreeCard: View {
                         showAlert = true
                     }
                     updateButton(title: "Изм. вид", imageName: "square.and.pencil.circle") {
-                        
+                        switchView = .editTypeTree
                     }
                     updateButton(title: "Новое дерево", imageName: "plus.circle") {
                         switchView = .addTree
@@ -208,8 +208,9 @@ struct TypeTreeCard_Previews: PreviewProvider {
 }
 
 enum pressedButton: String {
-    case main        = "main"
-    case addTypeTree = "addTypeTree"
-    case addTree     = "addTree"
+    case main         = "main"
+    case addTypeTree  = "addTypeTree"
+    case addTree      = "addTree"
+    case editTypeTree = "EditTypeTree"
 }
 

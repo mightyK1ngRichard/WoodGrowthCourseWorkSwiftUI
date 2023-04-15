@@ -99,8 +99,6 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
-        print(url)
-        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -411,7 +409,7 @@ class APIManager {
             completion(nil, "Неверный url")
             return
         }
-
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {

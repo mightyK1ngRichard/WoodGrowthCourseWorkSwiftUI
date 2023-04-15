@@ -17,6 +17,7 @@ struct Authorization: View {
     @State private var isHoverSignInButton = false
     @State private var isHover             = false
     @State private var showAlert           = false
+    @State private var showProgressView    = false
     
     var body: some View {
         HStack {
@@ -106,24 +107,37 @@ struct Authorization: View {
             .cornerRadius(10)
             .padding(.bottom, 20)
             
-            Text("Sign In")
-                .frame(width: 425, height: 35)
-                .foregroundColor(.white)
-                .background(Color(red: 195 / 255, green: 13 / 255, blue: 67 / 255))
-                .cornerRadius(10)
-                .brightness(isHoverSignInButton ? -0.3 : 0)
-                .onHover(perform: { hovering in
-                    self.isHoverSignInButton = hovering
-                })
-                .onTapGesture {
-                    pressedSignIn()
-                }
-                .padding(.top, 20)
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Ошибка входа"), message: Text("Неверный логин или пароль"), dismissButton: .default(Text("OK")))
+            ZStack {
+                Text("Sign In")
+                    .frame(width: 425, height: 35)
+                    .foregroundColor(.white)
+                    .background(Color(red: 195 / 255, green: 13 / 255, blue: 67 / 255))
+                    .cornerRadius(10)
+                    .brightness(isHoverSignInButton ? -0.3 : 0)
+                    .onHover(perform: { hovering in
+                        self.isHoverSignInButton = hovering
+                    })
+                    .onTapGesture {
+                        self.showProgressView = true
+                        pressedSignIn()
+                    }
+                    .padding(.top, 20)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Ошибка входа"), message: Text("Неверный логин или пароль"), dismissButton: .default(Text("OK")))
                 }
                 
-            
+                // Анимации загрузки.
+                if showProgressView {
+                    VStack {
+                        ProgressView()
+                        Text("Подключение к БД...")
+                            .font(.callout)
+                            .foregroundColor(.gray)
+                    }
+                    .offset(y: 150)
+                }
+            }
+                
             HStack {
                 Text("Don't have an account?")
                 Text("Sign up")
@@ -159,19 +173,26 @@ struct Authorization: View {
                 }
                 return
             }
-            DispatchQueue.main.async {
-                for el in data.rows {
-                    let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
-                    
+            
+            for el in data.rows {
+                let newUser = UserResult(id: el.userid, login: el.login, password: el.password, photo: el.photo, firstname: el.firstname, lastname: el.lastname, post: el.post)
+                
+                DispatchQueue.main.async {
                     self.userData.userData = newUser
+                    self.showProgressView = false
                     self.userData.status = true
                 }
-                if !userData.status {
-                    showAlert = true
-                    email = ""
-                    password = ""
+            }
+            
+            if !userData.status {
+                DispatchQueue.main.async {
+                    self.showProgressView = false
+                    self.showAlert = true
+                    self.email = ""
+                    self.password = ""
                 }
             }
+            
             
         })
     }

@@ -36,6 +36,8 @@
 		2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */; };
 		2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1E9329C90CF200FB8088 /* DetailCard.swift */; };
 		2CDB8E0429EA3CBD00CB8FDA /* AddTypeTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDB8E0329EA3CBD00CB8FDA /* AddTypeTree.swift */; };
+		2CDB8E0629EB0A1B00CB8FDA /* EditTypeTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDB8E0529EB0A1B00CB8FDA /* EditTypeTree.swift */; };
+		2CDB8E0829EB0A7200CB8FDA /* AddTreeForType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDB8E0729EB0A7200CB8FDA /* AddTreeForType.swift */; };
 		2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */; };
 		2CE0871829C83AF800710F98 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0871729C83AF800710F98 /* ContentView.swift */; };
 		2CE0871A29C83AF900710F98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE0871929C83AF900710F98 /* Assets.xcassets */; };
@@ -83,6 +85,8 @@
 		2CCC1E9129C900FF00FB8088 /* CorrectPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectPhone.swift; sourceTree = "<group>"; };
 		2CCC1E9329C90CF200FB8088 /* DetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCard.swift; sourceTree = "<group>"; };
 		2CDB8E0329EA3CBD00CB8FDA /* AddTypeTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTypeTree.swift; sourceTree = "<group>"; };
+		2CDB8E0529EB0A1B00CB8FDA /* EditTypeTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTypeTree.swift; sourceTree = "<group>"; };
+		2CDB8E0729EB0A7200CB8FDA /* AddTreeForType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTreeForType.swift; sourceTree = "<group>"; };
 		2CE0871229C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WoodGrowthCourseWorkSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE0871529C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WoodGrowthCourseWorkSwiftUIApp.swift; sourceTree = "<group>"; };
 		2CE0871729C83AF800710F98 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 			isa = PBXGroup;
 			children = (
 				2CDB8E0329EA3CBD00CB8FDA /* AddTypeTree.swift */,
+				2CDB8E0529EB0A1B00CB8FDA /* EditTypeTree.swift */,
+				2CDB8E0729EB0A7200CB8FDA /* AddTreeForType.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -584,6 +590,7 @@
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
 				2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */,
 				2CA79B3D29E8766200045ACB /* AddEmployee.swift in Sources */,
+				2CDB8E0829EB0A7200CB8FDA /* AddTreeForType.swift in Sources */,
 				2C3FF28B29C85D760009AB1A /* Home.swift in Sources */,
 				2C0BA1AA29E4D2B1006F0114 /* UserDataModule.swift in Sources */,
 				2CDB8E0429EA3CBD00CB8FDA /* AddTypeTree.swift in Sources */,
@@ -604,6 +611,7 @@
 				2CCC1E9229C900FF00FB8088 /* CorrectPhone.swift in Sources */,
 				2CEEBA4E29CFB37600403ECE /* SupplierDetail.swift in Sources */,
 				2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */,
+				2CDB8E0629EB0A1B00CB8FDA /* EditTypeTree.swift in Sources */,
 				2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */,
 				2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */,
 				2C4ED44729E7F7D9002FA400 /* AddendumCard.swift in Sources */,
