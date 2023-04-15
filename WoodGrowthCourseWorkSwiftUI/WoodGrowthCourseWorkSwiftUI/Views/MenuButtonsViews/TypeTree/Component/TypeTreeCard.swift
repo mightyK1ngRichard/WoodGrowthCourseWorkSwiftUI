@@ -9,8 +9,9 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct TypeTreeCard: View {
+    @ObservedObject var typeList     = ListTypeTrees()
     @EnvironmentObject var typesData : TypeTreesData
-    var treesOfThisType              : [TreeResult]
+    @Binding var treesOfThisType     : [TreeResult]
     @Binding var currentCard         : TypeTreesResult
     @Binding var selectedType        : String
     @Binding var closeEye            : Bool
@@ -22,18 +23,30 @@ struct TypeTreeCard: View {
     @State private var switchView    : pressedButton = .main
     
     var body: some View {
-        switch(switchView) {
-        case .main:
-            mainView()
-            
-        case .addTypeTree:
-            AddTypeTree(closeScreen: $switchView)
-            
-        case .editTypeTree:
-            EditTypeTree(closeScreen: $switchView, currentType: $currentCard)
-            
-        case .addTree:
-            AddTreeForType()
+        menu()
+            .environmentObject(typeList)
+    }
+    
+    private func menu() -> some View {
+        VStack {
+            switch(switchView) {
+            case .main:
+                mainView()
+                
+            case .addTypeTree:
+                AddTypeTree(closeScreen: $switchView)
+                
+            case .editTypeTree:
+                EditTypeTree(closeScreen: $switchView, currentType: $currentCard)
+                
+            case .addTree:
+                if typeList.status {
+                    AddTreeForType(closeScreen: $switchView, treesOfThisType: $treesOfThisType, typeList: typeList.types)
+                    
+                } else {
+                    Text("ERROR")
+                }
+            }
         }
     }
     
@@ -203,7 +216,7 @@ struct TypeTreeCard_Previews: PreviewProvider {
         
         let tree1 = TreeResult(id: "0", name_tree: "1", volume: 12, date_measurements: "2023-02-14T21:00:00.000Z", notes: nil, name_type: "Берёза", name_plot: "F", x_begin: 10, x_end: 10, y_begin: 10, y_end: 10, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
         
-        TypeTreeCard(treesOfThisType: [tree1, tree1, tree1, tree1, tree1, tree1], currentCard: .constant(item1), selectedType: .constant(item1.id), closeEye: .constant(false), showTrees: .constant(true))
+        TypeTreeCard(treesOfThisType: .constant([tree1, tree1, tree1, tree1, tree1, tree1]), currentCard: .constant(item1), selectedType: .constant(item1.id), closeEye: .constant(false), showTrees: .constant(true))
     }
 }
 

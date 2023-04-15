@@ -46,7 +46,7 @@ struct WateringLog: View {
             }
         }
 //        .cornerRadius(10)
-        .background(.black.opacity(0.8))
+        .background(getTabBackground().opacity(0.7))
     }
 }
 

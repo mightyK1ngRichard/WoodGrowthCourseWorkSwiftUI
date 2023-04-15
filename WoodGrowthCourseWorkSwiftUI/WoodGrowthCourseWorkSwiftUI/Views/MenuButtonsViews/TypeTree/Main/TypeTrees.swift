@@ -29,7 +29,7 @@ struct TypeTrees: View {
                     ZStack {
                         VStack {
                             getPickerWithTypes()
-                            TypeTreeCard(treesOfThisType: treesOfThisType, currentCard: $currentCard, selectedType: $selectedType, closeEye: $closeEye, showTrees: $showTrees)
+                            TypeTreeCard(treesOfThisType: $treesOfThisType, currentCard: $currentCard, selectedType: $selectedType, closeEye: $closeEye, showTrees: $showTrees)
                         }
                         if !showScreen {
                             ProgressView()

@@ -38,3 +38,34 @@ class TypeTreesData: ObservableObject {
         }
     }
 }
+
+class ListTypeTrees: ObservableObject {
+    @Published var types  : [AllTypeTreesResult] = []
+    @Published var status = false
+    
+    init() {
+        refresh()
+    }
+    
+    func refresh() {
+        APIManager.shared.getAllTypeTreesWithoutConditions {data, error in
+            guard let data = data else {
+                print("== ERROR FROM TypeTreesModule", error!)
+                DispatchQueue.main.async {
+                    self.status = false
+                }
+                return
+            }
+            var tempData: [AllTypeTreesResult] = []
+            for el in data.rows {
+                let info = AllTypeTreesResult(id: el.type_id, nameType: el.name_type)
+                tempData.append(info)
+            }
+            
+            DispatchQueue.main.async {
+                self.types = tempData
+                self.status = true
+            }
+        }
+    }
+}
