@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct FertilizerCard: View {
-    @Binding var pressedCard     : Bool 
+    @Binding var pressedCard     : Bool
     @Binding var infoCardPressed : FertilizerResult?
     @State private var isHover   = false
     var data                     : FertilizerResult
     
     var body: some View {
         VStack {
-            if let typeTreeImage = data.typeTree {
-                Image(typeTreeImage)
+            if let typeTreeImage = data.photo {
+                WebImage(url: typeTreeImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 300, height: 200)
@@ -61,7 +62,7 @@ struct FertilizerCard: View {
 
 struct FertilizerCard_Previews: PreviewProvider {
     static var previews: some View {
-        let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", nameSupplier: "Леруа Мерлен")
+        let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", nameSupplier: "Леруа Мерлен", photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
         
         return FertilizerCard(pressedCard: .constant(false), infoCardPressed: .constant(testData), data: testData)
     }

@@ -10,15 +10,30 @@ import SDWebImageSwiftUI
 
 struct TypeTreeCard: View {
     @EnvironmentObject var typesData : TypeTreesData
-    var currentCard                  : TypeTreesResult
     var treesOfThisType              : [TreeResult]
+    @Binding var currentCard         : TypeTreesResult
+    @Binding var selectedType        : String
     @Binding var closeEye            : Bool
     @Binding var showTrees           : Bool
     @State private var isHover       = false
     @State private var showThisView  = true
+    @State private var showAlert     = false
+    @State private var alertText     = ""
+    @State private var switchView    : pressedButton = .main
     
     var body: some View {
-        mainView()
+        switch(switchView) {
+        case .main:
+            mainView()
+            
+        case .addTypeTree:
+            AddTypeTree(closeScreen: $switchView)
+            
+        case .addTree:
+            Text("Добавим")
+            
+        }
+        
     }
     
     private func mainView() -> some View {
@@ -44,6 +59,35 @@ struct TypeTreeCard: View {
             Spacer()
         }
         .frame(minHeight: 600)
+        
+        .alert("Удаление", isPresented: $showAlert, actions: {
+            SecureField("Пароль", text: $alertText)
+            Button("Удалить") {
+                if alertText == "430133" {
+                    let SQLQuery = "DELETE FROM type_tree WHERE type_id=\(currentCard.id);"
+                    APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+                        guard let _ = data else {
+                            print("== ERROR FROM ScrollViewCard", error!)
+                            return
+                        }
+                        self.typesData.refresh { _, _ in
+                            if typesData.types.count != 0 {
+                                self.currentCard = typesData.types[0]
+                                self.selectedType = typesData.types[0].id
+                                
+                            } else {
+                                // TODO: Если не будет лень, сделай тут переключение флага, когда типов не осталось.
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            Button("Отмена", role: .cancel, action: {})
+            
+        }, message: {
+            Text("Введите пароль, чтобы подтвердить право на удаление.")
+        })
     }
     
     private func getImageWithText() -> some View {
@@ -82,6 +126,23 @@ struct TypeTreeCard: View {
                 Text("**Примечание:**")
                 Text("*\(currentCard.notes ?? "Описания нету")*")
                 Text("**Количество деревьев:** \(currentCard.countTrees) шт.")
+                
+                HStack {
+                    
+                    updateButton(title: "Вид дерева", imageName: "plus.circle") {
+                        switchView = .addTypeTree
+                    }
+                    updateButton(title: "Удалить вид", imageName: "trash.circle") {
+                        showAlert = true
+                    }
+                    updateButton(title: "Изм. вид", imageName: "square.and.pencil.circle") {
+                        
+                    }
+                    updateButton(title: "Новое дерево", imageName: "plus.circle") {
+                        switchView = .addTree
+                    }
+                }
+
             }
             .padding(.leading, 30)
         }
@@ -103,6 +164,35 @@ struct TypeTreeCard: View {
         .frame(width: 987)
     }
     
+    private func updateButton(title: String, imageName: String, action: @escaping () -> Void) -> some View {
+        Button {
+            action()
+            
+        } label: {
+            VStack {
+                Image(systemName: imageName)
+                    .resizable()
+                .frame(width: 20, height: 20)
+                
+                Text(title)
+                    .frame(width: 53)
+                    .multilineTextAlignment(.center)
+                    
+            }
+            .padding(10)
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(getGradient().opacity(0.6), lineWidth: 3)
+            }
+            .background(getGradient().opacity(0.1))
+            .cornerRadius(15)
+            
+        }
+        .buttonStyle(.plain)
+        .padding(.top, 10)
+        
+        
+    }
 }
 
 struct TypeTreeCard_Previews: PreviewProvider {
@@ -111,8 +201,15 @@ struct TypeTreeCard_Previews: PreviewProvider {
         
         let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
         
-        let tree1 = TreeResult(id: "0", name_tree: "1", volume: 12, date_measurements: "2023-02-14T21:00:00.000Z", notes: nil, name_type: "Берёза", name_plot: "F", x_begin: 10, x_end: 10, y_begin: 10, y_end: 10)
+        let tree1 = TreeResult(id: "0", name_tree: "1", volume: 12, date_measurements: "2023-02-14T21:00:00.000Z", notes: nil, name_type: "Берёза", name_plot: "F", x_begin: 10, x_end: 10, y_begin: 10, y_end: 10, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
         
-        TypeTreeCard(currentCard: item1, treesOfThisType: [tree1, tree1, tree1, tree1], closeEye: .constant(false), showTrees: .constant(true))
+        TypeTreeCard(treesOfThisType: [tree1, tree1, tree1, tree1, tree1, tree1], currentCard: .constant(item1), selectedType: .constant(item1.id), closeEye: .constant(false), showTrees: .constant(true))
     }
 }
+
+enum pressedButton: String {
+    case main        = "main"
+    case addTypeTree = "addTypeTree"
+    case addTree     = "addTree"
+}
+
