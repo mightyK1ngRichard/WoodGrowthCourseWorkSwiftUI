@@ -13,14 +13,15 @@ class TypeTreesData: ObservableObject {
     @Published var status                   = false
     
     init() {
-        refresh()
+        refresh() { _, _ in }
     }
     
-    func refresh() {
+    func refresh(completion: @escaping ([TypeTreesResult]?, String?) -> Void) {
         APIManager.shared.getTypesTrees {data, error in
             guard let data = data else {
-                print("== ERROR", error!)
+                print("== ERROR FROM TypeTreesModul", error!)
                 self.status = false
+                completion(nil, error!)
                 return
             }
             var tempData: [TypeTreesResult] = []
@@ -32,6 +33,7 @@ class TypeTreesData: ObservableObject {
             DispatchQueue.main.async {
                 self.types = tempData
                 self.status = true
+                completion(tempData, nil)
             }
         }
     }

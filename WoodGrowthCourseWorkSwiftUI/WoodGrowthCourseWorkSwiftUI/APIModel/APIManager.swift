@@ -82,7 +82,7 @@ class APIManager {
         }.resume()
     }
     
-    func getTrees(plotId: String? = nil, completion: @escaping (TreesParse?, String?) -> Void) {
+    func getTrees(typeID: String? = nil, completion: @escaping (TreesParse?, String?) -> Void) {
         var SQLQuery = """
         SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, tt.name_type, p.name_plot, c.x_begin, c.x_end, c.y_begin, c.y_end
         FROM tree
@@ -90,10 +90,9 @@ class APIManager {
         LEFT JOIN plot p ON p.type_tree_id=tt.type_id
         JOIN coordinates c ON c.tree_id=tree.tree_id
         """
-        if let plotId = plotId {
-            SQLQuery += " WHERE p.plot_id=\(plotId);"
+        if let typeID = typeID {
+            SQLQuery += " WHERE tt.type_id=\(typeID);"
         }
-        
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
         guard let url = URL(string: urlString) else {

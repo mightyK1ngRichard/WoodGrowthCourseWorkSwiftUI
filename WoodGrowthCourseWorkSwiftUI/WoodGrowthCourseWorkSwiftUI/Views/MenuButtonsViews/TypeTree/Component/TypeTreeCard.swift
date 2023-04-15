@@ -8,42 +8,21 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-private func getDetailInfoUsingTypeName(data: [TypeTreesResult], key: String) -> Int {
-    return data.firstIndex { $0.nameType == key }!
-}
-
 struct TypeTreeCard: View {
-    @Binding var typesData             : [TypeTreesResult]
-    @Binding var selectedType          : String
-    @State private var currentIndex    = 0
-    @State private var treesOfThisType : [TreeResult] = []
-    @State private var showTrees       = true
-    @State private var isHover         = false
-    @State private var closeEye        = true
-    @State private var showThisView    = true
-    
-    init(typesData: Binding<[TypeTreesResult]>, selectedType: Binding<String>) {
-        self._typesData = typesData
-        self._selectedType = selectedType
-        if typesData.count != 0 {
-            self._showThisView = State(initialValue: true)
-            self._currentIndex = State(initialValue: 0)
-        } else {
-            self._showThisView = State(initialValue: false)
-        }
-    }
+    @EnvironmentObject var typesData : TypeTreesData
+    var currentCard                  : TypeTreesResult
+    var treesOfThisType              : [TreeResult]
+    @Binding var closeEye            : Bool
+    @Binding var showTrees           : Bool
+    @State private var isHover       = false
+    @State private var showThisView  = true
     
     var body: some View {
-        if showThisView {
-            mainView()
-        } else {
-            secondView()
-        }
+        mainView()
     }
     
     private func mainView() -> some View {
         VStack {
-            getPickerWithTypes()
             getImageWithText()
             Spacer()
             
@@ -53,7 +32,7 @@ struct TypeTreeCard: View {
                         getCardsTrees()
                         
                     } else {
-                        Text("Деревьев этого вида не существует.")
+                        Text("Деревьев вида \"\(currentCard.nameType)\" не существует.")
                             .font(.title)
                             .bold()
                     }
@@ -67,28 +46,10 @@ struct TypeTreeCard: View {
         .frame(minHeight: 600)
     }
     
-    private func getPickerWithTypes() -> some View {
-        Picker("", selection: $selectedType) {
-            ForEach(typesData, id: \.self.nameType) {
-                Text($0.nameType)
-            }
-        }
-        .labelsHidden()
-        .pickerStyle(.segmented)
-        .padding()
-        .onChange(of: selectedType) { _ in
-            currentIndex = getDetailInfoUsingTypeName(data: typesData, key: selectedType)
-            
-            if !closeEye {
-                getTreesInThisPlot()
-            }
-        }
-    }
-    
     private func getImageWithText() -> some View {
         HStack {
             ZStack {
-                WebImage(url: typesData[currentIndex].photo)
+                WebImage(url: currentCard.photo)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .onHover { hovering in
@@ -110,32 +71,17 @@ struct TypeTreeCard: View {
                         }
                         .onTapGesture {
                             closeEye.toggle()
-                            
-                            if !closeEye {
-                                APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
-                                    guard let data = data else {
-                                        print("== ERROR", error!)
-                                        self.showTrees = false
-                                        return
-                                    }
-                                    for el in data.rows {
-                                        let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
-                                        self.treesOfThisType.append(info)
-                                    }
-                                    self.showTrees = true
-                                }
-                            }
                         }
                 }
             }
             
             VStack (alignment: .leading, spacing: 5) {
-                Text("\(selectedType)")
+                Text("\(currentCard.nameType)")
                     .font(.system(size: 40))
-                Text("**Удобрение:** \(typesData[currentIndex].firtilizerName ?? "Не задано")")
+                Text("**Удобрение:** \(currentCard.firtilizerName ?? "Не задано")")
                 Text("**Примечание:**")
-                Text("*\(typesData[currentIndex].notes ?? "Описания нету")*")
-                Text("**Количество деревьев:** \(typesData[currentIndex].countTrees) шт.")
+                Text("*\(currentCard.notes ?? "Описания нету")*")
+                Text("**Количество деревьев:** \(currentCard.countTrees) шт.")
             }
             .padding(.leading, 30)
         }
@@ -157,50 +103,16 @@ struct TypeTreeCard: View {
         .frame(width: 987)
     }
     
-    private func getTreesInThisPlot() {
-        APIManager.shared.getTrees(plotId: typesData[currentIndex].id) { data, error in
-            guard let data = data else {
-                print("== ERROR", error!)
-                self.showTrees = false
-                return
-            }
-            var tempData: [TreeResult] = []
-            for el in data.rows {
-                let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end)
-                    tempData.append(info)
-            }
-            DispatchQueue.main.async {
-                self.treesOfThisType = tempData
-                self.showTrees = true
-            }
-        }
-    }
-    
-    private func secondView() -> some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Text("Видов деревьев нету.")
-                    .font(.system(size: 50))
-                Spacer()
-            }
-            ProgressView()
-            Spacer()
-        }
-    }
-    
 }
 
 struct TypeTreeCard_Previews: PreviewProvider {
     static var previews: some View {
         let tempPhoto = URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!
-        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
-        let item2 = TypeTreesResult(id: "1", nameType: "O", notes: nil, firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
-        let item3 = TypeTreesResult(id: "2", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
-        let item4 = TypeTreesResult(id: "3", nameType: "S", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
-        let item5 = TypeTreesResult(id: "4", nameType: "!", notes: "дорого", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
         
-        TypeTreeCard(typesData: .constant([item1, item2, item3, item4, item5]), selectedType: .constant("Дуб"))
+        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
+        
+        let tree1 = TreeResult(id: "0", name_tree: "1", volume: 12, date_measurements: "2023-02-14T21:00:00.000Z", notes: nil, name_type: "Берёза", name_plot: "F", x_begin: 10, x_end: 10, y_begin: 10, y_end: 10)
+        
+        TypeTreeCard(currentCard: item1, treesOfThisType: [tree1, tree1, tree1, tree1], closeEye: .constant(false), showTrees: .constant(true))
     }
 }
