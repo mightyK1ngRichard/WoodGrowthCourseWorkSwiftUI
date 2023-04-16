@@ -66,5 +66,8 @@ struct AdminMenuView_Previews: PreviewProvider {
         AdminMenuView()
             .environmentObject(default1)
             .environmentObject(default2)
+            .onAppear() {
+                default2.status = true
+            }
     }
 }
