@@ -1,5 +1,5 @@
 //
-//  AddTypeTree.swift
+//  EditTypeTree.swift
 //  WoodGrowthCourseWorkSwiftUI
 //
 //  Created by Дмитрий Пермяков on 15.04.2023.
@@ -7,15 +7,25 @@
 
 import SwiftUI
 
-struct AddTypeTree: View {
+struct EditTypeTree: View {
     @EnvironmentObject var typeData : TypeTreesData
     @Binding var closeScreen        : pressedButton
+    @Binding var currentType        : TypeTreesResult
     @State private var isHover      = false
     @State private var showAlert    = false
+    @State private var showMainView = false
     @State private var newNameType  = ""
     @State private var newNote      = ""
     @State private var newPhoto     = ""
     
+    init(closeScreen: Binding<pressedButton>, currentType: Binding<TypeTreesResult>) {
+        self._currentType = currentType
+        self._closeScreen = closeScreen
+        self._newNameType = State(initialValue: currentType.wrappedValue.nameType)
+        self._newPhoto = State(initialValue: "\(currentType.wrappedValue.photo)")
+        self._newNote = State(initialValue: currentType.wrappedValue.notes ?? "")
+        self.showMainView = true
+    }
     
     var body: some View {
         mainView()
@@ -25,7 +35,7 @@ struct AddTypeTree: View {
         VStack {
             Spacer()
             
-            Text("Добавления вида.")
+            Text("Редактирование вида.")
                 .font(.system(size: 40))
                 .bold()
             
@@ -70,24 +80,35 @@ struct AddTypeTree: View {
                 }
                 .padding(.bottom, 10)
         }
-        
     }
     
     private func inputDataView() -> some View {
         VStack {
             Spacer()
+            Text("Название вида участка.")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.caption)
+            
             MyTextField(textForUser: "Название участка", text: $newNameType)
+                .padding(.top, -7)
+            
+            Text("URL фото вида участка.")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.caption)
             MyTextField(textForUser: "URL фото", text: $newPhoto)
+                .padding(.top, -7)
+            
             Text("Примечание")
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .bold()
+                .font(.caption)
             
             TextEditor(text: $newNote)
+                .background(Color.gray.opacity(0.2))
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                .border(Color.gray)
                 .background(Color.white)
-                .font(.system(size: 14))
-                
-
+                .font(.system(size: 16))
+                .padding(.top, -7)
             
             Button("Save") {
                 if newNameType == "" || newPhoto == "" {
@@ -95,15 +116,9 @@ struct AddTypeTree: View {
                     return
                 }
                 
-                var sqlString = """
-                INSERT INTO type_tree (name_type, photo, notes) VALUES ('\(newNameType)', '\(newPhoto)',
+                let sqlString = """
+                UPDATE type_tree SET name_type='\(newNameType)',photo='\(newPhoto)',notes='\(newNote)' WHERE type_id=\(currentType.id);
                 """
-                if newNote == "" {
-                    sqlString += "NULL);"
-                } else {
-                    sqlString += "'\(newNote)');"
-                }
-                
                 APIRequest(sqlString)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -117,13 +132,20 @@ struct AddTypeTree: View {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
             guard let _ = data else {
                 print("== ERROR FROM AddTypeTree [Button]<Save>", error!)
-                // .... Что-то выводить при ошибке
+                showAlert = true
                 return
             }
 
             DispatchQueue.main.async  {
-                typeData.refresh { _, _ in
+                typeData.refresh { data, error in
+                    guard let data = data else {
+                        return
+                    }
+                    if let newCurrent = data.first(where: { $0.id == currentType.id }) {
+                        currentType = newCurrent
+                    }
                     self.closeScreen = .main
+                    
                 }
             }
         }
@@ -131,8 +153,8 @@ struct AddTypeTree: View {
     }
 }
 
-struct AddTypeTree_Previews: PreviewProvider {
+struct EditTypeTree_Previews: PreviewProvider {
     static var previews: some View {
-        AddTypeTree(closeScreen: .constant(.main))
+        EditTypeTree(closeScreen: .constant(.main), currentType: .constant(TypeTreesResult(id: "0", nameType: "Берёза", notes: "Что-то оченьв важное для описания и тому подобное.", firtilizerName: "Любятова", plotName: "А", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)))
     }
 }

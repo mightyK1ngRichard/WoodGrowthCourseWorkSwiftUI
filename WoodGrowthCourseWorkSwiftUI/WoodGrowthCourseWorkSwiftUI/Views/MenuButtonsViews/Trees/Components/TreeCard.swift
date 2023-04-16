@@ -6,19 +6,20 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct TreeCard: View {
-    @State var isHovering                   = false
     @EnvironmentObject var pressedTreeInfo  : PressedButtonTree
     var treeInfo                            : TreeResult
+    @State private var isHovering           = false
     
     var body: some View {
         VStack() {
-            Image(treeInfo.name_type)
+            WebImage(url: treeInfo.photo)
                 .resizable()
+                .frame(width: 100, height: 100)
                 .clipShape(Circle())
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 100, height: 100)
                 .cornerRadius(15)
                 .overlay {
                     Circle().stroke(getGradient(), lineWidth: 3)
@@ -56,7 +57,11 @@ struct TreeCard: View {
         .padding(.vertical, 10)
         .brightness(isHovering ? -0.2 : 0)
         .frame(minWidth: 150, maxWidth: 150, minHeight: 300, maxHeight: 300)
-        .border(.white.opacity(0.4))
+        .overlay {
+            RoundedRectangle(cornerRadius: 20).stroke(getGradient(), lineWidth: 2)
+        }
+        .background(getGradient().opacity(0.1))
+        .cornerRadius(20)
         .padding(.vertical, 10)
         .environmentObject(pressedTreeInfo)
     }
@@ -64,6 +69,6 @@ struct TreeCard: View {
 
 struct TreeCard_Previews: PreviewProvider {
     static var previews: some View {
-        TreeCard(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 1000, date_measurements: "2023-02-14T21:00:00.000Z", notes: "Дорого", name_type: "Дуб", name_plot: "А", x_begin: 0, x_end: 20, y_begin: 0, y_end: 20, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!))
+        TreeCard(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 100, date_measurements: "2023-02-14T21:00:00.000Z", notes: "привет", name_type: "Берёза", name_plot: "А", x_begin: 1, x_end: 1, y_begin: 1, y_end: 1, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!))
     }
 }

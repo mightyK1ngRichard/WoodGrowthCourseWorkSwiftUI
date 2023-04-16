@@ -47,6 +47,9 @@ struct FertilizerCard: View {
             .font(.system(size: 16))
         }
         .padding()
+        .overlay {
+            RoundedRectangle(cornerRadius: 10).stroke(getGradient(), lineWidth: 1)
+        }
         .background(getGradient().opacity(0.2))
         .cornerRadius(10)
         .brightness(isHover ? -0.2 : 0)

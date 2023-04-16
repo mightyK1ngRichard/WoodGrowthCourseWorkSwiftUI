@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct DetailCardTree: View {
     @EnvironmentObject var pressedTreeInfo : PressedButtonTree
@@ -27,7 +28,7 @@ struct DetailCardTree: View {
     var body: some View {
         VStack() {
             ZStack {
-                Image(treeInfo.name_type)
+                WebImage(url: treeInfo.photo)
                     .resizable()
                     .clipShape(Circle())
                     .aspectRatio(contentMode: .fill)

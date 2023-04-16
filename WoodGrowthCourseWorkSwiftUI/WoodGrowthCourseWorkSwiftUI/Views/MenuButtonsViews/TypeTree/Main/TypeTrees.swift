@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct TypeTrees: View {
-    @ObservedObject var typesData     = TypeTreesData()
-    @State private var showSecondView = false
-    @State private var showScreen     = false
-    @State private var selectedType   = ""
-    @State private var closeEye       = false
-    @State private var showTrees      = true
-    @State private var currentCard    = infoForTest
-    @State private var treesOfThisType : [TreeResult] = []
+    @ObservedObject var typesData       = TypeTreesData()
+    @State private var showSecondView   = false
+    @State private var showScreen       = false
+    @State private var selectedType     = ""
+    @State private var closeEye         = false
+    @State private var showTrees        = true
+    @State private var currentCard      = infoForTest
+    @ObservedObject var treesOfThisType = ListTrees()
     
     var body: some View {
         mainView()
-            .padding(.top)
     }
     
     private func mainView() -> some View {
@@ -29,7 +28,8 @@ struct TypeTrees: View {
                     ZStack {
                         VStack {
                             getPickerWithTypes()
-                            TypeTreeCard(treesOfThisType: treesOfThisType, currentCard: $currentCard, selectedType: $selectedType, closeEye: $closeEye, showTrees: $showTrees)
+                                .padding(.top)
+                            TypeTreeCard(currentCard: $currentCard, selectedType: $selectedType, closeEye: $closeEye, showTrees: $showTrees)
                         }
                         if !showScreen {
                             ProgressView()
@@ -45,7 +45,7 @@ struct TypeTrees: View {
             }
         }
         .environmentObject(typesData)
-        .frame(minWidth: 600, minHeight: 600)
+        .environmentObject(treesOfThisType)
         .onAppear {
             getData()
         }
@@ -71,7 +71,7 @@ struct TypeTrees: View {
                 }
                 
                 DispatchQueue.main.async {
-                    self.treesOfThisType = data
+                    self.treesOfThisType.trees = data
                 }
             }
         }
@@ -112,7 +112,7 @@ struct TypeTrees: View {
                         self.selectedType = data[0].id
                         self.currentCard = data[0]
                         self.showScreen = true
-                        self.treesOfThisType = dataTree
+                        self.treesOfThisType.trees = dataTree
                         self.showTrees = true
                     }
                 }

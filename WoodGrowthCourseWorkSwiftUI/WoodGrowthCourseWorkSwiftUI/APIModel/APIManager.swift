@@ -99,8 +99,6 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
-        print(url)
-        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -346,6 +344,34 @@ class APIManager {
         }.resume()
     }
     
+    func getAllTypeTreesWithoutConditions(completion: @escaping (AllTypeTreesParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT type_id, name_type FROM type_tree;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(AllTypeTreesParse.self, from: data) {
+                    completion(newInfo, nil)
+
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     func getUserInfo(user userEmail: String = "dimapermyakov55@gmail.com", password userPassword: String = "boss", completion: @escaping (UsersParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT *
@@ -380,6 +406,7 @@ class APIManager {
         }.resume()
     }
     
+    
     // MARK: - Updates or Delete or Insert.
     func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
@@ -402,7 +429,7 @@ class APIManager {
         
     }
     
-    func updateWithSlash(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
+    func updateWithSlash(SQLQuery: String, completion: @escaping (RespondDB?, String?) -> Void) {
         let correctSQL = SQLQuery.replacingOccurrences(of: "/", with: "%2F")
         let urlString = "http://\(host):\(port)/database/update/"
         let encodedQuery = correctSQL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -411,21 +438,27 @@ class APIManager {
             completion(nil, "Неверный url")
             return
         }
-
+        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 completion(nil, "Data is empty")
                 return
             }
-            
-            completion(String(decoding: data, as: UTF8.self), nil)
+            if let info = try? JSONDecoder().decode(RespondDB.self, from: data) {
+                completion(info, nil)
+
+            } else {
+                completion(nil, "Parse error")
+                return
+            }
+
         }.resume()
     }
     
 }
 
-// MARK: - Распрарсинг.
+// MARK: - Распрарс.
 struct Employers: Decodable {
     let rows: [Rows]
 }
@@ -558,6 +591,15 @@ struct RowsTypeTrees: Decodable {
     let photo           : URL
 }
 
+struct AllTypeTreesParse: Decodable {
+    let rows: [RowsAllTypeTrees]
+}
+
+struct RowsAllTypeTrees: Decodable {
+    let type_id         : String
+    let name_type       : String
+}
+
 struct UsersParse: Decodable {
     let rows: [RowsUser]
 }
@@ -572,6 +614,9 @@ struct RowsUser: Decodable {
     let post      : String
 }
 
+struct RespondDB: Decodable {
+    let name: String
+}
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id       : String
@@ -655,6 +700,11 @@ struct TypeTreesResult: Codable, Identifiable {
     let plotName       : String?
     let countTrees     : String
     let photo          : URL
+}
+
+struct AllTypeTreesResult: Codable, Identifiable {
+    let id             : String
+    let nameType       : String
 }
 
 struct UserResult: Codable, Identifiable {
