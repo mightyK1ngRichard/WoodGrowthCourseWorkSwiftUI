@@ -9,8 +9,10 @@ import Foundation
 
 
 class TypeTreesData: ObservableObject {
-    @Published var types: [TypeTreesResult] = []
-    @Published var status                   = false
+    @Published var types  : [TypeTreesResult] = [
+        TypeTreesResult(id: "0", nameType: "Берёза", notes: nil, firtilizerName: nil, plotName: "А", countTrees: "100", photo: URL(string: "https://pibig.info/uploads/posts/2022-11/thumbs/1669748719_24-pibig-info-p-palmovie-krasivo-28.jpg")!)
+    ]
+    @Published var status = false
     
     init() {
         refresh() { _, _ in }
@@ -40,7 +42,13 @@ class TypeTreesData: ObservableObject {
 }
 
 class ListTypeTrees: ObservableObject {
-    @Published var types  : [AllTypeTreesResult] = []
+    @Published var types  : [AllTypeTreesResult] = [
+        // Для вёрстки.
+        AllTypeTreesResult(id: "1", nameType: "Берёза"),
+        AllTypeTreesResult(id: "2", nameType: "Берёза"),
+        AllTypeTreesResult(id: "3", nameType: "Берёза"),
+        AllTypeTreesResult(id: "4", nameType: "Берёза"),
+    ]
     @Published var status = false
     
     init() {
@@ -90,4 +98,13 @@ class ListTrees: ObservableObject {
             
         }
     }
+}
+
+class CurrentType: ObservableObject {
+    @Published var currentType = TypeTreesResult(id: "1", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)
+    @Published var selectedTypeInPicker = "0"
+}
+
+func getDetailInfoUsingTypeName(data: [TypeTreesResult], key: String) -> Int {
+    return data.firstIndex { $0.id == key }!
 }

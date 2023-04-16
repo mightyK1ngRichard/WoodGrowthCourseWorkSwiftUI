@@ -10,6 +10,7 @@ import SwiftUI
 struct AddEmployee: View {
     @State private var isHover      = false
     @State private var showAlert    = false
+    @State private var textInAlert  = ""
     @State private var newFullName  = ""
     @State private var newPost      = ""
     @State private var newPhone     = ""
@@ -41,9 +42,12 @@ struct AddEmployee: View {
                 Spacer()
             }
         }
-        .alert("Заполните данные!", isPresented: $showAlert) {
-            Text("OK") 
-        }
+        .alert("Ошибка", isPresented: $showAlert, actions: {
+            Button("OK") { }
+        }, message: {
+            Text(textInAlert)
+        })
+
     }
     
     private func closeCard() -> some View {
@@ -74,7 +78,8 @@ struct AddEmployee: View {
             
             Button {
                 if newFullName == "" && newPost == "" && newPhone == "" {
-                    showAlert = true
+                    self.textInAlert = "Заполните данные."
+                    self.showAlert = true
                     return
                 }
                 
@@ -105,9 +110,11 @@ struct AddEmployee: View {
     
     private func updateData(_ SQLQuery: String) {
         APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { data, error in
-            guard let _ = data else {
-                print("== ERROR FROM AddEmployee", error!)
+            if let _ = data {
+                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                self.showAlert = true
                 return
+
             }
             
             self.allData.refresh()

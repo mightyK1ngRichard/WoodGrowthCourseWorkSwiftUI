@@ -9,11 +9,10 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct TypeTreeCard: View {
-    @ObservedObject var typeList           = ListTypeTrees()
+    @EnvironmentObject var typeList        : ListTypeTrees
     @EnvironmentObject var typesData       : TypeTreesData
     @EnvironmentObject var treesOfThisType : ListTrees
-    @Binding var currentCard               : TypeTreesResult
-    @Binding var selectedType              : String
+    @EnvironmentObject var currentCard     : CurrentType
     @Binding var closeEye                  : Bool
     @Binding var showTrees                 : Bool
     @State private var isHover             = false
@@ -24,7 +23,6 @@ struct TypeTreeCard: View {
     
     var body: some View {
         menu()
-            .environmentObject(typeList)
     }
     
     private func menu() -> some View {
@@ -32,6 +30,9 @@ struct TypeTreeCard: View {
             switch(switchView) {
             case .main:
                 mainView()
+                    .onAppear() {
+                        print(currentCard)
+                    }
                 
             case .addTypeTree:
                 AddTypeTree(closeScreen: $switchView)
@@ -56,7 +57,7 @@ struct TypeTreeCard: View {
                         getCardsTrees()
                         
                     } else {
-                        Text("Деревьев вида \"\(currentCard.nameType)\" не существует.")
+                        Text("Деревьев вида \"\(currentCard.currentType.nameType)\" не существует.")
                             .font(.title)
                             .bold()
                     }
@@ -71,7 +72,7 @@ struct TypeTreeCard: View {
             SecureField("Пароль", text: $alertText)
             Button("Удалить") {
                 if alertText == "430133" {
-                    let SQLQuery = "DELETE FROM type_tree WHERE type_id=\(currentCard.id);"
+                    let SQLQuery = "DELETE FROM type_tree WHERE type_id=\(currentCard.currentType.id);"
                     APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
                         guard let _ = data else {
                             print("== ERROR FROM ScrollViewCard", error!)
@@ -79,8 +80,8 @@ struct TypeTreeCard: View {
                         }
                         self.typesData.refresh { _, _ in
                             if typesData.types.count != 0 {
-                                self.currentCard = typesData.types[0]
-                                self.selectedType = typesData.types[0].id
+                                self.currentCard.currentType = typesData.types[0]
+                                self.currentCard.selectedTypeInPicker = typesData.types[0].id
                                 
                             } else {
                                 // TODO: Если не будет лень, сделай тут переключение флага, когда типов не осталось.
@@ -100,7 +101,7 @@ struct TypeTreeCard: View {
     private func EditTypeView() -> some View {
         VStack {
             if typeList.status {
-                EditTypeTree(closeScreen: $switchView, currentType: $currentCard)
+                EditTypeTree(closeScreen: $switchView)
             } else {
                 Spacer()
                 ProgressView()
@@ -112,7 +113,7 @@ struct TypeTreeCard: View {
     private func AddTreeView() -> some View {
         VStack {
             if typeList.status {
-                AddTreeForType(closeScreen: $switchView, typeList: typeList.types, currentType: currentCard)
+                AddTreeForType(closeScreen: $switchView)
                 
             } else {
                 Spacer()
@@ -125,7 +126,7 @@ struct TypeTreeCard: View {
     private func getImageWithText() -> some View {
         HStack {
             ZStack {
-                WebImage(url: currentCard.photo)
+                WebImage(url: currentCard.currentType.photo)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .onHover { hovering in
@@ -152,13 +153,13 @@ struct TypeTreeCard: View {
             }
             
             VStack (alignment: .leading, spacing: 5) {
-                Text("\(currentCard.nameType)")
+                Text("\(currentCard.currentType.nameType)")
                     .font(.system(size: 40))
-                Text("**Удобрение:** \(currentCard.firtilizerName ?? "Не задано")")
+                Text("**Удобрение:** \(currentCard.currentType.firtilizerName ?? "Не задано")")
                 Text("**Примечание:**")
-                Text("*\(currentCard.notes ?? "Описания нету")*")
+                Text("*\(currentCard.currentType.notes ?? "Описания нету")*")
                     .padding(.trailing)
-                Text("**Количество деревьев:** \(currentCard.countTrees) шт.")
+                Text("**Количество деревьев:** \(currentCard.currentType.countTrees) шт.")
                 
                 HStack {
                     
@@ -230,13 +231,20 @@ struct TypeTreeCard: View {
 
 struct TypeTreeCard_Previews: PreviewProvider {
     static var previews: some View {
-        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)
+ 
         let defaultTrees = ListTrees()
+        let defaulTypeTrees = ListTypeTrees()
+        let defaultypesData = TypeTreesData()
+        let defaultCurrentCard = CurrentType()
         
-        TypeTreeCard(currentCard: .constant(item1), selectedType: .constant(item1.id), closeEye: .constant(false), showTrees: .constant(true))
+        TypeTreeCard(closeEye: .constant(false), showTrees: .constant(true))
             .environmentObject(defaultTrees)
+            .environmentObject(defaulTypeTrees)
+            .environmentObject(defaultypesData)
+            .environmentObject(defaultCurrentCard)
     }
 }
+
 
 enum pressedButton: String {
     case main         = "main"

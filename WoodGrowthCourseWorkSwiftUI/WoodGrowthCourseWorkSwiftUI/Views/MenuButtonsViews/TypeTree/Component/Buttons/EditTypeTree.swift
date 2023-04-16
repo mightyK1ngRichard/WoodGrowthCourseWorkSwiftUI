@@ -8,24 +8,16 @@
 import SwiftUI
 
 struct EditTypeTree: View {
-    @EnvironmentObject var typeData : TypeTreesData
-    @Binding var closeScreen        : pressedButton
-    @Binding var currentType        : TypeTreesResult
-    @State private var isHover      = false
-    @State private var showAlert    = false
-    @State private var showMainView = false
-    @State private var newNameType  = ""
-    @State private var newNote      = ""
-    @State private var newPhoto     = ""
-    
-    init(closeScreen: Binding<pressedButton>, currentType: Binding<TypeTreesResult>) {
-        self._currentType = currentType
-        self._closeScreen = closeScreen
-        self._newNameType = State(initialValue: currentType.wrappedValue.nameType)
-        self._newPhoto = State(initialValue: "\(currentType.wrappedValue.photo)")
-        self._newNote = State(initialValue: currentType.wrappedValue.notes ?? "")
-        self.showMainView = true
-    }
+    @EnvironmentObject var typeData    : TypeTreesData
+    @EnvironmentObject var currentType : CurrentType
+    @Binding var closeScreen           : pressedButton
+    @State private var isHover         = false
+    @State private var showAlert       = false
+    @State private var showMainView    = false
+    @State private var textInAlert     = ""
+    @State private var newNameType     = ""
+    @State private var newNote         = ""
+    @State private var newPhoto        = ""
     
     var body: some View {
         mainView()
@@ -58,10 +50,16 @@ struct EditTypeTree: View {
             
             Spacer()
         }
+        .onReceive(currentType.$currentType) { newValue in
+            self.newNameType = currentType.currentType.nameType
+            self.newPhoto = "\(currentType.currentType.photo)"
+            self.newNote = currentType.currentType.notes ?? ""
+            self.showMainView = true
+        }
         .alert("Ошибка!", isPresented: $showAlert, actions: {
             Button("OK") { }
         }, message: {
-            Text("Заполните данные.")
+            Text(textInAlert)
         })
     }
     
@@ -112,12 +110,16 @@ struct EditTypeTree: View {
             
             Button("Save") {
                 if newNameType == "" || newPhoto == "" {
+                    print("=====")
+                    print(newNameType, newPhoto)
+                    print("=====")
+                    self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
                     return
                 }
                 
                 let sqlString = """
-                UPDATE type_tree SET name_type='\(newNameType)',photo='\(newPhoto)',notes='\(newNote)' WHERE type_id=\(currentType.id);
+                UPDATE type_tree SET name_type='\(newNameType)',photo='\(newPhoto)',notes='\(newNote)' WHERE type_id=\(currentType.currentType.id);
                 """
                 APIRequest(sqlString)
             }
@@ -130,22 +132,16 @@ struct EditTypeTree: View {
     
     private func APIRequest(_ sqlString: String) {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
-            guard let _ = data else {
-                print("== ERROR FROM AddTypeTree [Button]<Save>", error!)
-                showAlert = true
+            if let _ = data {
+                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                self.showAlert = true
                 return
             }
-
-            DispatchQueue.main.async  {
-                typeData.refresh { data, error in
-                    guard let data = data else {
-                        return
-                    }
-                    if let newCurrent = data.first(where: { $0.id == currentType.id }) {
-                        currentType = newCurrent
-                    }
+            typeData.refresh { _, _ in
+                let currentIndex = getDetailInfoUsingTypeName(data: typeData.types, key: currentType.selectedTypeInPicker)
+                DispatchQueue.main.async  {
+                    self.currentType.currentType = typeData.types[currentIndex]
                     self.closeScreen = .main
-                    
                 }
             }
         }
@@ -155,6 +151,11 @@ struct EditTypeTree: View {
 
 struct EditTypeTree_Previews: PreviewProvider {
     static var previews: some View {
-        EditTypeTree(closeScreen: .constant(.main), currentType: .constant(TypeTreesResult(id: "0", nameType: "Берёза", notes: "Что-то оченьв важное для описания и тому подобное.", firtilizerName: "Любятова", plotName: "А", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)))
+        let defaultCurrentCard = CurrentType()
+        let defaultTypeData = TypeTreesData()
+        
+        EditTypeTree(closeScreen: .constant(.main))
+            .environmentObject(defaultTypeData)
+            .environmentObject(defaultCurrentCard)
     }
 }

@@ -9,6 +9,9 @@ import SwiftUI
 
 struct AddTreeForType: View {
     @EnvironmentObject var treesOfThisType : ListTrees
+    @EnvironmentObject var typeData        : TypeTreesData
+    @EnvironmentObject var typeList        : ListTypeTrees
+    @EnvironmentObject var currentType     : CurrentType
     @Binding var closeScreen               : pressedButton
     @State private var isHover             = false
     @State private var showAlert           = false
@@ -23,8 +26,6 @@ struct AddTreeForType: View {
     @State private var XEnd                = ""
     @State private var YEnd                = ""
     @State private var dateMeasurements    = Date()
-    var typeList                           : [AllTypeTreesResult]
-    var currentType                        : TypeTreesResult
     
     var body: some View {
         VStack {
@@ -36,9 +37,9 @@ struct AddTreeForType: View {
             }
         }
             .onAppear() {
-                if self.typeList.count != 0 {
+                if self.typeList.types.count != 0 {
                     
-                    self.newTypeTree = self.currentType.id
+                    self.newTypeTree = self.currentType.currentType.id
                     self.isShowMainView = true
 
                 } else {
@@ -137,7 +138,7 @@ struct AddTreeForType: View {
                     .resizable()
                     .frame(width: 20, height: 20)
                 Picker("", selection: $newTypeTree) {
-                    ForEach(typeList) {
+                    ForEach(typeList.types) {
                         Text($0.nameType)
                     }
                 }
@@ -167,7 +168,7 @@ struct AddTreeForType: View {
                 let sqlString = """
                 BEGIN TRANSACTION;
                 INSERT INTO tree (name_tree, volume, date_measurements, notes, type_tree_id)
-                VALUES ('\(nameTree)', \(volumTree), '\(correctDateWithTime(dateMeasurements))', '\(notesTree)', \(newTypeTree));
+                VALUES ('\(nameTree)', \(volumTree), '\(correctDateWithTime(dateMeasurements))', \(notesTree == "" ? "NULL" : "'\(notesTree)'"), \(newTypeTree));
                 INSERT INTO coordinates (tree_id, x_begin, x_end, y_begin, y_end)
                 VALUES (currval('tree_tree_id_seq'), \(XBegin), \(XEnd), \(YBegin), \(YEnd));
                 COMMIT;
@@ -186,15 +187,17 @@ struct AddTreeForType: View {
                 self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
                 self.showAlert = true
                 return
-                
             }
             
-            DispatchQueue.main.async  {
-                treesOfThisType.refresh(typeID: currentType.id)
-                self.closeScreen = .main
+            treesOfThisType.refresh(typeID: currentType.currentType.id)
+            typeData.refresh { _, _ in
+                let currentIndex = getDetailInfoUsingTypeName(data: typeData.types, key: currentType.selectedTypeInPicker)
+                DispatchQueue.main.async  {
+                    self.currentType.currentType = typeData.types[currentIndex]
+                    self.closeScreen = .main
+                }
             }
         }
-
     }
     
     private func secondView() -> some View {
@@ -214,10 +217,15 @@ struct AddTreeForType: View {
 
 struct AddTreeForType_Previews: PreviewProvider {
     static var previews: some View {
-        let _ = TreeResult(id: "0", name_tree: "1", volume: 12, date_measurements: "2023-02-14T21:00:00.000Z", notes: nil, name_type: "Берёза", name_plot: "F", x_begin: 10, x_end: 10, y_begin: 10, y_end: 10, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
+        let default1 = ListTrees()
+        let default2 = TypeTreesData()
+        let default3 = ListTypeTrees()
+        let default4 = CurrentType()
         
-        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)
-        
-        AddTreeForType(closeScreen: .constant(.main), typeList: [AllTypeTreesResult(id: "0", nameType: "Берёза")], currentType: item1)
+        AddTreeForType(closeScreen: .constant(.main))
+            .environmentObject(default1)
+            .environmentObject(default2)
+            .environmentObject(default3)
+            .environmentObject(default4)
     }
 }

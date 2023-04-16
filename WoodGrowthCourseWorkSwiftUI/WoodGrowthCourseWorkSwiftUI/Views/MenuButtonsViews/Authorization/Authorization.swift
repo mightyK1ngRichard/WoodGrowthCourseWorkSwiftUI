@@ -200,7 +200,9 @@ struct Authorization: View {
 
 struct Authorization_Previews: PreviewProvider {
     static var previews: some View {
+        let default1 = UserData()
         Authorization()
+            .environmentObject(default1)
     }
 }
 

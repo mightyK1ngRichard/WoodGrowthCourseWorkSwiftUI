@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct AddTypeTree: View {
-    @EnvironmentObject var typeData : TypeTreesData
-    @Binding var closeScreen        : pressedButton
-    @State private var isHover      = false
-    @State private var showAlert    = false
-    @State private var newNameType  = ""
-    @State private var newNote      = ""
-    @State private var newPhoto     = ""
+    @EnvironmentObject var typeData    : TypeTreesData
+    @EnvironmentObject var currentType : CurrentType
+    @Binding var closeScreen           : pressedButton
+    @State private var isHover         = false
+    @State private var showAlert       = false
+    @State private var textInAlert     = ""
+    @State private var newNameType     = ""
+    @State private var newNote         = ""
+    @State private var newPhoto        = ""
     
     
     var body: some View {
@@ -51,8 +53,9 @@ struct AddTypeTree: View {
         .alert("Ошибка!", isPresented: $showAlert, actions: {
             Button("OK") { }
         }, message: {
-            Text("Заполните данные.")
+            Text(textInAlert)
         })
+        .padding()
     }
     
     private func closeCard() -> some View {
@@ -75,7 +78,6 @@ struct AddTypeTree: View {
     
     private func inputDataView() -> some View {
         VStack {
-            Spacer()
             MyTextField(textForUser: "Название участка", text: $newNameType)
             MyTextField(textForUser: "URL фото", text: $newPhoto)
             Text("Примечание")
@@ -86,11 +88,10 @@ struct AddTypeTree: View {
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .background(Color.white)
                 .font(.system(size: 14))
-                
-
             
             Button("Save") {
                 if newNameType == "" || newPhoto == "" {
+                    self.textInAlert = "Имя или URL не найдены. Заполните данные."
                     self.showAlert = true
                     return
                 }
@@ -108,22 +109,25 @@ struct AddTypeTree: View {
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
-            
-            Spacer()
         }
     }
     
     private func APIRequest(_ sqlString: String) {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
-            guard let _ = data else {
-                print("== ERROR FROM AddTypeTree [Button]<Save>", error!)
-                // .... Что-то выводить при ошибке
+            if let _ = data {
+                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                self.showAlert = true
                 return
+                
             }
 
             DispatchQueue.main.async  {
                 typeData.refresh { _, _ in
-                    self.closeScreen = .main
+                    let currentIndex = getDetailInfoUsingTypeName(data: typeData.types, key: currentType.selectedTypeInPicker)
+                    DispatchQueue.main.async  {
+                        self.currentType.currentType = typeData.types[currentIndex]
+                        self.closeScreen = .main
+                    }
                 }
             }
         }
