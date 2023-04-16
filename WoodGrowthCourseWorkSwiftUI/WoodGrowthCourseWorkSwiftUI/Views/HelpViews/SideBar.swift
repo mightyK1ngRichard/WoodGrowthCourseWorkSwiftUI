@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SideBar: View {
     @EnvironmentObject var userData  : UserData
+    @EnvironmentObject var pressed   : PressedButton
     @Namespace var animation
     @State private var isHovering    = false
     @State var isHoverExit           = false
@@ -70,9 +71,11 @@ struct SideBar: View {
 
 struct SideBar_Previews: PreviewProvider {
     static var previews: some View {
-        let defaultUser = UserData()
+        let default1 = UserData()
+        let default2 = PressedButton()
         
         SideBar()
-            .environmentObject(defaultUser)
+            .environmentObject(default1)
+            .environmentObject(default2)
     }
 }

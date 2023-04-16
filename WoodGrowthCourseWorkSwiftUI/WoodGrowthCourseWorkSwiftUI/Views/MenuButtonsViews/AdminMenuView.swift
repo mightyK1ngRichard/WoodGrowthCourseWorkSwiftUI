@@ -12,18 +12,18 @@ class PressedButton: ObservableObject {
 }
 
 struct AdminMenuView: View {
-    @ObservedObject var pressed = PressedButton()
+    @ObservedObject var pressed     = PressedButton()
+    @EnvironmentObject var userData : UserData
     
     var body: some View {
         mainView()
-            .environmentObject(pressed)
     }
     
     private func mainView() -> some View {
         HStack {
             SideBar()
             
-            switch (self.pressed.pressed) {
+            switch (pressed.pressed) {
                 
             case "Home":
                 Home()
@@ -53,6 +53,7 @@ struct AdminMenuView: View {
                 }
             }
         }
+        .environmentObject(pressed)
         .preferredColorScheme(.none)
         .background(getTabBackground())
     }
@@ -60,6 +61,10 @@ struct AdminMenuView: View {
 
 struct AdminMenuView_Previews: PreviewProvider {
     static var previews: some View {
+        let default1 = PressedButton()
+        let default2 = UserData()
         AdminMenuView()
+            .environmentObject(default1)
+            .environmentObject(default2)
     }
 }
