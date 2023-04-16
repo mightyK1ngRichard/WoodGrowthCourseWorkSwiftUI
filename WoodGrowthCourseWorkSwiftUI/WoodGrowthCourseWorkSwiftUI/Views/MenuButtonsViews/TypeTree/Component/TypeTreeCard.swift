@@ -9,18 +9,18 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct TypeTreeCard: View {
-    @ObservedObject var typeList     = ListTypeTrees()
-    @EnvironmentObject var typesData : TypeTreesData
-    @Binding var treesOfThisType     : [TreeResult]
-    @Binding var currentCard         : TypeTreesResult
-    @Binding var selectedType        : String
-    @Binding var closeEye            : Bool
-    @Binding var showTrees           : Bool
-    @State private var isHover       = false
-    @State private var showThisView  = true
-    @State private var showAlert     = false
-    @State private var alertText     = ""
-    @State private var switchView    : pressedButton = .main
+    @ObservedObject var typeList           = ListTypeTrees()
+    @EnvironmentObject var typesData       : TypeTreesData
+    @EnvironmentObject var treesOfThisType : ListTrees
+    @Binding var currentCard               : TypeTreesResult
+    @Binding var selectedType              : String
+    @Binding var closeEye                  : Bool
+    @Binding var showTrees                 : Bool
+    @State private var isHover             = false
+    @State private var showThisView        = true
+    @State private var showAlert           = false
+    @State private var alertText           = ""
+    @State private var switchView          = pressedButton.main
     
     var body: some View {
         menu()
@@ -37,15 +37,10 @@ struct TypeTreeCard: View {
                 AddTypeTree(closeScreen: $switchView)
                 
             case .editTypeTree:
-                EditTypeTree(closeScreen: $switchView, currentType: $currentCard)
+                EditTypeView()
                 
             case .addTree:
-                if typeList.status {
-                    AddTreeForType(closeScreen: $switchView, treesOfThisType: $treesOfThisType, typeList: typeList.types)
-                    
-                } else {
-                    Text("ERROR")
-                }
+                AddTreeView()
             }
         }
     }
@@ -57,7 +52,7 @@ struct TypeTreeCard: View {
             
             if showTrees {
                 if !closeEye {
-                    if treesOfThisType.count != 0 {
+                    if treesOfThisType.trees.count != 0 {
                         getCardsTrees()
                         
                     } else {
@@ -72,7 +67,6 @@ struct TypeTreeCard: View {
             }
             Spacer()
         }
-        .frame(minHeight: 600)
         .alert("Удаление", isPresented: $showAlert, actions: {
             SecureField("Пароль", text: $alertText)
             Button("Удалить") {
@@ -101,6 +95,31 @@ struct TypeTreeCard: View {
         }, message: {
             Text("Введите пароль, чтобы подтвердить право на удаление.")
         })
+    }
+    
+    private func EditTypeView() -> some View {
+        VStack {
+            if typeList.status {
+                EditTypeTree(closeScreen: $switchView, currentType: $currentCard)
+            } else {
+                Spacer()
+                ProgressView()
+                Spacer()
+            }
+        }
+    }
+    
+    private func AddTreeView() -> some View {
+        VStack {
+            if typeList.status {
+                AddTreeForType(closeScreen: $switchView, typeList: typeList.types, currentType: currentCard)
+                
+            } else {
+                Spacer()
+                ProgressView()
+                Spacer()
+            }
+        }
     }
     
     private func getImageWithText() -> some View {
@@ -138,6 +157,7 @@ struct TypeTreeCard: View {
                 Text("**Удобрение:** \(currentCard.firtilizerName ?? "Не задано")")
                 Text("**Примечание:**")
                 Text("*\(currentCard.notes ?? "Описания нету")*")
+                    .padding(.trailing)
                 Text("**Количество деревьев:** \(currentCard.countTrees) шт.")
                 
                 HStack {
@@ -167,7 +187,7 @@ struct TypeTreeCard: View {
         HStack (alignment: .center) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(treesOfThisType) { tree in
+                    ForEach(treesOfThisType.trees) { tree in
                         TreeCardForTypeTreeView(treeInfo: tree)
                     }
                 }
@@ -210,13 +230,11 @@ struct TypeTreeCard: View {
 
 struct TypeTreeCard_Previews: PreviewProvider {
     static var previews: some View {
-        let tempPhoto = URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!
+        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)
+        let defaultTrees = ListTrees()
         
-        let item1 = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: tempPhoto)
-        
-        let tree1 = TreeResult(id: "0", name_tree: "1", volume: 12, date_measurements: "2023-02-14T21:00:00.000Z", notes: nil, name_type: "Берёза", name_plot: "F", x_begin: 10, x_end: 10, y_begin: 10, y_end: 10, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
-        
-        TypeTreeCard(treesOfThisType: .constant([tree1, tree1, tree1, tree1, tree1, tree1]), currentCard: .constant(item1), selectedType: .constant(item1.id), closeEye: .constant(false), showTrees: .constant(true))
+        TypeTreeCard(currentCard: .constant(item1), selectedType: .constant(item1.id), closeEye: .constant(false), showTrees: .constant(true))
+            .environmentObject(defaultTrees)
     }
 }
 
@@ -226,4 +244,3 @@ enum pressedButton: String {
     case addTree      = "addTree"
     case editTypeTree = "EditTypeTree"
 }
-

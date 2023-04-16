@@ -13,6 +13,7 @@ struct EditTypeTree: View {
     @Binding var currentType        : TypeTreesResult
     @State private var isHover      = false
     @State private var showAlert    = false
+    @State private var showMainView = false
     @State private var newNameType  = ""
     @State private var newNote      = ""
     @State private var newPhoto     = ""
@@ -23,6 +24,7 @@ struct EditTypeTree: View {
         self._newNameType = State(initialValue: currentType.wrappedValue.nameType)
         self._newPhoto = State(initialValue: "\(currentType.wrappedValue.photo)")
         self._newNote = State(initialValue: currentType.wrappedValue.notes ?? "")
+        self.showMainView = true
     }
     
     var body: some View {
@@ -78,7 +80,6 @@ struct EditTypeTree: View {
                 }
                 .padding(.bottom, 10)
         }
-        
     }
     
     private func inputDataView() -> some View {
@@ -131,7 +132,7 @@ struct EditTypeTree: View {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
             guard let _ = data else {
                 print("== ERROR FROM AddTypeTree [Button]<Save>", error!)
-                // .... Что-то выводить при ошибке
+                showAlert = true
                 return
             }
 

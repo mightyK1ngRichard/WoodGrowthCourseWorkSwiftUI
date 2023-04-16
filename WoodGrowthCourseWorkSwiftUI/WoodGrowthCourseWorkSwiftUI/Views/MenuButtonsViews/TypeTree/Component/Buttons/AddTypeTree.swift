@@ -83,11 +83,9 @@ struct AddTypeTree: View {
                 .bold()
             
             TextEditor(text: $newNote)
-                .background(Color.gray.opacity(0.2))
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .border(Color.gray)
                 .background(Color.white)
-                .font(.system(size: 16))
+                .font(.system(size: 14))
                 
 
             

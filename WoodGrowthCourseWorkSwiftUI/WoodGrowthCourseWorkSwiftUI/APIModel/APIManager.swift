@@ -429,7 +429,7 @@ class APIManager {
         
     }
     
-    func updateWithSlash(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
+    func updateWithSlash(SQLQuery: String, completion: @escaping (RespondDB?, String?) -> Void) {
         let correctSQL = SQLQuery.replacingOccurrences(of: "/", with: "%2F")
         let urlString = "http://\(host):\(port)/database/update/"
         let encodedQuery = correctSQL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -445,8 +445,14 @@ class APIManager {
                 completion(nil, "Data is empty")
                 return
             }
-            
-            completion(String(decoding: data, as: UTF8.self), nil)
+            if let info = try? JSONDecoder().decode(RespondDB.self, from: data) {
+                completion(info, nil)
+
+            } else {
+                completion(nil, "Parse error")
+                return
+            }
+
         }.resume()
     }
     
@@ -608,6 +614,9 @@ struct RowsUser: Decodable {
     let post      : String
 }
 
+struct RespondDB: Decodable {
+    let name: String
+}
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id       : String
