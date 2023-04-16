@@ -51,4 +51,13 @@ struct TabButton: View {
     }
 }
 
-var black = Color.black.opacity(0.5)
+struct TabButton_Previews: PreviewProvider {
+    static var previews: some View {
+        let defaultButton = PressedButton()
+        @Namespace var animation
+        TabButton(image: "house", title: "Дом", animation: animation)
+            .environmentObject(defaultButton)
+    }
+}
+
+let black = Color.black.opacity(0.5)

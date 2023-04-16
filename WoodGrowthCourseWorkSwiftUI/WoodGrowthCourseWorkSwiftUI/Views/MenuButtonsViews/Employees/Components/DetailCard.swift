@@ -15,6 +15,8 @@ struct DetailCard: View {
     @State private var isHovering       = false
     @State private var isHoveringPhoto  = false
     @State private var isHoveringWater  = false
+    @State private var showAlert        = false
+    @State private var textInAlert      = ""
     @State private var newPhotoLink     = ""
     @State private var newFullname      = ""
     @State private var newPost          = ""
@@ -48,6 +50,11 @@ struct DetailCard: View {
             }
         }
         .frame(width: 221)
+        .alert("Ошибка!", isPresented: $showAlert, actions: {
+            Button("OK") { }
+        }, message: {
+            Text(textInAlert)
+        })
     }
     
     private func imagesSystem() -> some View {
@@ -167,9 +174,13 @@ struct DetailCard: View {
     }
     
     private func updateData(_ sqlString: String) {
-        APIManager.shared.updateWithSlash(SQLQuery: sqlString) { _, error in
-            if let error = error {
-                print("== ERROR FROM DetailCard:", error)
+        APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
+            if let _ = data {
+                DispatchQueue.main.async {
+                    self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                    self.showAlert = true
+                    return
+                }
             }
             
             DispatchQueue.main.async {
@@ -182,6 +193,6 @@ struct DetailCard: View {
 
 struct DetailCard_Previews: PreviewProvider {
     static var previews: some View {
-        DetailCard(pressedWateringLog: .constant(false), currentPersonInfo: EmpoyeeResult(id: "0", fullName: "Дмитриц Цуприков", phone: "89134535355", post: "Лесник", ava: URL(string: "https://sun9-69.userapi.com/impg/kUbiMF3vZqXa4T-t8L4Y-Gpk41kyavZzpRVDFA/bdY6Bf5sNEM.jpg?size=1080x1350&quality=95&sign=19f6fbd588569d29ea8c274c515037bc&type=album")!, namePlot: "А", nameType: "Дуб"))
+        DetailCard(pressedWateringLog: .constant(true), currentPersonInfo: EmpoyeeResult(id: "0", fullName: "Дмитриц Цуприков", phone: "89134535355", post: "Лесник", ava: URL(string: "https://sun9-69.userapi.com/impg/kUbiMF3vZqXa4T-t8L4Y-Gpk41kyavZzpRVDFA/bdY6Bf5sNEM.jpg?size=1080x1350&quality=95&sign=19f6fbd588569d29ea8c274c515037bc&type=album")!, namePlot: "А", nameType: "Дуб"))
     }
 }

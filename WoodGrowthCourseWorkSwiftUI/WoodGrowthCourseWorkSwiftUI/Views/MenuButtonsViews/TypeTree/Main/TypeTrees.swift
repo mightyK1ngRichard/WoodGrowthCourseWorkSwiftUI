@@ -9,13 +9,13 @@ import SwiftUI
 
 struct TypeTrees: View {
     @ObservedObject var typesData       = TypeTreesData()
+    @ObservedObject var treesOfThisType = ListTrees()
+    @ObservedObject var typeList        = ListTypeTrees()
+    @ObservedObject var currentCard     = CurrentType()
     @State private var showSecondView   = false
     @State private var showScreen       = false
-    @State private var selectedType     = ""
     @State private var closeEye         = false
     @State private var showTrees        = true
-    @State private var currentCard      = infoForTest
-    @ObservedObject var treesOfThisType = ListTrees()
     
     var body: some View {
         mainView()
@@ -29,7 +29,7 @@ struct TypeTrees: View {
                         VStack {
                             getPickerWithTypes()
                                 .padding(.top)
-                            TypeTreeCard(currentCard: $currentCard, selectedType: $selectedType, closeEye: $closeEye, showTrees: $showTrees)
+                            TypeTreeCard(closeEye: $closeEye, showTrees: $showTrees)
                         }
                         if !showScreen {
                             ProgressView()
@@ -46,13 +46,15 @@ struct TypeTrees: View {
         }
         .environmentObject(typesData)
         .environmentObject(treesOfThisType)
+        .environmentObject(typeList)
+        .environmentObject(currentCard)
         .onAppear {
             getData()
         }
     }
     
     private func getPickerWithTypes() -> some View {
-        Picker("", selection: $selectedType) {
+        Picker("", selection: $currentCard.selectedTypeInPicker) {
             ForEach(typesData.types) {
                 Text($0.nameType)
             }
@@ -60,11 +62,10 @@ struct TypeTrees: View {
         .labelsHidden()
         .pickerStyle(.segmented)
         .padding()
-        .onChange(of: selectedType) { _ in
-            let currentIndex = getDetailInfoUsingTypeName(data: typesData.types, key: selectedType)
-            self.currentCard = typesData.types[currentIndex]
-            
-            getTreesInThisPlot(currentCard.id) { data, error in
+        .onChange(of: currentCard.selectedTypeInPicker) { _ in
+            let currentIndex = getDetailInfoUsingTypeName(data: typesData.types, key: currentCard.selectedTypeInPicker)
+            self.currentCard.currentType = typesData.types[currentIndex]
+            getTreesInThisPlot(currentCard.currentType.id) { data, error in
                 guard let data = data else {
                     print("== ERROR FROM TypeTrees [func getPickerWithTypes]", error!)
                     return
@@ -109,8 +110,8 @@ struct TypeTrees: View {
                     }
                     
                     DispatchQueue.main.async {
-                        self.selectedType = data[0].id
-                        self.currentCard = data[0]
+                        self.currentCard.selectedTypeInPicker = data[0].id
+                        self.currentCard.currentType = data[0]
                         self.showScreen = true
                         self.treesOfThisType.trees = dataTree
                         self.showTrees = true
@@ -141,10 +142,6 @@ struct TypeTrees: View {
             completion(tempData, nil)
         }
     }
-    
-    private func getDetailInfoUsingTypeName(data: [TypeTreesResult], key: String) -> Int {
-        return data.firstIndex { $0.id == key }!
-    }
 }
 
 struct TypeTrees_Previews: PreviewProvider {
@@ -152,6 +149,3 @@ struct TypeTrees_Previews: PreviewProvider {
         TypeTrees()
     }
 }
-
-// Для рисовки во время вёрстки.
-private let infoForTest = TypeTreesResult(id: "0", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)

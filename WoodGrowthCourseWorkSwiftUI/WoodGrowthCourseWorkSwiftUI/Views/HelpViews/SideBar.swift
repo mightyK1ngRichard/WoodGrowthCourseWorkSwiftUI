@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SideBar: View {
+    @EnvironmentObject var userData  : UserData
     @Namespace var animation
     @State private var isHovering    = false
     @State var isHoverExit           = false
-    @EnvironmentObject var userData  : UserData
+    
     
     var body: some View {
         HStack(spacing: 0) {
@@ -69,6 +70,9 @@ struct SideBar: View {
 
 struct SideBar_Previews: PreviewProvider {
     static var previews: some View {
+        let defaultUser = UserData()
+        
         SideBar()
+            .environmentObject(defaultUser)
     }
 }

@@ -40,7 +40,6 @@ struct AddendumCard: View {
     
     var body: some View {
         mainView()
-        
     }
     
     private func mainView() -> some View {
