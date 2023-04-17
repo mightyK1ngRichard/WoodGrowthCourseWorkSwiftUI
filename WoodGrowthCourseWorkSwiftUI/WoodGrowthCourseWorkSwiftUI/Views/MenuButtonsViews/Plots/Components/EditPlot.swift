@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct EditPlot: View {
-
     var currentData                   : PlotResult
+    var size                          : (width: CGFloat, height: CGFloat)
     @State private var datePlanting   = Date()
     @State private var plotName       = ""
     @State private var typeTreeOnPlot = ""
@@ -21,8 +21,9 @@ struct EditPlot: View {
     var allEmployeesFree              : [(String, String)]
     @EnvironmentObject var plotsData  : plotsCardsViewModel
     
-    init(currentData: PlotResult, pressedClose: Binding<Bool>, allTypesFree: [(String, String)], allEmployeesFree: [(String, String)]) {
+    init(currentData: PlotResult, size: (width: CGFloat, height: CGFloat), pressedClose: Binding<Bool>, allTypesFree: [(String, String)], allEmployeesFree: [(String, String)]) {
         // Декодируем дату из строки в Date().
+        self.size = size
         self.currentData = currentData
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -104,7 +105,8 @@ struct EditPlot: View {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(getGradient().opacity(0.7), lineWidth: 3)
         }
-        .frame(width: 500, height: 330)
+        .frame(width: size.width, height: size.height)
+        .padding()
     }
     
     private func myPickers() -> some View {
@@ -162,6 +164,6 @@ struct EditPlot: View {
 
 struct EditPlot_Previews: PreviewProvider {
     static var previews: some View {
-        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
+        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!), size: (width: CGFloat(500), height: CGFloat(330)), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
     }
 }
