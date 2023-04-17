@@ -327,21 +327,23 @@ class APIManager {
             return
         }
         let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                guard let data = data else {
-                    completion(nil, "Data is nil")
-                    return
+        DispatchQueue.global(qos: .background).async {
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                DispatchQueue.main.async {
+                    guard let data = data else {
+                        completion(nil, "Data is nil")
+                        return
+                    }
+                    if let newInfo = try? JSONDecoder().decode(TypeTreesParse.self, from: data) {
+                        completion(newInfo, nil)
+                        
+                    } else {
+                        completion(nil, "Parse error")
+                        return
+                    }
                 }
-                if let newInfo = try? JSONDecoder().decode(TypeTreesParse.self, from: data) {
-                    completion(newInfo, nil)
-
-                } else {
-                    completion(nil, "Parse error")
-                    return
-                }
-            }
-        }.resume()
+            }.resume()
+        }
     }
     
     func getAllTypeTreesWithoutConditions(completion: @escaping (AllTypeTreesParse?, String?) -> Void) {
@@ -372,7 +374,7 @@ class APIManager {
         }.resume()
     }
     
-    func getUserInfo(user userEmail: String = "dimapermyakov55@gmail.com", password userPassword: String = "boss", completion: @escaping (UsersParse?, String?) -> Void) {
+    func getUserInfo(user userEmail: String = "dimapermyakov55@gmail.com", password userPassword: String = "boss", completion: @escaping (UsersParse?, URLResponse?, String?) -> Void) {
         let SQLQuery = """
         SELECT *
         FROM users
@@ -383,23 +385,36 @@ class APIManager {
         let correctURL = urlString + encodedQuery
         
         guard let url = URL(string: correctURL) else {
-            completion(nil, "Uncorrected url")
+            completion(nil, nil, "Uncorrected url")
             return
         }
-        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                // Если сервер ответил, но ошибка.
+                if let _ = response as? HTTPURLResponse {
+                    completion(nil, response, error.localizedDescription)
+                    return
+                   
+                    // Если сервер не включен. Повторный запрос к серверу.
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        self.getUserInfo(completion: completion)
+                        return
+                    }
+                }
+            }
             DispatchQueue.main.async {
                 guard let data = data else {
-                    completion(nil, "Data is nil")
+                    completion(nil, response, "Data is nil")
                     return
                 }
                 
                 if let newInfo = try? JSONDecoder().decode(UsersParse.self, from: data) {
-                    completion(newInfo, nil)
-
+                    completion(newInfo, response, nil)
+                    
                 } else {
-                    completion(nil, "Parse error")
+                    completion(nil, response, "Parse error")
                     return
                 }
             }
