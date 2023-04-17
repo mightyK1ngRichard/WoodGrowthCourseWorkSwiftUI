@@ -13,8 +13,9 @@ struct TypeTreeCard: View {
     @EnvironmentObject var typesData       : TypeTreesData
     @EnvironmentObject var treesOfThisType : ListTrees
     @EnvironmentObject var currentCard     : CurrentType
-    @Binding var closeEye                  : Bool
-    @Binding var showTrees                 : Bool
+    @EnvironmentObject var isShow          : ShowScreens
+    //@Binding var closeEye                  : Bool
+    //@Binding var showTrees                 : Bool
     @State private var isHover             = false
     @State private var showThisView        = true
     @State private var showAlert           = false
@@ -48,8 +49,8 @@ struct TypeTreeCard: View {
             getImageWithText()
             Spacer()
             
-            if showTrees {
-                if !closeEye {
+            if isShow.showTrees {
+                if !isShow.closeEye {
                     if treesOfThisType.trees.count != 0 {
                         getCardsTrees()
                         
@@ -137,14 +138,14 @@ struct TypeTreeCard: View {
                     .brightness(isHover ? -0.6 : 0)
                     
                 if isHover {
-                    Image(systemName: closeEye ? "eye.slash" : "eye")
+                    Image(systemName: isShow.closeEye ? "eye.slash" : "eye")
                         .resizable()
                         .frame(width: 120, height: 90)
                         .onHover { hovering in
                             isHover = hovering
                         }
                         .onTapGesture {
-                            closeEye.toggle()
+                            isShow.closeEye.toggle()
                         }
                 }
             }
@@ -229,16 +230,21 @@ struct TypeTreeCard: View {
 struct TypeTreeCard_Previews: PreviewProvider {
     static var previews: some View {
  
-        let defaultTrees = ListTrees()
-        let defaulTypeTrees = ListTypeTrees()
-        let defaultypesData = TypeTreesData()
+        let defaultTrees       = ListTrees()
+        let defaulTypeTrees    = ListTypeTrees()
+        let defaultypesData    = TypeTreesData()
         let defaultCurrentCard = CurrentType()
+        let defaultShow        = ShowScreens()
         
-        TypeTreeCard(closeEye: .constant(false), showTrees: .constant(true))
+        TypeTreeCard()
             .environmentObject(defaultTrees)
             .environmentObject(defaulTypeTrees)
             .environmentObject(defaultypesData)
             .environmentObject(defaultCurrentCard)
+            .environmentObject(defaultShow)
+            .onAppear() {
+                defaultShow.showTrees = true
+            }
     }
 }
 

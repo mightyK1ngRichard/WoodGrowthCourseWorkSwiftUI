@@ -53,7 +53,7 @@ struct Authorization: View {
         .background(Image("auth"))
     }
     
-    func LeftSide() -> some View {
+    private func LeftSide() -> some View {
         HStack {
             VStack (alignment: .leading, spacing: 4) {
                 Spacer()
@@ -68,7 +68,7 @@ struct Authorization: View {
         .padding(.bottom, 200)
     }
     
-    func RightSide() -> some View {
+    private func RightSide() -> some View {
         VStack(spacing: 0) {
             Text("Sign In")
                 .bold()
@@ -165,7 +165,8 @@ struct Authorization: View {
             password = "boss"
         }
         
-        APIManager.shared.getUserInfo(user: email, password: password, completion: { data, error in
+        APIManager.shared.getUserInfo(user: email, password: password, completion: { data, response, error  in
+            
             guard let data = data else {
                 print("== ERROR: ", error!)
                 DispatchQueue.main.async {

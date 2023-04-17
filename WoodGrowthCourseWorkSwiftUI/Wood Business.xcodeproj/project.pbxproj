@@ -542,7 +542,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2CE0870D29C83AF800710F98 /* Build configuration list for PBXProject "WoodGrowthCourseWorkSwiftUI" */;
+			buildConfigurationList = 2CE0870D29C83AF800710F98 /* Build configuration list for PBXProject "Wood Business" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -765,6 +765,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Wood Business";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = AppIcon;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -796,6 +797,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Wood Business";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = AppIcon;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -811,7 +813,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2CE0870D29C83AF800710F98 /* Build configuration list for PBXProject "WoodGrowthCourseWorkSwiftUI" */ = {
+		2CE0870D29C83AF800710F98 /* Build configuration list for PBXProject "Wood Business" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2CE0871F29C83AF900710F98 /* Debug */,
