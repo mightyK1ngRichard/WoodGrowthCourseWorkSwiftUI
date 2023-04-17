@@ -35,7 +35,6 @@ struct FertilizerEdit: View {
             Button(action: {
                 close = false
                 // TODO: ?
-                print(fertilizerName, fertilizerPrice, fertilizerMass, typeTree, separator: "\n")
                 
             }) {
                 Text("Save")

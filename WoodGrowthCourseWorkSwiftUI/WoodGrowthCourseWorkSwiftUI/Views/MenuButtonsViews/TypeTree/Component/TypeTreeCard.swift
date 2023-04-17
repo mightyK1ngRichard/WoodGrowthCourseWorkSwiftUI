@@ -14,8 +14,6 @@ struct TypeTreeCard: View {
     @EnvironmentObject var treesOfThisType : ListTrees
     @EnvironmentObject var currentCard     : CurrentType
     @EnvironmentObject var isShow          : ShowScreens
-    //@Binding var closeEye                  : Bool
-    //@Binding var showTrees                 : Bool
     @State private var isHover             = false
     @State private var showThisView        = true
     @State private var showAlert           = false

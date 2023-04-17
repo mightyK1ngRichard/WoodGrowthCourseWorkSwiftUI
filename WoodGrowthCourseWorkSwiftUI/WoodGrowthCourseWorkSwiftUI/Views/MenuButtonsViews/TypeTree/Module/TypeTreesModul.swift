@@ -52,10 +52,10 @@ class ListTypeTrees: ObservableObject {
     @Published var status = false
     
     init() {
-        refresh()
+        refresh() { }
     }
     
-    func refresh() {
+    func refresh(completion: @escaping () -> Void) {
         APIManager.shared.getAllTypeTreesWithoutConditions {data, error in
             guard let data = data else {
                 print("== ERROR FROM TypeTreesModule", error!)
@@ -73,6 +73,7 @@ class ListTypeTrees: ObservableObject {
             DispatchQueue.main.async {
                 self.types = tempData
                 self.status = true
+                completion()
             }
         }
     }

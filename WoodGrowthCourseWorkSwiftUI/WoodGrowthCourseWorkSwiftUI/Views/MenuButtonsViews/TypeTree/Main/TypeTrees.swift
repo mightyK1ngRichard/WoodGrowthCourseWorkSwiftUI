@@ -17,7 +17,6 @@ struct TypeTrees: View {
     
     init() {
         getData()
-        print("INIT")
     }
     
     var body: some View {
@@ -52,9 +51,6 @@ struct TypeTrees: View {
         .environmentObject(typeList)
         .environmentObject(currentCard)
         .environmentObject(isShow)
-        .onAppear() {
-            print("APPEAR")
-        }
     }
     
     private func getPickerWithTypes() -> some View {

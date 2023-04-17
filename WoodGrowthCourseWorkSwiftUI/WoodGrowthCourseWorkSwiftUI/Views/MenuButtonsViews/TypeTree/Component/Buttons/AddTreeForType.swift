@@ -36,16 +36,22 @@ struct AddTreeForType: View {
                 secondView()
             }
         }
-            .onAppear() {
+//        .onAppear() {
+//            typeList.refresh() {
+//
+//            }
+//        }
+        .onReceive(currentType.$currentType) { newValue in
+            typeList.refresh() {
                 if self.typeList.types.count != 0 {
-                    
-                    self.newTypeTree = self.currentType.currentType.id
+                    self.newTypeTree = self.currentType.selectedTypeInPicker
                     self.isShowMainView = true
-
+                    
                 } else {
                     self.isShowMainView = false
                 }
             }
+        }
     }
     
     private func mainView() -> some View {

@@ -110,9 +110,6 @@ struct EditTypeTree: View {
             
             Button("Save") {
                 if newNameType == "" || newPhoto == "" {
-                    print("=====")
-                    print(newNameType, newPhoto)
-                    print("=====")
                     self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
                     return

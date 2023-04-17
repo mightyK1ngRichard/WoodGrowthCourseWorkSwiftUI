@@ -98,10 +98,6 @@ struct DetailCardTree: View {
                     Button {
                         // TODO: Запрос обновы БД.
                         self.pressedEdit = false
-                        print(newName)
-                        print(newType)
-                        print(newPlot)
-                        print(newVolume)
                         
                     } label: {
                         HStack {
