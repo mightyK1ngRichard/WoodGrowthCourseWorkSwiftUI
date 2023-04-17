@@ -7,15 +7,17 @@
 
 import SwiftUI
 
+
 struct TypeTrees: View {
     @ObservedObject var typesData       = TypeTreesData()
     @ObservedObject var treesOfThisType = ListTrees()
     @ObservedObject var typeList        = ListTypeTrees()
     @ObservedObject var currentCard     = CurrentType()
-    @State private var showSecondView   = false
-    @State private var showScreen       = false
-    @State private var closeEye         = false
-    @State private var showTrees        = true
+    @ObservedObject var isShow          = ShowScreens()
+    
+    init() {
+        getData()
+    }
     
     var body: some View {
         mainView()
@@ -23,15 +25,15 @@ struct TypeTrees: View {
     
     private func mainView() -> some View {
         ZStack {
-            if showScreen {
-                if !showSecondView {
+            if isShow.showScreen {
+                if !isShow.showSecondView {
                     ZStack {
                         VStack {
                             getPickerWithTypes()
                                 .padding(.top)
-                            TypeTreeCard(closeEye: $closeEye, showTrees: $showTrees)
+                            TypeTreeCard()
                         }
-                        if !showScreen {
+                        if !isShow.showScreen {
                             ProgressView()
                         }
                     }
@@ -48,9 +50,7 @@ struct TypeTrees: View {
         .environmentObject(treesOfThisType)
         .environmentObject(typeList)
         .environmentObject(currentCard)
-        .onAppear {
-            getData()
-        }
+        .environmentObject(isShow)
     }
     
     private func getPickerWithTypes() -> some View {
@@ -97,7 +97,7 @@ struct TypeTrees: View {
         typesData.refresh { data, error in
             guard let data = data else {
                 print("== ERROR FROM TypeTrees", error!)
-                self.showScreen = false
+                self.isShow.showScreen = false
                 return
             }
             
@@ -105,22 +105,23 @@ struct TypeTrees: View {
                 getTreesInThisPlot(data[0].id) { dataTree, errorTree in
                     guard let dataTree = dataTree else {
                         print("== ERROR FROM TypeTrees [func getData]", error!)
-                        self.showScreen = false
+                        DispatchQueue.main.async {
+                            self.isShow.showScreen = false
+                        }
                         return
                     }
-                    
                     DispatchQueue.main.async {
+                        self.isShow.showScreen = true
                         self.currentCard.selectedTypeInPicker = data[0].id
                         self.currentCard.currentType = data[0]
-                        self.showScreen = true
                         self.treesOfThisType.trees = dataTree
-                        self.showTrees = true
+                        self.isShow.showTrees = true
                     }
                 }
                 
             } else {
                 DispatchQueue.main.async {
-                    showSecondView = true
+                    isShow.showSecondView = true
                 }
             }
         }

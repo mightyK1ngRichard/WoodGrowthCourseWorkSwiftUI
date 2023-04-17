@@ -27,7 +27,9 @@ struct PlotCard: View {
     
     var body: some View {
         if openEdit {
-            EditPlot(currentData: plotInfo, size: size,pressedClose: $openEdit, allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees)
+            withAnimation {
+                EditPlot(currentData: plotInfo, size: size,pressedClose: $openEdit, allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees)
+            }
             
         } else {
             CardPreview()

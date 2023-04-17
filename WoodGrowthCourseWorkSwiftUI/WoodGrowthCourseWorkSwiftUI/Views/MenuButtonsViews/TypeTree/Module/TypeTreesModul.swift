@@ -102,7 +102,14 @@ class ListTrees: ObservableObject {
 
 class CurrentType: ObservableObject {
     @Published var currentType = TypeTreesResult(id: "1", nameType: "B", notes: "", firtilizerName: "Удобрение F", plotName: "Дуб", countTrees: "100", photo: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!)
-    @Published var selectedTypeInPicker = "0"
+    @Published var selectedTypeInPicker = "1"
+}
+
+class ShowScreens: ObservableObject {
+    @Published var showSecondView = false
+    @Published var showScreen     = false
+    @Published var closeEye       = false
+    @Published var showTrees      = false
 }
 
 func getDetailInfoUsingTypeName(data: [TypeTreesResult], key: String) -> Int {
