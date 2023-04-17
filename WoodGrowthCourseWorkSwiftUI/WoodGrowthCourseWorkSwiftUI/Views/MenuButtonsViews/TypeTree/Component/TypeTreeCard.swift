@@ -30,9 +30,6 @@ struct TypeTreeCard: View {
             switch(switchView) {
             case .main:
                 mainView()
-                    .onAppear() {
-                        print(currentCard)
-                    }
                 
             case .addTypeTree:
                 AddTypeTree(closeScreen: $switchView)

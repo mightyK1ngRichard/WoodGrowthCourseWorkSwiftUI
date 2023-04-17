@@ -13,7 +13,6 @@ struct Home: View {
     
     var body: some View {
         VStack {
-            // userData.status
             if userData.status {
                 HStack() {
                     Spacer()
@@ -88,6 +87,11 @@ struct Home: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
+        let default1 = UserData()
         Home()
+            .environmentObject(default1)
+            .onAppear() {
+                default1.status = true
+            }
     }
 }

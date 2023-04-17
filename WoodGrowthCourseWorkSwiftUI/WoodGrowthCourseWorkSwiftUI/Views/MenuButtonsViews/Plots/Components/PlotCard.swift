@@ -10,11 +10,12 @@ import SDWebImageSwiftUI
 
 struct PlotCard: View {
     var plotInfo                        : PlotResult
+    var size                            = (width: CGFloat(500), height: CGFloat(330))
     @State private var openEdit         = false
     @State private var isHovering       = false
     @State private var isShowCalendar   = false
     @State private var isShowTrash      = false
-    @State private var isHoverOnImage   = false
+    @State private var isHoverOnImage   = false 
     @State private var openLogWatering  = false
     @State private var dataLog          : [String] = []
     @State private var allEmployees     : [AllEmpoyeesResult] = []
@@ -26,7 +27,7 @@ struct PlotCard: View {
     
     var body: some View {
         if openEdit {
-            EditPlot(currentData: plotInfo, pressedClose: $openEdit, allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees)
+            EditPlot(currentData: plotInfo, size: size,pressedClose: $openEdit, allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees)
             
         } else {
             CardPreview()
@@ -38,12 +39,13 @@ struct PlotCard: View {
         ZStack(alignment: .top) {
             WebImage(url: plotInfo.typephoto)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 300)
+                .scaledToFill()
+                .frame(width: size.width, height: size.height)
                 .brightness(isHoverOnImage ? -0.1 : 0)
                 .onHover { hovering in
                     isHoverOnImage = hovering
                 }
+                .cornerRadius(20)
             
             ImagesView()
             InfoAboutPlotView()
@@ -53,7 +55,7 @@ struct PlotCard: View {
                 WateringLog(pressedClose: $openLogWatering, wateringLog: dataLog)
             }
         }
-        .frame(width: 500, height: 330)
+        .frame(width: size.width, height: size.height)
         .cornerRadius(15)
     }
     
@@ -61,12 +63,12 @@ struct PlotCard: View {
         HStack {
             // Кнопка удалить.
             Circle()
-                .frame(width: 60, height: 60)
+                .frame(width: size.width * 0.09, height: size.width * 0.09)
                 .foregroundColor(.white)
                 .overlay {
                     Image(systemName: "trash.fill")
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .frame(width: size.width * 0.05, height: size.width * 0.05)
                         .foregroundColor(isShowTrash ? .red : .black)
                 }
                 .opacity(isHoverOnImage ? (isShowTrash ? 1 : 0.7) : 0)
@@ -90,7 +92,6 @@ struct PlotCard: View {
                                     return
                                 }
                                 plotsData.refresh()
-                                // ... Можно додумать что-то.
                             }
                         }
                     })
@@ -102,12 +103,12 @@ struct PlotCard: View {
             
             // Кнопка календарь.
             Circle()
-                .frame(width: 60, height: 60)
+                .frame(width: size.width * 0.09, height: size.width * 0.09)
                 .foregroundColor(.white)
                 .overlay {
                     Image(systemName: "calendar")
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .frame(width: size.width * 0.05, height: size.width * 0.05)
                         .foregroundColor(.black)
                 }
                 .onHover { hovering in
@@ -139,21 +140,20 @@ struct PlotCard: View {
     
     private func NamePlotView() -> some View {
         Text(plotInfo.name)
+            .font(.system(size: size.width / 9.1))
+            .padding(.horizontal, size.width / 29.8)
             .onHover { hovering in
                 self.isHovering = hovering
             }
             .onTapGesture {
                 getFreeDate()
             }
-            .padding(.horizontal, 46)
-            .offset(y: -3)
-            .font(.system(size: 70))
             .background(.black)
             .clipShape(Circle())
             .overlay {
                 Circle().stroke(getGradient(), lineWidth: 3)
             }
-            .offset(y: 98)
+            .frame(maxHeight: .infinity, alignment: .center)
             .foregroundColor(.white)
             .brightness(isHovering ? 0.4 : 0)
     }
@@ -162,67 +162,62 @@ struct PlotCard: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text("Дата заземления: ")
-                    .font(.title3)
                     .bold()
                     .padding(.top)
+                    
                 Text(correctDate(dateString: plotInfo.date))
+                    
                 Text("Удобрение: ")
-                    .font(.title3)
                     .bold()
                 + Text(plotInfo.fertilizerName ?? "Не задано")
-                
+                    
                 Text("**Вид:** ")
-                    .font(.title3)
                 + Text(plotInfo.type_tree)
+                    
                 Text("Количество деревьев: ")
-                    .font(.title3)
                     .bold()
                 + Text(plotInfo.countTrees)
-                
-                Text("Адрес: ")
-                    .font(.title3)
-                    .bold()
-                    .padding(.top)
-                
-                Text(plotInfo.address)
-                
+                    
                 Spacer()
+                Text("Адрес: ")
+                    .bold()
+                Text(plotInfo.address)
+                    .padding(.bottom)
             }
             .foregroundColor(.black)
             .padding(.leading)
-            
             Spacer()
             
             VStack (alignment: .center) {
                 Text("Ответсвенный:")
-                    .font(.title3)
                     .bold()
-                    .padding(.top, 20)
-                
+                    .padding(.top)
+        
                 if let img = plotInfo.emp_photo {
                     WebImage(url: img)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 80, height: 80)
+                        .frame(width: size.width / 5.7, height: size.width / 5.7)
                         .cornerRadius(10)
                     
                 } else {
                     Image(systemName: "person")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
+                        .frame(width: size.width / 5.7, height: size.width / 5.7)
                         .cornerRadius(10)
                 }
                 
                 Text(plotInfo.employee)
-                    .font(.title)
                     .bold()
+                    .padding(.bottom)
             }
             .foregroundColor(.black)
             .padding(.horizontal, 20)
         }
         .background(.white)
-        .offset(y: 144)
+        .frame(width: size.width, height: size.height / 2)
+        .frame(maxHeight: .infinity, alignment: .bottom)
     }
     
     private func getFreeDate() {
@@ -265,6 +260,6 @@ struct PlotCard: View {
 
 struct PlotCard_Previews: PreviewProvider {
     static var previews: some View {
-        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "s", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!))
+        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://vsegda-pomnim.com/uploads/posts/2022-04/1649619470_19-vsegda-pomnim-com-p-palmi-foto-22.jpg")!))
     }
 }

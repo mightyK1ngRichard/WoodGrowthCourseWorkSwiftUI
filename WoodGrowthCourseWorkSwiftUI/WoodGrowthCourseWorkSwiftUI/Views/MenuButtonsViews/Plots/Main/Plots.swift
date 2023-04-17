@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Plots: View {
-    var columns                         = Array(repeating: GridItem(.flexible()), count: 2)
     @State private var search           = ""
     @State private var output           = ""
     @State private var plusTap          = false
@@ -114,16 +113,24 @@ struct Plots: View {
         GeometryReader { reader in
             VStack {
                 searchBar()
-                
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(plotData.plotInfo) {card in
-                            PlotCard(plotInfo: card)
-                                .padding()
+                GeometryReader { proxy in
+                    ScrollView {
+                        LazyVGrid(columns: [
+                            GridItem(spacing: 70, alignment: .top),
+                            GridItem(alignment: .top)
+                        ], spacing: 30) {
+                            ForEach(plotData.plotInfo) { card in
+                                let width = (proxy.size.width - 210) / 2
+                                let height = (proxy.size.height) / 2.5
+                                PlotCard(plotInfo: card, size: (width, height))
+                                    .frame(width: width, height: height)
+                                    
+                            }
                         }
+                        .padding(.horizontal, 50)
+                        
                     }
                 }
-                
             }
         }
     }

@@ -19,6 +19,7 @@
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
 		2C4ED44729E7F7D9002FA400 /* AddendumCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */; };
+		2C8369F729EC8DFF0035223E /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8369F629EC8DFF0035223E /* Test.swift */; };
 		2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */; };
 		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
 		2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A729CE35A100530B94 /* PlotInfo.swift */; };
@@ -69,6 +70,7 @@
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddendumCard.swift; sourceTree = "<group>"; };
+		2C8369F629EC8DFF0035223E /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotCard.swift; sourceTree = "<group>"; };
 		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
 		2C8CE9A729CE35A100530B94 /* PlotInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotInfo.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				2CEEBA2E29CEA58B00403ECE /* EditPlot.swift */,
 				2C3E1C5B29D45764001FEC5A /* WateringLog.swift */,
 				2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */,
+				2C8369F629EC8DFF0035223E /* Test.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 			files = (
 				2C8D7B6829D58EE4006C5AD3 /* TypeTreeCard.swift in Sources */,
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
+				2C8369F729EC8DFF0035223E /* Test.swift in Sources */,
 				2C3E1C5C29D45764001FEC5A /* WateringLog.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
