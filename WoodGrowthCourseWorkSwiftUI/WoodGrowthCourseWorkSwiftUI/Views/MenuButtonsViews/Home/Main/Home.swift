@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
+
 struct Home: View {
     @EnvironmentObject var userData : UserData
     
@@ -21,6 +22,7 @@ struct Home: View {
                         .padding()
                     Spacer()
                 }
+ 
                 Spacer()
             } else {
                 TurnOffServer()

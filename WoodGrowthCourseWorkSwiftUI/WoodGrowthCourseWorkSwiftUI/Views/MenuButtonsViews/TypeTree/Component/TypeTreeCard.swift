@@ -19,6 +19,9 @@ struct TypeTreeCard: View {
     @State private var showAlert           = false
     @State private var alertText           = ""
     @State private var switchView          = pressedButton.main
+    @State private var showFertilizer      = false
+    @State private var freeFertilizers     : [RowsFreeFertilizer] = []
+    @State private var selectedFertilizer  = ""
     
     var body: some View {
         menu()
@@ -151,7 +154,31 @@ struct TypeTreeCard: View {
             VStack (alignment: .leading, spacing: 5) {
                 Text("\(currentCard.currentType.nameType)")
                     .font(.system(size: 40))
-                Text("**Удобрение:** \(currentCard.currentType.firtilizerName ?? "Не задано")")
+
+                if !showFertilizer {
+                    Text("**Удобрение:** \(currentCard.currentType.firtilizerName ?? "Не задано")")
+                    
+                } else {
+                    HStack {
+                        Picker("**Удобрение:**", selection: $selectedFertilizer) {
+                            ForEach(freeFertilizers, id: \.self.fertilizer_id) { fer in
+                                Text(fer.name)
+                            }
+                        }
+                        .frame(width: 200)
+                        Button {
+                            let sqlString = "UPDATE fertilizer SET type_tree_id=\(currentCard.selectedTypeInPicker) WHERE fertilizer_id=\(selectedFertilizer);"
+                            pushFertilizer(sqlString)
+                            
+                        } label: {
+                            Image(systemName: "square.and.arrow.down")
+                                .foregroundColor(.blue)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 5)
+                    }
+                }
+                
                 Text("**Примечание:**")
                 Text("*\(currentCard.currentType.notes ?? "Описания нету")*")
                     .padding(.trailing)
@@ -170,6 +197,9 @@ struct TypeTreeCard: View {
                     }
                     updateButton(title: "Новое дерево", imageName: "plus.circle") {
                         switchView = .addTree
+                    }
+                    updateButton(title: "Удобрение", imageName: !showFertilizer ? "leaf.circle" : "xmark.circle") {
+                        fetchFertilizer()
                     }
                 }
 
@@ -223,6 +253,45 @@ struct TypeTreeCard: View {
         
         
     }
+    
+    private func fetchFertilizer() {
+        if showFertilizer {
+            showFertilizer = false
+            return
+        }
+        APIManager.shared.getFreeFertilizer() { data, error in
+            guard let data = data else {
+                print("== ERROR FROM TypeTreeCard func[fetchFertilizer]: ", error!)
+                return
+            }
+            self.freeFertilizers = data.rows
+            if freeFertilizers.count != 0 {
+                self.selectedFertilizer = freeFertilizers[0].fertilizer_id
+                self.showFertilizer = true
+            } else {
+                self.showFertilizer = false
+            }
+        }
+        
+    }
+    
+    private func pushFertilizer(_ sqlString: String) {
+        APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
+            guard let _ = data else {
+                print("== ERROR FROM TypeTreeCard func[pushFertilizer]: ", error!)
+                self.showAlert = true
+                self.alertText = "Произошла ошибка"
+                return
+            }
+            typesData.refresh { _, _ in
+                let currentIndex = getDetailInfoUsingTypeName(data: typesData.types, key: currentCard.selectedTypeInPicker)
+                self.currentCard.currentType = typesData.types[currentIndex]
+                self.showFertilizer = false
+            }
+        }
+        
+    }
+    
 }
 
 struct TypeTreeCard_Previews: PreviewProvider {

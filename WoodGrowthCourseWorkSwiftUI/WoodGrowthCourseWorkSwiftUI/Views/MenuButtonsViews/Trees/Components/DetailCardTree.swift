@@ -88,7 +88,7 @@ struct DetailCardTree: View {
                         MyTextField(textForUser: "Новый вид", text: $newType)
                         MyTextField(textForUser: "Новый объём", text: $newVolume)
                         MyTextField(textForUser: "Новая должность", text: $newPost)
-                        MyTextField(textForUser: "Новая должность", text: $newDate)
+                        MyTextField(textForUser: "Дата заземления", text: $newDate)
                         MyTextField(textForUser: "Новый X start", text: $newX1)
                         MyTextField(textForUser: "Новый X end", text: $newX2)
                         MyTextField(textForUser: "Новый Y start", text: $newY1)

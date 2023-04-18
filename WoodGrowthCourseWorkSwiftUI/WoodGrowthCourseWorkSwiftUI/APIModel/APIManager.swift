@@ -421,6 +421,36 @@ class APIManager {
         }.resume()
     }
     
+    func getFreeFertilizer(completion: @escaping (FreeFertilizerParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT  fertilizer_id, name, type_tree_id FROM fertilizer
+        WHERE type_tree_id is NULL;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        DispatchQueue.global(qos: .background).async {
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                DispatchQueue.main.async {
+                    guard let data = data else {
+                        completion(nil, "Data is nil")
+                        return
+                    }
+                    if let newInfo = try? JSONDecoder().decode(FreeFertilizerParse.self, from: data) {
+                        completion(newInfo, nil)
+                        
+                    } else {
+                        completion(nil, "Parse error")
+                        return
+                    }
+                }
+            }.resume()
+        }
+    }
     
     // MARK: - Updates or Delete or Insert.
     func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
@@ -627,6 +657,16 @@ struct RowsUser: Decodable {
     let firstname : String
     let lastname  : String
     let post      : String
+}
+
+struct FreeFertilizerParse: Decodable {
+    let rows: [RowsFreeFertilizer]
+}
+
+struct RowsFreeFertilizer: Decodable {
+    let fertilizer_id : String
+    let name          : String
+    let type_tree_id  : String?
 }
 
 struct RespondDB: Decodable {

@@ -19,6 +19,7 @@
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
 		2C4ED44729E7F7D9002FA400 /* AddendumCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */; };
+		2C66134029EEADCC0069C303 /* AddFertilizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66133F29EEADCC0069C303 /* AddFertilizer.swift */; };
 		2C8369F729EC8DFF0035223E /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8369F629EC8DFF0035223E /* Test.swift */; };
 		2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */; };
 		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
@@ -70,6 +71,7 @@
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddendumCard.swift; sourceTree = "<group>"; };
+		2C66133F29EEADCC0069C303 /* AddFertilizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFertilizer.swift; sourceTree = "<group>"; };
 		2C8369F629EC8DFF0035223E /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotCard.swift; sourceTree = "<group>"; };
 		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				2CDB8E0329EA3CBD00CB8FDA /* AddTypeTree.swift */,
 				2CDB8E0529EB0A1B00CB8FDA /* EditTypeTree.swift */,
 				2CDB8E0729EB0A7200CB8FDA /* AddTreeForType.swift */,
+				2C66133F29EEADCC0069C303 /* AddFertilizer.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				2C8369F729EC8DFF0035223E /* Test.swift in Sources */,
 				2C3E1C5C29D45764001FEC5A /* WateringLog.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
+				2C66134029EEADCC0069C303 /* AddFertilizer.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
 				2C2464D029CAE2690021907A /* correctDate.swift in Sources */,
 				2CEEBA3B29CF5D4C00403ECE /* FertilizerView.swift in Sources */,
