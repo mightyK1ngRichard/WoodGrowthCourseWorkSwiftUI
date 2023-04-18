@@ -115,6 +115,7 @@ struct Plots: View {
                 searchBar()
                 GeometryReader { proxy in
                     ScrollView {
+                        Spacer()
                         LazyVGrid(columns: [
                             GridItem(spacing: 70, alignment: .top),
                             GridItem(alignment: .top)

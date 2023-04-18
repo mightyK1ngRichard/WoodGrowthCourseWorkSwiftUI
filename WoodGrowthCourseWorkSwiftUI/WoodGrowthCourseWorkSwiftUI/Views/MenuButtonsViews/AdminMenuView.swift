@@ -9,6 +9,17 @@ import SwiftUI
 
 class PressedButton: ObservableObject {
     @Published var pressed = "Home"
+    
+// TODO: Потом сделать через enum.
+//    enum Menu: String {
+//        case home                    = "Home"
+//        case workers                 = "Работники"
+//        case trees                   = "Деревья"
+//        case types                   = "Виды"
+//        case plots                   = "Участки"
+//        case fertilizers             = "Удобрения"
+//        case supliersAndDeliveries   = "Посавщики &\nПоставки"
+//    }
 }
 
 struct AdminMenuView: View {
@@ -21,7 +32,12 @@ struct AdminMenuView: View {
     
     private func mainView() -> some View {
         HStack {
-            SideBar()
+            if pressed.pressed == "Home"{
+                SideBar(colors: LinearGradient(colors: [Color(red: 35/255.0, green: 35/255.0, blue: 36/255.0)], startPoint: .top, endPoint: .bottom), imageColor: Color.white, colorOfLetters: .white)
+            } else {
+                SideBar(colors: getGradient(), colorOfLetters: .black)
+            }
+            
             
             switch (pressed.pressed) {
                 
@@ -55,7 +71,7 @@ struct AdminMenuView: View {
         }
         .environmentObject(pressed)
         .preferredColorScheme(.none)
-        .background(getTabBackground())
+        .background(["Home"].contains(pressed.pressed) ? .black : getTabBackground())
     }
 }
 

@@ -103,7 +103,7 @@ struct EditPlot: View {
         .padding(.horizontal)
         .overlay {
             RoundedRectangle(cornerRadius: 15)
-                .stroke(getGradient().opacity(0.7), lineWidth: 3)
+                .stroke(getGradient().opacity(0.7), lineWidth: 2)
         }
         .frame(width: size.width, height: size.height)
         .padding()

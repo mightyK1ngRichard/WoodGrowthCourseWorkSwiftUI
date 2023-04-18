@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct SideBar: View {
+    var colors                       = getGradient()
+    var imageColor                   = Color.black
+    var colorOfLetters               = Color.black
     @EnvironmentObject var userData  : UserData
     @EnvironmentObject var pressed   : PressedButton
     @Namespace var animation
     @State private var isHovering    = false
-    @State var isHoverExit           = false
+    @State private var isHoverExit   = false
     
     
     var body: some View {
@@ -33,14 +36,25 @@ struct SideBar: View {
                     .padding(.top, 35)
                     .padding(.leading, 10)
                     
-
-                    TabButton(image: "house.fill", title: "Home", animation: animation)
-                    TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation)
-                    TabButton(image: "square.stack.3d.up.fill", title: "Виды", animation: animation)
-                    TabButton(image: "leaf.fill", title: "Удобрения", animation: animation)
-                    TabButton(image: "person.2.fill", title: "Работники", animation: animation)
-                    TabButton(image: "tree.fill", title: "Деревья", animation: animation)
-                    TabButton(image: "cart.fill", title: "Посавщики &\nПоставки", animation: animation)
+                    if pressed.pressed == "Home" {
+                        TabButton(image: "house", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "square.stack.3d.up", title: "Виды", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "leaf", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "person.2", title: "Работники", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "tree", title: "Деревья", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "cart", title: "Посавщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        
+                    } else {
+                        TabButton(image: "house.fill", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: imageColor)
+                        TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "square.stack.3d.up.fill", title: "Виды", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "leaf.fill", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "person.2.fill", title: "Работники", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "tree.fill", title: "Деревья", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "cart.fill", title: "Посавщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters)
+                    }
+                    
                 }
                 
                 Spacer(minLength: 0)
@@ -65,7 +79,7 @@ struct SideBar: View {
                 .offset(x: -2)
         }
         .frame(width: 218)
-        .background(getGradient())
+        .background(colors)
     }
 }
 

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct TabButton: View {
+    @EnvironmentObject var selected : PressedButton
     var image                       : String
     var title                       : String
     var animation                   : Namespace.ID
-    @EnvironmentObject var selected : PressedButton
+    var colorOfLetters              = Color.black
+    var colorOfImage                = Color.black
     
     var body: some View {
         Button(action: {
@@ -22,11 +24,12 @@ struct TabButton: View {
             HStack {
                 Image(systemName: image)
                     .font(.title2)
-                    .foregroundColor(selected.pressed == title ? Color.black : black)
+                    .foregroundColor(selected.pressed == title ? colorOfImage : colorOfImage.opacity(0.5))
                     .frame(width: 15)
                     .padding(.leading, 7)
                 
                 Text(title)
+                    .foregroundColor(colorOfLetters)
                     .fontWeight(selected.pressed == title ? .semibold : .none)
                     .animation(.none)
                     .padding(.horizontal)
@@ -59,5 +62,3 @@ struct TabButton_Previews: PreviewProvider {
             .environmentObject(defaultButton)
     }
 }
-
-let black = Color.black.opacity(0.5)
