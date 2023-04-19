@@ -9,6 +9,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 import SwiftUICharts
 
+// TODO: Сделать, когда наводишь на графики, чтобы они увеличивались. И мб добавить угловой 3D эффекст.
+
 struct Home: View {
     @EnvironmentObject var userData : UserData
     

@@ -104,7 +104,7 @@ struct ScrollViewCard: View {
         .alert("Удаление", isPresented: $showAlert, actions: {
             SecureField("Пароль", text: $alertText)
             Button("Удалить") {
-                if alertText == "430133" {
+                if alertText == "\(PasswordForEnter.password)" {
                     let SQLQuery = "DELETE FROM employer WHERE employer_id=\(card.id);"
                     APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
                         guard let _ = data else {

@@ -72,6 +72,8 @@ struct AdminMenuView: View {
         .environmentObject(pressed)
         .preferredColorScheme(.none)
         .background(["Home"].contains(pressed.pressed) ? .black : getTabBackground())
+//        .background(["Home"].contains(pressed.pressed) ?
+//                    LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom) : myNewBackground())
     }
 }
 

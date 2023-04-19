@@ -96,10 +96,11 @@ struct Employees: View {
                 Image(systemName: "magnifyingglass")
                 TextField("Введите имя", text: $search) {
                     self.output = self.search
-                    self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output) }
+                    self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output.lowercased()) }
                 }
                 .textFieldStyle(PlainTextFieldStyle())
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.white)
+                .font(.system(size: 14, design: .serif))
             }
             .padding(.vertical, 10)
             .padding(.horizontal)

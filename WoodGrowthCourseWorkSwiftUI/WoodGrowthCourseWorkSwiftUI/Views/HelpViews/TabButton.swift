@@ -39,12 +39,13 @@ struct TabButton: View {
                     Capsule()
                         .fill(Color.clear)
                         .frame(width: 3, height: 25)
-
+                    
                     if selected.pressed == title {
                         Capsule()
-                            .fill(Color.black)
+                            .fill(colorOfImage)
                             .frame(width: 3, height: 25)
                             .matchedGeometryEffect(id: "Tab", in: animation)
+                            .offset(x: 1.5)
                     }
                 }
             }

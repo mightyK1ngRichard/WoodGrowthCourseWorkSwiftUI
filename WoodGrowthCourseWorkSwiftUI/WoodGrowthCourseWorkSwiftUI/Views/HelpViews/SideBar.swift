@@ -30,7 +30,7 @@ struct SideBar: View {
                             .clipShape(Circle())
                         Text("Wood Business")
                             .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .foregroundColor(colorOfLetters)
                         Spacer(minLength: 0)
                     }
                     .padding(.top, 35)
@@ -75,8 +75,6 @@ struct SideBar: View {
                 .padding(.bottom, 20)
                 
             }
-            Divider()
-                .offset(x: -2)
         }
         .frame(width: 218)
         .background(colors)
@@ -88,7 +86,7 @@ struct SideBar_Previews: PreviewProvider {
         let default1 = UserData()
         let default2 = PressedButton()
         
-        SideBar()
+        SideBar(colors: LinearGradient(colors: [Color(red: 35/255.0, green: 35/255.0, blue: 36/255.0)], startPoint: .top, endPoint: .bottom), colorOfLetters: .white)
             .environmentObject(default1)
             .environmentObject(default2)
     }

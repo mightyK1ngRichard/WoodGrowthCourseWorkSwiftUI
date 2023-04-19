@@ -158,11 +158,11 @@ class APIManager {
     func getFertilizer(completion: @escaping (FeritilizerParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT fertilizer.fertilizer_id, fertilizer.name, fertilizer.price, fertilizer.mass,
-        tt.name_type, s.name_supplier, tt.photo
+        tt.name_type, s.name_supplier, tt.photo, tt.type_id
         FROM fertilizer
         LEFT JOIN type_tree tt ON fertilizer.type_tree_id=tt.type_id
-        JOIN delivery d on fertilizer.fertilizer_id = d.fertilizer_id
-        JOIN supplier s on d.supplier_id = s.supplier_id;
+        LEFT JOIN delivery d on fertilizer.fertilizer_id = d.fertilizer_id
+        LEFT JOIN supplier s on d.supplier_id = s.supplier_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -452,6 +452,35 @@ class APIManager {
         }
     }
     
+    func getTypeOfTreesWithoutFertilizers(completion: @escaping (AllTypeTreesParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT type_id, name_type FROM type_tree
+        WHERE type_id NOT IN (SELECT f.type_tree_id FROM fertilizer f WHERE f.type_tree_id IS NOT NULL);
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(AllTypeTreesParse.self, from: data) {
+                    completion(newInfo, nil)
+
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     // MARK: - Updates or Delete or Insert.
     func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
@@ -585,6 +614,7 @@ struct RowsFeritilizer: Decodable {
     let price         : Int
     let mass          : Int
     let name_type     : String?
+    let type_id       : String?
     let name_supplier : String
     let photo         : URL?
 }
@@ -722,10 +752,11 @@ struct PlotResult: Codable, Identifiable {
 
 struct FertilizerResult: Codable, Identifiable {
     let id              : String
-    let nameFertilizer  : String
+    var nameFertilizer  : String
     let priceFertilizer : Int
     let massFertilizer  : Int
     let typeTree        : String?
+    let type_id         : String?
     let nameSupplier    : String
     let photo           : URL?
 }
