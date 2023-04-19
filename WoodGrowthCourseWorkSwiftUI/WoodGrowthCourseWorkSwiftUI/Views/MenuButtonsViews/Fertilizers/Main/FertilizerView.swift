@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct FertilizerView: View {
-    @State private var pressedCard     = false // Редактор.
     @ObservedObject var fertilizerData = FertilizerData()
-    @State private var editingCard     : FertilizerResult?
+    @State private var showEditor      = false
     
     var body: some View {
         if !fertilizerData.status {
@@ -18,33 +17,32 @@ struct FertilizerView: View {
             
         } else {
             VStack {
-                GeometryReader { _ in
-                    ScrollView (.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(fertilizerData.fertilizerData) { card in
-                                FertilizerCard(pressedCard: $pressedCard, infoCardPressed: $editingCard, data: card)
-                                    .padding()
-                            }
-                        }
-                    }
-                }
+                FertilizerCards
                 
                 // Вид для редактирования.
-                if pressedCard {
-                    if let currentNameFertilizer = editingCard?.nameFertilizer {
-                        VStack {
-                            Text("Редактируем данные по \(currentNameFertilizer)")
-                                .font(.title)
-                            FertilizerEdit(close: $pressedCard)
-                            Spacer()
-                        }
-                    } else {
-                        Text("Произошла ошибка. Это невозмонжно, но если вдруг вы видите это сообщение, проверьте чтоль интернет, мб БД полетела.")
+                if showEditor {
+                    VStack {
+                        Text("Редактируем данные по \(fertilizerData.currentCard?.nameFertilizer ?? "")")
+                            .font(.title)
+                        FertilizerEdit(close: $showEditor)
+                        Spacer()
                     }
-                    
                 }
             }
             .environmentObject(fertilizerData)
+        }
+    }
+ 
+    private var FertilizerCards: some View {
+        GeometryReader { _ in
+            ScrollView (.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(fertilizerData.fertilizerData) { card in
+                        FertilizerCard(isPressedCard: $showEditor, data: card)
+                            .padding()
+                    }
+                }
+            }
         }
     }
 }
