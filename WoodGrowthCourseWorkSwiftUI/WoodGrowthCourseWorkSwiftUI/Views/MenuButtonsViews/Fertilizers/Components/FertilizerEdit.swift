@@ -14,9 +14,11 @@ struct FertilizerEdit: View {
     @State private var fertilizerPrice   = ""
     @State private var fertilizerMass    = ""
     @State private var typeTree          = ""
+    @State private var textInAlert       = ""
+    @State private var showAlert         = false
     @State private var isHover           = false
     @State private var isShowView        = true
-    @Binding var close                   : Bool
+    @Binding var close                   : EditOrAdd
     @State private var allTypeOfTrees    : [RowsAllTypeTrees]?
     
     var body: some View {
@@ -34,10 +36,15 @@ struct FertilizerEdit: View {
     }
     
     private func loadData() {
-        self.fertilizerName = allFertilizer.currentCard!.nameFertilizer
-        self.fertilizerPrice = "\(allFertilizer.currentCard!.priceFertilizer)"
-        self.fertilizerMass = "\(allFertilizer.currentCard!.massFertilizer)"
-        if let typeID = allFertilizer.currentCard!.type_id {
+        if let fname = allFertilizer.currentCard?.nameFertilizer, let fprice = allFertilizer.currentCard?.priceFertilizer, let fmass = allFertilizer.currentCard?.massFertilizer {
+            self.fertilizerName = fname
+            self.fertilizerPrice = "\(fprice)"
+            self.fertilizerMass = "\(fmass)"
+        } else {
+            self.close = .none
+        }
+
+        if let typeID = allFertilizer.currentCard?.type_id {
             self.typeTree = typeID
             
         } else {
@@ -69,10 +76,13 @@ struct FertilizerEdit: View {
         }
         .padding()
         .frame(width: 400, height: 300)
+        .background(getGradient().opacity(0.1))
+        .cornerRadius(15)
         .overlay {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(getGradient().opacity(0.7), lineWidth: 3)
         }
+        .alert(textInAlert, isPresented: $showAlert) {}
     }
     
     private var closeScreenButton: some View {
@@ -83,7 +93,7 @@ struct FertilizerEdit: View {
                 isHover = hovering
             }
             .onTapGesture {
-                self.close = false
+                self.close = .none
             }
     }
     
@@ -92,8 +102,6 @@ struct FertilizerEdit: View {
             MyTextField(textForUser: "Новое название удобрения", text: $fertilizerName)
             MyTextField(textForUser: "Новая цена", text: $fertilizerPrice)
             MyTextField(textForUser: "Новая масса", text: $fertilizerMass)
-            MyTextField(textForUser: "Новый вид дерева", text: $typeTree)
-            
             
             HStack {
                 Text("Вид дерева")
@@ -109,8 +117,16 @@ struct FertilizerEdit: View {
             }
             
             Button(action: {
-                self.close = false
-                // TODO: ?
+                if let currentID = allFertilizer.currentCard?.id {
+                    let sqlString = "UPDATE fertilizer SET name='\(fertilizerName)',mass='\(fertilizerMass)',price='\(fertilizerPrice)',type_tree_id='\(typeTree)' WHERE fertilizer_id='\(currentID)';"
+                    pullFertilizer(sqlString: sqlString)
+                    
+                } else {
+                    self.showAlert = true
+                    self.textInAlert = "Неизвестная ошибка. Мб полетела БД."
+                    return
+                }
+                
                 
             }) {
                 Text("Save")
@@ -136,8 +152,17 @@ struct FertilizerEdit: View {
         }
     }
     
-    private func pullFertilizer() {
-        // TODO: доделать
+    private func pullFertilizer(sqlString: String) {
+        APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
+            if let _ = data {
+                self.textInAlert = "Данные некорректны. Вводите положительные числа!"
+                self.showAlert = true
+                return
+                
+            }
+            self.allFertilizer.refresh()
+            self.close = .none
+        }
     }
 }
 
@@ -145,7 +170,7 @@ struct FertilizerEdit_Previews: PreviewProvider {
     static var previews: some View {
         let allFertilizer = FertilizerData()
         
-        FertilizerEdit(close: .constant(false))
+        FertilizerEdit(close: .constant(.editFertilizer))
             .environmentObject(allFertilizer)
             .onAppear() {
                 allFertilizer.currentCard = startFertilizer

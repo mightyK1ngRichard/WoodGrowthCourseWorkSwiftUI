@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct FertilizerCard: View {
     @EnvironmentObject var allFertilizers : FertilizerData
-    @Binding var isPressedCard            : Bool
+    @Binding var isPressedCard            : EditOrAdd
     @State private var isHover            = false
     @State private var isHoverOnTrash     = false
     @State private var showAlert          = false
@@ -37,7 +37,7 @@ struct FertilizerCard: View {
         }
         .onTapGesture {
             allFertilizers.currentCard = data
-            isPressedCard = true
+            isPressedCard = .editFertilizer
         }
         .alert(textForAlert, isPresented: $showAlert) { }
     }
@@ -98,12 +98,14 @@ struct FertilizerCard: View {
                 .bold()
                 .padding(.bottom, 5)
                 .offset(y: -13)
+                .frame(width: 300)
+                .lineLimit(1)
             
             VStack(spacing: 3) {
                 Text("**Цена:** \(data.priceFertilizer) ₽")
                 Text("**Масса:** \(data.massFertilizer) м³")
                 Text("**Вид:** \(data.typeTree ?? "Нету")")
-                Text("**Поставщик:** \(data.nameSupplier)")
+                Text("**Поставщик:** \(data.nameSupplier ?? "Нету")")
             }
             .font(.system(size: 16))
         }
@@ -126,7 +128,7 @@ struct FertilizerCard_Previews: PreviewProvider {
     static var previews: some View {
         let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", type_id: "1", nameSupplier: "Леруа Мерлен", photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
         
-        FertilizerCard(isPressedCard: .constant(false), data: testData)
+        FertilizerCard(isPressedCard: .constant(.none), data: testData)
 
     }
 }

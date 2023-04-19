@@ -615,7 +615,7 @@ struct RowsFeritilizer: Decodable {
     let mass          : Int
     let name_type     : String?
     let type_id       : String?
-    let name_supplier : String
+    let name_supplier : String?
     let photo         : URL?
 }
 
@@ -757,7 +757,7 @@ struct FertilizerResult: Codable, Identifiable {
     let massFertilizer  : Int
     let typeTree        : String?
     let type_id         : String?
-    let nameSupplier    : String
+    let nameSupplier    : String?
     let photo           : URL?
 }
 
