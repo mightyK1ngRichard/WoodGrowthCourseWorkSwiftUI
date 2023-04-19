@@ -133,7 +133,6 @@ struct Employees: View {
                     .cornerRadius(10)
             }
             .buttonStyle(PlainButtonStyle())
-            
         }
     }
     

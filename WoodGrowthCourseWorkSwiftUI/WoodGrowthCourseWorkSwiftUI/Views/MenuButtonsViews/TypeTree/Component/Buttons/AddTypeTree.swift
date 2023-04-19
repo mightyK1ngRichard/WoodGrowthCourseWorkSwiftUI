@@ -121,17 +121,15 @@ struct AddTypeTree: View {
                 
             }
 
-            DispatchQueue.main.async  {
-                typeData.refresh { _, _ in
-                    let currentIndex = getDetailInfoUsingTypeName(data: typeData.types, key: currentType.selectedTypeInPicker)
-                    DispatchQueue.main.async  {
-                        self.currentType.currentType = typeData.types[currentIndex]
-                        self.closeScreen = .main
-                    }
+            typeData.refresh { _, _ in
+                let currentIndex = getDetailInfoUsingTypeName(data: typeData.types, key: currentType.selectedTypeInPicker)
+                DispatchQueue.main.async  {
+                    self.currentType.currentType = typeData.types[currentIndex]
+                    self.closeScreen = .main
                 }
             }
+        
         }
-
     }
 }
 
