@@ -14,8 +14,10 @@ struct DetailCardTree: View {
     @State private var isHovering          = false
     @State private var isHovering2         = false
     @State private var showAlert           = false
-    @State private var pressedEdit         = false
+    @State private var showAlertDelete     = false
+    @State private var pressedEdit         = true //false
     @State private var textInAlert         = ""
+    @State private var inputPassword       = ""
     @State private var newName             = ""
     @State private var newType             = ""
     @State private var newVolume           = ""
@@ -48,6 +50,37 @@ struct DetailCardTree: View {
                 }
             }
             .alert(textInAlert, isPresented: $showAlert) {}
+            .alert("Удаление", isPresented: $showAlertDelete, actions: {
+                SecureField("Пароль", text: $inputPassword)
+                Button("Удалить") {
+                    if inputPassword == "\(PasswordForEnter.password)" {
+                        if let currentTree = pressedTreeInfo.treeInfo {
+                            let SQLQuery = """
+                            BEGIN TRANSACTION;
+                            DELETE FROM coordinates WHERE tree_id='\(currentTree.id)';
+                            DELETE FROM tree WHERE tree_id='\(currentTree.id)';
+                            COMMIT;
+                            """
+                            APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+                                guard let _ = data else {
+                                    print("== ERROR FROM DetailCardTree func[alert]:", error!)
+                                    return
+                                }
+                                DispatchQueue.main.async {
+                                    self.treesData.refresh()
+                                    self.pressedTreeInfo.pressed = false
+                                }
+                            }
+                        } else {
+                            self.pressedTreeInfo.pressed = false
+                        }
+                    }
+                }
+                Button("Отмена", role: .cancel, action: {})
+                
+            }, message: {
+                Text("Введите пароль, чтобы подтвердить право на удаление.")
+            })
     }
     
     private var MainView: some View {
@@ -105,6 +138,19 @@ struct DetailCardTree: View {
                 .datePickerStyle(.field)
             }
             
+            Button {
+                showAlertDelete = true
+                
+            } label: {
+                HStack {
+                    Image(systemName: "trash.circle")
+                    Text("Удалить")
+                        .padding(.horizontal, 8)
+                }
+            }
+            .padding(.top, 5)
+            
+            /// Кнопка сохранить.
             Button {
                 let sqlString = """
                 BEGIN TRANSACTION;
@@ -199,7 +245,7 @@ struct DetailCardTree: View {
     
     private func pullData(SQLQuery: String) {
         APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { respondDB, error in
-            guard let respondDB = respondDB else {
+            guard let _ = respondDB else {
                 DispatchQueue.main.async {
                     treesData.refresh()
                     pressedTreeInfo.pressed = false
@@ -210,9 +256,6 @@ struct DetailCardTree: View {
                 self.textInAlert = "Данные некорректы! Перепроверьте их."
                 self.showAlert = true
             }
-            print("=====")
-            print(respondDB)
-            print("=====")
         }
     }
     

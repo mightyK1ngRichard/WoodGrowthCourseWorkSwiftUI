@@ -313,7 +313,7 @@ class APIManager {
     
     func getTypesTrees(completion: @escaping (TypeTreesParse?, String?) -> Void) {
         let SQLQuery = """
-        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, t.photo, COUNT(*) as count_trees
+        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, t.photo, COUNT(tree_id) as count_trees
         FROM tree
         FULL JOIN type_tree t ON tree.type_tree_id = t.type_id
         LEFT JOIN fertilizer f ON t.type_id = f.type_tree_id

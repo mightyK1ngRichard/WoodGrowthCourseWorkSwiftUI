@@ -182,7 +182,7 @@ struct TypeTreeCard: View {
                 Text("**Примечание:**")
                 Text("*\(currentCard.currentType.notes ?? "Описания нету")*")
                     .padding(.trailing)
-                Text("**Количество деревьев:** \(currentCard.currentType.countTrees) шт.")
+                Text("**Количество деревьев:** \( currentCard.currentType.countTrees) шт.")
                 
                 HStack {
                     
