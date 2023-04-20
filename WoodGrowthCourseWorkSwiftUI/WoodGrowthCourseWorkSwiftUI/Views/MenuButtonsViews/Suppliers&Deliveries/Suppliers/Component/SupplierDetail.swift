@@ -8,21 +8,75 @@
 import SwiftUI
 
 struct SupplierDetail: View {
-    @Binding var currentData    : SupplierResult?
-    @Binding var close          : Bool
-    @State private var newName  = ""
-    @State private var newPhone = ""
-    @State private var newWWW   = ""
-    @State private var isHover  = false
+    @EnvironmentObject var supplierData : SupplierData
+    @Binding var currentData            : SupplierResult?
+    @Binding var close                  : Bool
+    @State private var inputPassword    = ""
+    @State private var newName          = ""
+    @State private var newPhone         = ""
+    @State private var newWWW           = ""
+    @State private var newPhoto         = ""
+    @State private var textInAlert      = ""
+    @State private var isHover          = false
+    @State private var showAlert        = false
+    @State private var showAlertDelete  = false
     
     var body: some View {
+        MainView
+            .onAppear() {
+                if let current = currentData {
+                    self.newName = current.name_supplier
+                    self.newPhone = current.telephone ?? ""
+                    if let photo = current.photo {
+                        self.newPhoto = "\(photo)"
+                    }
+                    if let www = current.www {
+                        self.newWWW = "\(www)"
+                    }
+                    
+                } else {
+                    close = false
+                }
+            }
+            .alert("Удаление", isPresented: $showAlertDelete, actions: {
+                SecureField("Пароль", text: $inputPassword)
+                Button("Удалить") {
+                    if inputPassword == "\(PasswordForEnter.password)" {
+                        if let current = currentData {
+                            let SQLQuery = """
+                            DELETE FROM supplier WHERE supplier_id='\(current.id)';
+                            """
+                            APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+                                guard let _ = data else {
+                                    print("== ERROR FROM SupplietDetail func[alert]:", error!)
+                                    return
+                                }
+                                DispatchQueue.main.async {
+                                    self.supplierData.refresh()
+                                    self.close = false
+                                }
+                            }
+                        } else {
+                            self.close = false
+                        }
+                    }
+                }
+                Button("Отмена", role: .cancel, action: {})
+                
+            }, message: {
+                Text("Введите пароль, чтобы подтвердить право на удаление.")
+            })
+            .alert(textInAlert, isPresented: $showAlert) {}
+    }
+    
+    private var MainView: some View {
         VStack {
             Image(systemName: "x.circle")
                 .onHover { hovering in
-                    isHover = hovering
+                    self.isHover = hovering
                 }
                 .onTapGesture {
-                    close = false
+                    self.close = false
                 }
                 .foregroundColor(isHover ? .yellow : .white)
                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -46,20 +100,85 @@ struct SupplierDetail: View {
                 }
                 Spacer()
             }
-            Text("Измените, что надо:")
+            Text("Редактирование:")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title)
                 .bold()
                 .padding(.vertical)
             MyTextField(textForUser: "Новое имя", text: $newName)
             MyTextField(textForUser: "Новый телефон", text: $newPhone)
+            MyTextField(textForUser: "Новое фото", text: $newPhoto)
             MyTextField(textForUser: "Новый сайт", text: $newWWW)
+            
+            HStack {
+                Button("Удалить") {
+                    self.showAlertDelete = true
+                }
+                Spacer()
+                Button("Сохранить") {
+                    if newName == "" || newPhone == "" {
+                        self.textInAlert = "Имя и телофон должны содержать информацию!"
+                        self.showAlert = true
+                        return
+                    }
+                    
+                    if let current = currentData {
+                        /// Проверка фото на наличие текста внутри.
+                        if newPhoto == "" {
+                            let sqlString = """
+                            UPDATE supplier
+                            SET name_supplier='\(newName)',telephone='\(newPhone)',www=\(newWWW == "" ? "NULL" : "'\(newWWW)'"),photo=NULL
+                            WHERE supplier_id='\(current.id)';
+                            """
+                            pullData(SQLQuery: sqlString)
+                            
+                        } else {
+                            /// Проверка фото на корректность ссылки.
+                            if let newURL = URL(string: newPhoto)  {
+                                let sqlString = """
+                                UPDATE supplier
+                                SET name_supplier='\(newName)',telephone='\(newPhone)',www=\(newWWW == "" ? "NULL" : "'\(newWWW)'"),photo='\(newURL)'
+                                WHERE supplier_id='\(current.id)';
+                                """
+                                pullData(SQLQuery: sqlString)
+                                
+                            } else {
+                                self.textInAlert = "Введённая ссылка не рабочая. Поменяйте её или удалите вообще."
+                                self.showAlert = true
+                            }
+                            
+                        }
+                        
+                    } else {
+                        close = false
+                    }
+                }
+            }
+            
         }
         .padding()
         .background(.black)
         .frame(width: 500)
         .cornerRadius(20)
-        .shadow(color: .red, radius: 20)
+        .shadow(color: .red, radius: 10)
+    }
+    
+    private func pullData(SQLQuery: String) {
+        print(SQLQuery)
+        APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { resp, error in
+            guard let _ = resp else {
+                DispatchQueue.main.async {
+                    self.supplierData.refresh()
+                    self.close = false
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                self.textInAlert = "Не получилось обновить данные. Возможно проблема с ссылкой на фото"
+                self.showAlert = true
+            }
+            
+        }
     }
 }
 

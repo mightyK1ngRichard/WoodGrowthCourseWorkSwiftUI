@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct S_DViews: View {
-    @State private var pressedSupplierCard = false
-    @State private var currentCardSupplier : SupplierResult?
     @ObservedObject var supplierData       = SupplierData()
     @ObservedObject var deliveryData       = DeliveryData()
-    
+    @State private var pressedSupplierCard = false
+    @State private var currentCardSupplier : SupplierResult?
     
     var body: some View {
         

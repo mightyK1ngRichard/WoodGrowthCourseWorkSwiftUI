@@ -8,21 +8,27 @@
 import Foundation
 
 class SupplierData: ObservableObject {
-    @Published var supplierData : [SupplierResult] = []
+    @Published var supplierData = [SupplierResult]()
     @Published var status       = false
     
     init() {
-        APIManager.shared.getSupplier {[weak self] data, error in
+        refresh()
+    }
+    
+    func refresh() {
+        APIManager.shared.getSupplier { data, error in
             guard let data = data else {
                 print("== ERROR: ", error!)
-                self?.status = false
+                self.status = false
                 return
             }
+            var tempData: [SupplierResult] = []
             for el in data.rows {
                 let info = SupplierResult(id: el.supplier_id, name_supplier: el.name_supplier, telephone: el.telephone, www: el.www, photo: el.photo)
-                self?.supplierData.append(info)
+                tempData.append(info)
             }
-            self?.status = true
+            self.supplierData = tempData
+            self.status = true
         }
     }
 }

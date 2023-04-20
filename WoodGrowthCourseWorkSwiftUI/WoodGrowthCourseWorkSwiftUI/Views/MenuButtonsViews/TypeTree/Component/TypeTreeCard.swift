@@ -199,9 +199,8 @@ struct TypeTreeCard: View {
                         switchView = .addTree
                     }
                     updateButton(title: "Удобрение", imageName: !showFertilizer ? "leaf.circle" : "xmark.circle") {
-                        
                         fetchFertilizer()
-                        //showFertilizer.toggle()
+                        
                     }
                 }
 
