@@ -9,9 +9,9 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct TreeCard: View {
-    @EnvironmentObject var pressedTreeInfo  : PressedButtonTree
-    var treeInfo                            : TreeResult
-    @State private var isHovering           = false
+    @EnvironmentObject var pressedTreeInfo : PressedButtonTree
+    var treeInfo                           : TreeResult
+    @State private var isHovering          = false
     
     var body: some View {
         VStack() {
@@ -42,7 +42,7 @@ struct TreeCard: View {
                 Text("**Кординаты:**")
                     .font(.headline)
                 Text("X: \(treeInfo.x_begin), \(treeInfo.x_end)")
-                Text("Y: \(treeInfo.y_begin), \(treeInfo.x_end)")
+                Text("Y: \(treeInfo.y_begin), \(treeInfo.y_end)")
             }
         }
         .onHover { hovering in
@@ -69,6 +69,12 @@ struct TreeCard: View {
 
 struct TreeCard_Previews: PreviewProvider {
     static var previews: some View {
-        TreeCard(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 100, date_measurements: "2023-02-14T21:00:00.000Z", notes: "привет", name_type: "Берёза", name_plot: "А", x_begin: 1, x_end: 1, y_begin: 1, y_end: 1, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!))
+        let default1 = PressedButtonTree()
+        
+        TreeCard(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 100, date_measurements: "2023-02-14T21:00:00.000Z", notes: "привет", name_type: "Берёза", name_plot: "А", x_begin: 1, x_end: 1, y_begin: 1, y_end: 1, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!, typeID: "0"))
+            .environmentObject(default1)
+            .onAppear() {
+                default1.pressed = true
+            }
     }
 }

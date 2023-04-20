@@ -50,6 +50,6 @@ struct TreeCardForTypeTreeView: View {
 
 struct TreeCardForTypeTreeView_Previews: PreviewProvider {
     static var previews: some View {
-        TreeCardForTypeTreeView(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 1000, date_measurements: "2023-02-14T21:00:00.000Z", notes: "Дорого", name_type: "Дуб", name_plot: "А", x_begin: 0, x_end: 20, y_begin: 0, y_end: 20, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!))
+        TreeCardForTypeTreeView(treeInfo: TreeResult(id: "0", name_tree: "1", volume: 1000, date_measurements: "2023-02-14T21:00:00.000Z", notes: "Дорого", name_type: "Дуб", name_plot: "А", x_begin: 0, x_end: 20, y_begin: 0, y_end: 20, photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!, typeID: "0"))
     }
 }

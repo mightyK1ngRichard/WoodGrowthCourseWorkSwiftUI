@@ -182,7 +182,7 @@ struct TypeTreeCard: View {
                 Text("**Примечание:**")
                 Text("*\(currentCard.currentType.notes ?? "Описания нету")*")
                     .padding(.trailing)
-                Text("**Количество деревьев:** \(currentCard.currentType.countTrees) шт.")
+                Text("**Количество деревьев:** \( currentCard.currentType.countTrees) шт.")
                 
                 HStack {
                     
@@ -200,6 +200,7 @@ struct TypeTreeCard: View {
                     }
                     updateButton(title: "Удобрение", imageName: !showFertilizer ? "leaf.circle" : "xmark.circle") {
                         fetchFertilizer()
+                        
                     }
                 }
 
@@ -264,12 +265,15 @@ struct TypeTreeCard: View {
                 print("== ERROR FROM TypeTreeCard func[fetchFertilizer]: ", error!)
                 return
             }
-            self.freeFertilizers = data.rows
-            if freeFertilizers.count != 0 {
-                self.selectedFertilizer = freeFertilizers[0].fertilizer_id
-                self.showFertilizer = true
-            } else {
-                self.showFertilizer = false
+            DispatchQueue.main.async {
+                self.freeFertilizers = data.rows
+                if freeFertilizers.count != 0 {
+                    self.selectedFertilizer = freeFertilizers[0].fertilizer_id
+                    self.showFertilizer = true
+                    
+                } else {
+                    self.showFertilizer = false
+                }
             }
         }
         

@@ -84,7 +84,7 @@ class APIManager {
     
     func getTrees(typeID: String? = nil, completion: @escaping (TreesParse?, String?) -> Void) {
         var SQLQuery = """
-        SELECT tree.tree_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, tt.name_type, p.name_plot, c.x_begin, c.x_end, c.y_begin, c.y_end, tt.photo
+        SELECT tree.tree_id, tt.type_id, tree.name_tree, tree.volume, tree.date_measurements, tree.notes, tt.name_type, p.name_plot, c.x_begin, c.x_end, c.y_begin, c.y_end, tt.photo
         FROM tree
         LEFT JOIN type_tree tt ON tree.type_tree_id=tt.type_id
         LEFT JOIN plot p ON p.type_tree_id=tt.type_id
@@ -313,7 +313,7 @@ class APIManager {
     
     func getTypesTrees(completion: @escaping (TypeTreesParse?, String?) -> Void) {
         let SQLQuery = """
-        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, t.photo, COUNT(*) as count_trees
+        SELECT t.name_type, t.notes, t.type_id, f.name as fertilizer_name, p.name_plot as plot_name, t.photo, COUNT(tree_id) as count_trees
         FROM tree
         FULL JOIN type_tree t ON tree.type_tree_id = t.type_id
         LEFT JOIN fertilizer f ON t.type_id = f.type_tree_id
@@ -575,6 +575,7 @@ struct RowsTrees: Decodable {
     let y_begin           : Int
     let y_end             : Int
     let photo             : URL
+    let type_id           : String
 }
 
 struct WateringEmployee: Decodable {
@@ -733,6 +734,7 @@ struct TreeResult: Codable, Identifiable {
     let y_begin           : Int
     let y_end             : Int
     let photo             : URL
+    let typeID            : String
 }
 
 struct PlotResult: Codable, Identifiable {
