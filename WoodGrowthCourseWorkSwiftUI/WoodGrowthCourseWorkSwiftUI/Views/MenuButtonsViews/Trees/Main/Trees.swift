@@ -9,14 +9,15 @@ import SwiftUI
 
 struct Trees: View {
     @ObservedObject var pressedTreeInfo = PressedButtonTree()
+    @ObservedObject var treesData       = treesCardsViewModel()
     
     var body: some View {
         HStack{
-            ScrollTrees()
+            ScrollTrees
             
             if pressedTreeInfo.pressed {
                 VStack {
-                    DetailCardTree(treeInfo: pressedTreeInfo.treeInfo!)
+                    DetailCardTree()
                     Spacer()
                 }
                 .frame(width: 218)
@@ -24,18 +25,14 @@ struct Trees: View {
             }
         }
         .environmentObject(pressedTreeInfo)
+        .environmentObject(treesData)
         .frame(minWidth: 1235)
     }
-}
-
-struct ScrollTrees: View {
-    @ObservedObject var treesData = treesCardsViewModel()
-    @EnvironmentObject var pressedTreeInfo: PressedButtonTree
     
-    var body: some View {
+    private var ScrollTrees: some View {
         var columns: [GridItem]
         
-        // Задаём число карточек в ширину.
+        /// Задаём число карточек в ширину.
         if pressedTreeInfo.pressed {
             columns = Array(repeating: GridItem(.flexible(), spacing: 5), count: 6)
         } else {
@@ -43,7 +40,7 @@ struct ScrollTrees: View {
         }
         
         return HStack {
-            // Сервер отключен.
+            /// Сервер отключен.
             if !treesData.parseStatus {
                 TurnOffServer()
                 
@@ -52,15 +49,13 @@ struct ScrollTrees: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 5) {
                             ForEach(treesData.treesInfo) {card in
-                                TreeCard(treeInfo: card)                                
+                                TreeCard(treeInfo: card)
                             }
                         }
                     }
                 }
             }
         }
-        .environmentObject(treesData)
-    
     }
 }
 

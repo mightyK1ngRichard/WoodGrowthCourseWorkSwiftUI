@@ -199,7 +199,9 @@ struct TypeTreeCard: View {
                         switchView = .addTree
                     }
                     updateButton(title: "Удобрение", imageName: !showFertilizer ? "leaf.circle" : "xmark.circle") {
+                        
                         fetchFertilizer()
+                        //showFertilizer.toggle()
                     }
                 }
 
@@ -264,12 +266,15 @@ struct TypeTreeCard: View {
                 print("== ERROR FROM TypeTreeCard func[fetchFertilizer]: ", error!)
                 return
             }
-            self.freeFertilizers = data.rows
-            if freeFertilizers.count != 0 {
-                self.selectedFertilizer = freeFertilizers[0].fertilizer_id
-                self.showFertilizer = true
-            } else {
-                self.showFertilizer = false
+            DispatchQueue.main.async {
+                self.freeFertilizers = data.rows
+                if freeFertilizers.count != 0 {
+                    self.selectedFertilizer = freeFertilizers[0].fertilizer_id
+                    self.showFertilizer = true
+                    
+                } else {
+                    self.showFertilizer = false
+                }
             }
         }
         
