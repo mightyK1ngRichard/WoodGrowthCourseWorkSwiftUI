@@ -22,6 +22,9 @@
 		2C66134229EED4650069C303 /* Rings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66134129EED4650069C303 /* Rings.swift */; };
 		2C66134829EF08540069C303 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 2C66134729EF08540069C303 /* SwiftUICharts */; };
 		2C66134A29EF091C0069C303 /* githubProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66134929EF091C0069C303 /* githubProject.swift */; };
+		2C7C557E29F1D707005AA95C /* ItemOfTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C557D29F1D707005AA95C /* ItemOfTable.swift */; };
+		2C7C558029F1E5CE005AA95C /* AddendumDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C557F29F1E5CE005AA95C /* AddendumDelivery.swift */; };
+		2C7C558229F1E5E3005AA95C /* AddendumSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C558129F1E5E3005AA95C /* AddendumSupplier.swift */; };
 		2C8CE9A229CE1CBA00530B94 /* PlotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */; };
 		2C8CE9A629CE32F800530B94 /* Plots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A529CE32F800530B94 /* Plots.swift */; };
 		2C8CE9A829CE35A100530B94 /* PlotInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CE9A729CE35A100530B94 /* PlotInfo.swift */; };
@@ -74,6 +77,9 @@
 		2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddendumCard.swift; sourceTree = "<group>"; };
 		2C66134129EED4650069C303 /* Rings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Rings.swift; path = WoodGrowthCourseWorkSwiftUI/Views/MenuButtonsViews/Home/Component/Rings.swift; sourceTree = SOURCE_ROOT; };
 		2C66134929EF091C0069C303 /* githubProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = githubProject.swift; sourceTree = "<group>"; };
+		2C7C557D29F1D707005AA95C /* ItemOfTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOfTable.swift; sourceTree = "<group>"; };
+		2C7C557F29F1E5CE005AA95C /* AddendumDelivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddendumDelivery.swift; sourceTree = "<group>"; };
+		2C7C558129F1E5E3005AA95C /* AddendumSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddendumSupplier.swift; sourceTree = "<group>"; };
 		2C8CE9A129CE1CBA00530B94 /* PlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotCard.swift; sourceTree = "<group>"; };
 		2C8CE9A529CE32F800530B94 /* Plots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plots.swift; sourceTree = "<group>"; };
 		2C8CE9A729CE35A100530B94 /* PlotInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlotInfo.swift; sourceTree = "<group>"; };
@@ -175,6 +181,15 @@
 			children = (
 				2C66134129EED4650069C303 /* Rings.swift */,
 				2C66134929EF091C0069C303 /* githubProject.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		2C7C557C29F1D6F9005AA95C /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				2C7C557D29F1D707005AA95C /* ItemOfTable.swift */,
+				2C7C557F29F1E5CE005AA95C /* AddendumDelivery.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -473,6 +488,7 @@
 			children = (
 				2CEEBA4729CF99C300403ECE /* SupplierCard.swift */,
 				2CEEBA4D29CFB37600403ECE /* SupplierDetail.swift */,
+				2C7C558129F1E5E3005AA95C /* AddendumSupplier.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -496,6 +512,7 @@
 		2CEEBA4F29CFBA4900403ECE /* Deliveries */ = {
 			isa = PBXGroup;
 			children = (
+				2C7C557C29F1D6F9005AA95C /* Component */,
 				2CEEBA5129CFBA7100403ECE /* Modul */,
 			);
 			path = Deliveries;
@@ -591,12 +608,14 @@
 				2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */,
 				2C3E1C5C29D45764001FEC5A /* WateringLog.swift in Sources */,
 				2CCC1E9429C90CF200FB8088 /* DetailCard.swift in Sources */,
+				2C7C558229F1E5E3005AA95C /* AddendumSupplier.swift in Sources */,
 				2C2464CC29CAC7120021907A /* TreeCard.swift in Sources */,
 				2CEEBA3B29CF5D4C00403ECE /* FertilizerView.swift in Sources */,
 				2CC72AEA29C88FA200559E47 /* CardsEmployes.swift in Sources */,
 				2CE0871829C83AF800710F98 /* ContentView.swift in Sources */,
 				2CE0871629C83AF800710F98 /* WoodGrowthCourseWorkSwiftUIApp.swift in Sources */,
 				2C3FF29129C862070009AB1A /* TabButton.swift in Sources */,
+				2C7C557E29F1D707005AA95C /* ItemOfTable.swift in Sources */,
 				2C37C1AA29F07C9C002F2744 /* AddendumFertilzer.swift in Sources */,
 				2CEEBA2D29CE9DDA00403ECE /* TurnOffServer.swift in Sources */,
 				2CA79B3D29E8766200045ACB /* AddEmployee.swift in Sources */,
@@ -625,6 +644,7 @@
 				2CDB8E0629EB0A1B00CB8FDA /* EditTypeTree.swift in Sources */,
 				2C2F79E029CA6E1300157DDB /* ScrollViewCard.swift in Sources */,
 				2C66134229EED4650069C303 /* Rings.swift in Sources */,
+				2C7C558029F1E5CE005AA95C /* AddendumDelivery.swift in Sources */,
 				2C8CE9AC29CE672F00530B94 /* Trees.swift in Sources */,
 				2C4ED44729E7F7D9002FA400 /* AddendumCard.swift in Sources */,
 				2CEEBA4C29CF9F1D00403ECE /* SupplierData.swift in Sources */,

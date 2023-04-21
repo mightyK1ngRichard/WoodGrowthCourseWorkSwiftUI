@@ -160,11 +160,10 @@ struct SupplierDetail: View {
         .background(.black)
         .frame(width: 500)
         .cornerRadius(20)
-        .shadow(color: .red, radius: 10)
+        .shadow(color: Color(red: 176/255, green: 0, blue: 0), radius: 10)
     }
     
     private func pullData(SQLQuery: String) {
-        print(SQLQuery)
         APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { resp, error in
             guard let _ = resp else {
                 DispatchQueue.main.async {

@@ -16,28 +16,25 @@ struct SupplierCard: View {
     
     var body: some View {
         VStack {
-            
             Group {
                 if let photo = data.photo {
                     WebImage(url: photo)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 150, height: 150)
+                        .frame(width: 100, height: 100)
                         .clipShape(Circle())
                         .overlay {
-                            Circle().stroke(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom)
-                                            , lineWidth: 3)
+                            Circle().stroke(Color(red: 176/255, green: 0, blue: 0), lineWidth: 2)
                         }
 
                 } else {
                     Image(systemName: "photo.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 150, height: 150)
+                        .frame(width: 100, height: 100)
                         .clipShape(Circle())
                         .overlay {
-                            Circle().stroke(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom)
-                                            , lineWidth: 3)
+                            Circle().stroke(Color(red: 176/255, green: 0, blue: 0), lineWidth: 3)
                         }
                 }
             }
@@ -51,12 +48,15 @@ struct SupplierCard: View {
             }
             
             Text(data.name_supplier)
-                .font(.system(size: 22))
+                .font(.system(size: 14))
                 .bold()
                 .padding(.bottom, 5)
                 .lineLimit(1)
+            
             if let phone = data.telephone {
                 Text(getCorrectPhone(phoneString: phone) ?? phone)
+                    .font(.system(size: 11))
+                
             } else {
                 Text("Телефон отсутствует")
             }
@@ -65,6 +65,7 @@ struct SupplierCard: View {
                 Text("\(www)")
                     .underline()
                     .foregroundColor(.blue)
+                    .font(.system(size: 11))
                     .frame(width: 130)
                     .lineLimit(1)
             } else {
@@ -73,12 +74,19 @@ struct SupplierCard: View {
                     .lineLimit(1)
             }
         }
-        .frame(width: 150, height: 250)
+        .frame(width: 130, height: 200)
     }
 }
 
-//struct SupplierCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SupplierCard(pressedCard: SupplierResult(id: "0", name_supplier: "TestApple", telephone: "89154252463", www: nil, photo: nil), currentCard: .constant(true), currentCard: nil, data: SupplierResult(id: "0", name_supplier: "TestApple", telephone: "89154252463", www: nil, photo: nil))
-//    }
-//}
+struct SupplierCard_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let defaultSupplier = SupplierResult(id: "0", name_supplier: "Boss", telephone: "89167732525", www: URL(string: "https://github.com/mightyK1ngRichard")!, photo: URL(string: "https://kartinkin.net/uploads/posts/2021-07/1625591458_18-kartinkin-com-p-krasivie-anime-tyanki-anime-krasivo-22.jpg")!)
+        
+        SupplierCard(pressedCard: .constant(false), currentCard: .constant(defaultSupplier), data: defaultSupplier)
+    }
+}
+
+
+
+// LinearGradient(gradient: Gradient(colors: [Color(red: 176/255, green: 0, blue: 0), .blue]), startPoint: .top, endPoint: .bottom)
