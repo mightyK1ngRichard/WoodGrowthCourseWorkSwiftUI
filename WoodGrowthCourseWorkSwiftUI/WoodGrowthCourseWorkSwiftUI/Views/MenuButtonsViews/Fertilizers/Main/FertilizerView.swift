@@ -77,7 +77,8 @@ struct FertilizerView: View {
             HStack(spacing: 15) {
                 Image(systemName: "magnifyingglass")
                 TextField("Введите название удобрения", text: $search) {
-                    self.searchedData = self.fertilizerData.fertilizerData.filter { $0.nameFertilizer.lowercased().contains(self.search.lowercased()) }
+                    self.searchedData = self.fertilizerData.fertilizerData.filter {
+                        $0.nameFertilizer.lowercased().contains(self.search.lowercased()) }
                 }
                 .textFieldStyle(PlainTextFieldStyle())
                 .foregroundColor(Color.white)

@@ -105,7 +105,6 @@ struct FertilizerCard: View {
                 Text("**Цена:** \(data.priceFertilizer) ₽")
                 Text("**Масса:** \(data.massFertilizer) м³")
                 Text("**Вид:** \(data.typeTree ?? "Нету")")
-                Text("**Поставщик:** \(data.nameSupplier ?? "Нету")")
             }
             .font(.system(size: 16))
         }
@@ -126,7 +125,7 @@ struct FertilizerCard: View {
 
 struct FertilizerCard_Previews: PreviewProvider {
     static var previews: some View {
-        let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", type_id: "1", nameSupplier: "Леруа Мерлен", photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
+        let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", type_id: "1", photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
         
         FertilizerCard(isPressedCard: .constant(.none), data: testData)
 
