@@ -481,6 +481,35 @@ class APIManager {
         }.resume()
     }
     
+    func getAllFertilizer(completion: @escaping (AllFertilizerParse?, String?) -> Void) {
+        let SQLQuery = """
+        SELECT fertilizer_id, name FROM fertilizer;
+        """
+        let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
+        let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil, "Uncorrected url")
+            return
+        }
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    completion(nil, "Data is nil")
+                    return
+                }
+                if let newInfo = try? JSONDecoder().decode(AllFertilizerParse.self, from: data) {
+                    completion(newInfo, nil)
+                    
+                } else {
+                    completion(nil, "Parse error")
+                    return
+                }
+            }
+        }.resume()
+    }
+    
     // MARK: - Updates or Delete or Insert.
     func generalUpdate(SQLQuery: String, completion: @escaping (String?, String?) -> Void) {
         let urlString = "http://\(host):\(port)/database/"
@@ -529,7 +558,6 @@ class APIManager {
 
         }.resume()
     }
-    
 }
 
 // MARK: - Распрарс.
@@ -703,6 +731,16 @@ struct RowsFreeFertilizer: Decodable {
 struct RespondDB: Decodable {
     let name: String
 }
+
+struct AllFertilizerParse: Decodable {
+    let rows: [AllRowsFertilizer]
+}
+
+struct AllRowsFertilizer: Decodable {
+    let fertilizer_id : String
+    let name          : String
+}
+
 // MARK: - Итоговые структуры.
 struct EmpoyeeResult: Codable, Identifiable {
     let id       : String
@@ -761,6 +799,11 @@ struct FertilizerResult: Codable, Identifiable {
     let type_id         : String?
     let nameSupplier    : String?
     let photo           : URL?
+}
+
+struct AllFertilizerResult: Codable, Identifiable {
+    let id              : String
+    var nameFertilizer  : String
 }
 
 struct SupplierResult: Codable, Identifiable {

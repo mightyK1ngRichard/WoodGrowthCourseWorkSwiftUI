@@ -10,77 +10,132 @@ import SwiftUI
 struct S_DViews: View {
     @ObservedObject var supplierData       = SupplierData()
     @ObservedObject var deliveryData       = DeliveryData()
-    @State private var pressedSupplierCard = false
     @State private var currentCardSupplier : SupplierResult?
+    @State private var pressedSupplierCard = false
+    @State private var addSupplier         = false
+    @State private var addDelivery         = false
     
     var body: some View {
-        
-        if !supplierData.status || !deliveryData.status {
-            TurnOffServer()
-            
-        } else {
-            GeometryReader { _ in
-                ZStack {
-                    VStack {
-                        // Поставщики.
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(supplierData.supplierData) { card in
-                                    SupplierCard(pressedCard: $pressedSupplierCard, currentCard: $currentCardSupplier, data: card)
-                                        .padding()
-                                    
-                                }
-                            }
+        GeometryReader { _ in
+            ZStack {
+                MainView
+                
+                if pressedSupplierCard {
+                    /// Редактирование информации по поставщику.
+                    Rectangle()
+                        .foregroundColor(getTabBackground().opacity(0.2))
+                        .onTapGesture {
+                            self.pressedSupplierCard = false
                         }
-                        Text("История поставок")
-                            .padding(.horizontal, 25)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(size: 40))
-                        
-                        ScrollView {
-                            ForEach(deliveryData.deliveryData) { item in
-                                HStack {
-                                    Text(correctDate(dateString: "\(item.dateDelivery)"))
-                                        .frame(width: 75)
-                                    Divider()
-                                    Text("\(item.numbersPackets)")
-                                        .frame(width: 40)
-                                    Divider()
-                                    Text("\(item.priceOrder)")
-                                        .frame(width: 100)
-                                    Divider()
-                                    Text(item.supplierName)
-                                        .frame(width: 200)
-                                    Divider()
-                                    Text(item.fertilizerName)
-                                        .frame(width: 100)
-                                }
-                                Divider()
-                            }
-                            .frame(width: 600)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .padding(.horizontal, 20)
-                    }
                     
-                    if pressedSupplierCard {
-                        Rectangle()
-                            .foregroundColor(getTabBackground().opacity(0.7))
-                            .onTapGesture {
-                                pressedSupplierCard = false
-                            }
-                        
-                        SupplierDetail(currentData: $currentCardSupplier, close: $pressedSupplierCard)
-
+                    SupplierDetail(currentData: $currentCardSupplier, close: $pressedSupplierCard)
+                } else if addSupplier {
+                    /// Добавления поставщика
+                    Rectangle()
+                        .foregroundColor(getTabBackground().opacity(0.2))
+                        .onTapGesture {
+                            self.addSupplier = false
+                        }
+                    AddendumSupplier(close: $addSupplier)
+                } else if addDelivery {
+                    Rectangle()
+                        .foregroundColor(getTabBackground().opacity(0.2))
+                        .onTapGesture {
+                            self.addDelivery = false
+                        }
+                    AddendumDelivery(close: $addDelivery)
+                }
+            }
+        }
+        .environmentObject(supplierData)
+        .environmentObject(deliveryData)
+    }
+    
+    private var MainView: some View {
+        VStack {
+            if !supplierData.status || !deliveryData.status {
+                TurnOffServer()
+                
+            } else {
+                VStack {
+                    supplierView()
+                    deliveryView()
+                }
+            }
+        }
+    }
+    
+    private func supplierView() -> some View {
+        VStack {
+            ScrollView (.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(supplierData.supplierData) { card in
+                        SupplierCard(pressedCard: $pressedSupplierCard, currentCard: $currentCardSupplier, data: card)
                     }
                 }
             }
-            .environmentObject(supplierData)
-            .environmentObject(deliveryData)
         }
     }
+    
+    private func deliveryView() -> some View {
+        VStack {
+            HStack {
+                Text("История поставок")
+                    .padding(.horizontal, 25)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.system(size: 40))
+                
+                Spacer()
+                
+                /// Добавление поставщика.
+                Button {
+                    self.addSupplier = true
+                    
+                } label: {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.black)
+                        .padding(10)
+                        .background(.white)
+                        .cornerRadius(10)
+                        .offset(y: 5)
+                        .padding(.trailing, 5)
+                }
+                .buttonStyle(.plain)
+                
+                /// Добавление поставки.
+                Button {
+                    self.addDelivery = true
+                    
+                } label: {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 35, height: 35)
+                            .cornerRadius(10)
+                        Image(systemName: "cart.fill.badge.plus")
+                            .foregroundColor(.black)
+                    }
+                    .offset(y: 5)
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.trailing)
+            
+            ScrollView {
+                ForEach(deliveryData.deliveryData) { item in
+                    ItemOfTable(item: item)
+                    Divider()
+                }
+                .frame(width: 725)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.leading, 20)
+        }
+    }
+    
+    
 }
-
 struct S_DVies_Previews: PreviewProvider {
     static var previews: some View {
         S_DViews()
