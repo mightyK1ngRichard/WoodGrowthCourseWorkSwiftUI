@@ -17,6 +17,17 @@ func correctDate(dateString: String) -> String {
     return result
 }
 
+func dateDifference(dateString: String?) -> String {
+    guard let dateString1 = dateString else { return "" }
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    guard let date = dateFormatter.date(from: dateString1) else { return "" }
+    let currentDate = Date()
+    let timeInterval = currentDate.timeIntervalSince(date)
+    let days = Int(timeInterval / 86400)
+    return "\(days)"
+}
+
 func correctDateWithTime(_ dateTime: Date) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
