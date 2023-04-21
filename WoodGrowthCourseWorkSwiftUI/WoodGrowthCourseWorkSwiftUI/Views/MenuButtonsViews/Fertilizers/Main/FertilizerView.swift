@@ -77,7 +77,13 @@ struct FertilizerView: View {
             HStack(spacing: 15) {
                 Image(systemName: "magnifyingglass")
                 TextField("Введите название удобрения", text: $search) {
-                    self.searchedData = self.fertilizerData.fertilizerData.filter { $0.nameFertilizer.lowercased().contains(self.search.lowercased()) }
+                    self.searchedData = self.fertilizerData.fertilizerData.filter {
+                        $0.nameFertilizer.lowercased().contains(self.search.lowercased()) }
+                }
+                .onChange(of: search) { newValue in
+                    if newValue == "" {
+                        self.searchedData = []
+                    }
                 }
                 .textFieldStyle(PlainTextFieldStyle())
                 .foregroundColor(Color.white)

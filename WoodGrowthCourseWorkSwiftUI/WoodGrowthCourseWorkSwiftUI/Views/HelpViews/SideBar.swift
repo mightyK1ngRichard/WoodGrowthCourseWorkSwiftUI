@@ -40,8 +40,8 @@ struct SideBar: View {
                         TabButton(image: "house", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "square.stack.3d.up", title: "Виды", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
-                        TabButton(image: "leaf", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "person.2", title: "Работники", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "leaf", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "tree", title: "Деревья", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "cart", title: "Посавщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         
@@ -49,8 +49,8 @@ struct SideBar: View {
                         TabButton(image: "house.fill", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: imageColor)
                         TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation, colorOfLetters: colorOfLetters)
                         TabButton(image: "square.stack.3d.up.fill", title: "Виды", animation: animation, colorOfLetters: colorOfLetters)
-                        TabButton(image: "leaf.fill", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters)
                         TabButton(image: "person.2.fill", title: "Работники", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "leaf.fill", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters)
                         TabButton(image: "tree.fill", title: "Деревья", animation: animation, colorOfLetters: colorOfLetters)
                         TabButton(image: "cart.fill", title: "Посавщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters)
                     }
@@ -76,7 +76,7 @@ struct SideBar: View {
                 
             }
         }
-        .frame(width: 218)
+        .frame(width: 210)
         .background(colors)
     }
 }

@@ -57,9 +57,9 @@ struct AddendumFertilzer: View {
     
     private func inputData(dataTypes: [RowsAllTypeTrees]) -> some View {
         VStack {
-            MyTextField(textForUser: "Новое название удобрения", text: $fertilizerName)
-            MyTextField(textForUser: "Новая цена", text: $fertilizerPrice)
-            MyTextField(textForUser: "Новая масса", text: $fertilizerMass)
+            MyTextField(textForUser: "Название удобрения", text: $fertilizerName)
+            MyTextField(textForUser: "Цена удобрения", text: $fertilizerPrice)
+            MyTextField(textForUser: "Масса удобрения", text: $fertilizerMass)
             
             HStack {
                 Text("Вид дерева")

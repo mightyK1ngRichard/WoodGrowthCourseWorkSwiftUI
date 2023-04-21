@@ -80,7 +80,7 @@ class ListTypeTrees: ObservableObject {
 }
 
 class ListTrees: ObservableObject {
-    @Published var trees  : [TreeResult] = []
+    @Published var trees: [TreeResult] = []
     
     func refresh(typeID: String) {
         APIManager.shared.getTrees(typeID: typeID) { data, error in

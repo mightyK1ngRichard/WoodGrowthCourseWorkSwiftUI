@@ -36,11 +36,6 @@ struct AddTreeForType: View {
                 secondView()
             }
         }
-//        .onAppear() {
-//            typeList.refresh() {
-//
-//            }
-//        }
         .onReceive(currentType.$currentType) { newValue in
             typeList.refresh() {
                 if self.typeList.types.count != 0 {

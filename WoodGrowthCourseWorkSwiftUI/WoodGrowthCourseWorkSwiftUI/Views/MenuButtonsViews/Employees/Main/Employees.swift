@@ -98,6 +98,11 @@ struct Employees: View {
                     self.output = self.search
                     self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output.lowercased()) }
                 }
+                .onChange(of: search) { newValue in
+                    if newValue == "" {
+                        self.peopleFromSearch = []
+                    }
+                }
                 .textFieldStyle(PlainTextFieldStyle())
                 .foregroundColor(Color.white)
                 .font(.system(size: 14, design: .serif))

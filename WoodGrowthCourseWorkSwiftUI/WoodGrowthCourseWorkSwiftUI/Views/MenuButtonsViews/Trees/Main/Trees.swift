@@ -20,7 +20,7 @@ struct Trees: View {
                     DetailCardTree()
                     Spacer()
                 }
-                .frame(width: 218)
+                .frame(width: 205)
                 .background(getGradient())
             }
         }

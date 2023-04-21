@@ -158,11 +158,9 @@ class APIManager {
     func getFertilizer(completion: @escaping (FeritilizerParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT fertilizer.fertilizer_id, fertilizer.name, fertilizer.price, fertilizer.mass,
-        tt.name_type, s.name_supplier, tt.photo, tt.type_id
+        tt.name_type, tt.photo, tt.type_id
         FROM fertilizer
-        LEFT JOIN type_tree tt ON fertilizer.type_tree_id=tt.type_id
-        LEFT JOIN delivery d on fertilizer.fertilizer_id = d.fertilizer_id
-        LEFT JOIN supplier s on d.supplier_id = s.supplier_id;
+        LEFT JOIN type_tree tt ON fertilizer.type_tree_id=tt.type_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -644,7 +642,6 @@ struct RowsFeritilizer: Decodable {
     let mass          : Int
     let name_type     : String?
     let type_id       : String?
-    let name_supplier : String?
     let photo         : URL?
 }
 
@@ -797,7 +794,6 @@ struct FertilizerResult: Codable, Identifiable {
     let massFertilizer  : Int
     let typeTree        : String?
     let type_id         : String?
-    let nameSupplier    : String?
     let photo           : URL?
 }
 

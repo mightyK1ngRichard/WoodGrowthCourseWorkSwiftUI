@@ -15,7 +15,7 @@ struct DetailCardTree: View {
     @State private var isHovering2         = false
     @State private var showAlert           = false
     @State private var showAlertDelete     = false
-    @State private var pressedEdit         = true //false
+    @State private var pressedEdit         = false
     @State private var textInAlert         = ""
     @State private var inputPassword       = ""
     @State private var newName             = ""
@@ -173,7 +173,7 @@ struct DetailCardTree: View {
             .padding(.top, 5)
             
         }
-        .padding()
+        
 
     }
     

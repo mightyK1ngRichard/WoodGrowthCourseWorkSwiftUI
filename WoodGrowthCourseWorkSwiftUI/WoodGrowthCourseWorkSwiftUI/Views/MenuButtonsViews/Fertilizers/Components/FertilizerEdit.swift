@@ -178,4 +178,4 @@ struct FertilizerEdit_Previews: PreviewProvider {
     }
 }
 
-let startFertilizer = FertilizerResult(id: "1", nameFertilizer: "Удобрения Test", priceFertilizer: 100, massFertilizer: 100, typeTree: "Дерево", type_id: "1", nameSupplier: "Леруа Мерлен", photo: URL(string: "https://vsegda-pomnim.com/uploads/posts/2022-04/1649619470_19-vsegda-pomnim-com-p-palmi-foto-22.jpg")!)
+let startFertilizer = FertilizerResult(id: "1", nameFertilizer: "Удобрения Test", priceFertilizer: 100, massFertilizer: 100, typeTree: "Дерево", type_id: "1", photo: URL(string: "https://vsegda-pomnim.com/uploads/posts/2022-04/1649619470_19-vsegda-pomnim-com-p-palmi-foto-22.jpg")!)

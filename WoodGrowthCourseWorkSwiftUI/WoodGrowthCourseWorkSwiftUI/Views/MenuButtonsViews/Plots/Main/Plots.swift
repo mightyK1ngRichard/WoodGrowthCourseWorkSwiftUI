@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct Plots: View {
+    @ObservedObject var plotData        = plotsCardsViewModel()
     @State private var search           = ""
-    @State private var output           = ""
     @State private var plusTap          = false
     @State private var isLoaded         = true
     @State private var showAlert        = false
     @State private var willNotShowCard  = false
     @State private var allFreeTypes     : [(String, String)] = []
     @State private var allFreeEmployees : [(String, String)] = []
-    @ObservedObject var plotData        = plotsCardsViewModel()
+    @State private var searchedPlot     : [PlotResult] = []
     
     var body: some View {
         ZStack {
@@ -30,18 +30,6 @@ struct Plots: View {
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Ошибка"), message: Text("Заполните все поля!"), dismissButton: .default(Text("OK")))
         }
-        // TODO: Подумать, как оформить несколько alert.
-        /*
-         .alert(isPresented: $willNotShowCard) {
-             Alert(
-                 title: Text("Запрет"),
-                 message: Text("Вы не можете создать участок, у вас нету свободных работников или видов деревьев."),
-                 dismissButton: .default(Text("OK"), action: {
-                     plusTap = false
-                 })
-             )
-         }
-         */
     }
     
     private func mainView() -> some View {
@@ -65,12 +53,17 @@ struct Plots: View {
         HStack(spacing: 12) {
             HStack(spacing: 15) {
                 Image(systemName: "magnifyingglass")
-                TextField("Введите имя", text: $search) {
-                    self.output = self.search
-                    //                                self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output) }
+                TextField("Введите имя участка", text: $search, onCommit: {
+                    self.searchedPlot = self.plotData.plotInfo.filter { $0.name.lowercased().contains(self.search.lowercased()) }
+                })
+                .onChange(of: search) { newValue in
+                    if newValue == "" {
+                        searchedPlot = []
+                    }
                 }
                 .textFieldStyle(PlainTextFieldStyle())
-                .foregroundColor(Color.black)
+                .foregroundColor(Color.white)
+                .font(.system(size: 14, design: .serif))
             }
             .padding(.vertical, 10)
             .padding(.horizontal)
@@ -120,7 +113,7 @@ struct Plots: View {
                             GridItem(spacing: 70, alignment: .top),
                             GridItem(alignment: .top)
                         ], spacing: 30) {
-                            ForEach(plotData.plotInfo) { card in
+                            ForEach(searchedPlot.count == 0 ? plotData.plotInfo : searchedPlot) { card in
                                 let width = (proxy.size.width - 210) / 2
                                 let height = (proxy.size.height) / 2.5
                                 PlotCard(plotInfo: card, size: (width, height))
