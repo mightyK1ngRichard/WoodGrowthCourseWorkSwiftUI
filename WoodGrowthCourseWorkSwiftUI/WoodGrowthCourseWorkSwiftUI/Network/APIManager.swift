@@ -120,12 +120,14 @@ class APIManager {
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, type_tree.photo AS typePhoto, COUNT(*) countTrees
+        employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, type_tree.photo AS typePhoto,
+        MAX(w.date_watering) lastwatering, COUNT(DISTINCT tree.tree_id) countTrees
         FROM tree
         FULL JOIN plot p ON p.type_tree_id=tree.type_tree_id
         LEFT JOIN employer ON p.employer_id=employer.employer_id
         LEFT JOIN type_tree ON p.type_tree_id=type_tree.type_id
         LEFT JOIN fertilizer f ON type_tree.type_id = f.type_tree_id
+        LEFT JOIN watering w on p.plot_id = w.plot_id
         WHERE p.plot_id IS NOT NULL
         GROUP BY p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
         employer.full_name, employer.photo, f.name, type_tree.type_id;
@@ -629,6 +631,7 @@ struct RowsPlots: Decodable {
     let employer_id   : String
     let type_tree_id  : Int
     let typephoto     : URL
+    let lastwatering  : String?
 }
 
 struct FeritilizerParse: Decodable {
@@ -785,6 +788,7 @@ struct PlotResult: Codable, Identifiable {
     let employerID     : String
     let typeTreeID     : Int
     let typephoto      : URL
+    let lastWatering   : String?
 }
 
 struct FertilizerResult: Codable, Identifiable {
