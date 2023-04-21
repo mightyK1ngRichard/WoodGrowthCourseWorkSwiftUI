@@ -68,10 +68,10 @@ struct PlotCard: View {
                 .frame(width: size.width * 0.09, height: size.width * 0.09)
                 .foregroundColor(.white)
                 .overlay {
-                    Image(systemName: "trash.fill")
+                    Image(systemName: "trash")
                         .resizable()
                         .frame(width: size.width * 0.05, height: size.width * 0.05)
-                        .foregroundColor(isShowTrash ? .red : .black)
+                        .foregroundColor(isShowTrash ? Color(red: 176/255, green: 0, blue: 0) : .black)
                 }
                 .opacity(isHoverOnImage ? (isShowTrash ? 1 : 0.7) : 0)
                 .onHover { hovering in
@@ -178,7 +178,7 @@ struct PlotCard: View {
                     
                 Text("Количество деревьев: ")
                     .bold()
-                + Text(plotInfo.countTrees)
+                + Text("\(plotInfo.countTrees) шт.")
                 
                 if let date = plotInfo.lastWatering {
                     Text("**Не поливался:** \(dateDifference(dateString: date)) дней")

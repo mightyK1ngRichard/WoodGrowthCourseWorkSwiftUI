@@ -12,8 +12,8 @@ import SwiftUICharts
 // TODO: Сделать, когда наводишь на графики, чтобы они увеличивались. И мб добавить угловой 3D эффекст.
 
 struct Home: View {
+    @ObservedObject var data        = ReportData()
     @EnvironmentObject var userData : UserData
-    
     
     var body: some View {
         GeometryReader { proxy in
@@ -27,20 +27,22 @@ struct Home: View {
                             .padding(.bottom, 20)
                         
                         HStack {
-                            BarChartView(data: ChartData(values: [("А", 100), ("2019 Q1", 200), ("2019 Q2", 300), ("2019 Q3", 400), ("2019 Q4", 500)]), title: "Деревья", legend: "Количество")
+                            /// Количество деревьев на участке.
+                            BarChartView(data: ChartData(values: data.trees), title: "Деревья", legend: "Количество")
                             
-                            
-                            LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Line chart", legend: "Full chart")
+                            /// Средний бъём древесины на каждый день.
+                            LineChartView(data: data.avgVolume, title: "Средний V³", legend: "по дням")
                                 .padding()
                                 .cornerRadius(8)
                                 .shadow(radius: 5)
                             
+                            /// Не придумал.
                             MultiLineChartView(data: [([8,32,11,23,40,28], GradientColors.green), ([90,99,78,111,70,60,77], GradientColors.purple), ([34,56,72,38,43,100,50], GradientColors.orngPink)], title: "Title")
                                 .shadow(color: .white.opacity(0.7), radius: 5)
                         }
                         
                         infoAboutVolume(width: width)
-                            
+                        
                         
                     } else {
                         TurnOffServer()
@@ -49,8 +51,9 @@ struct Home: View {
                 }
             }
         }
+        .environmentObject(data)
         // TODO: для тестов
-//        .frame(height: 1700)
+        //        .frame(height: 1700)
     }
     
     private func profile(width: CGFloat) -> some View {
@@ -119,8 +122,8 @@ struct Home: View {
                 Section {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(30...50, id: \.self) { i in
-                                Rings(percent: CGFloat(i))
+                            ForEach(data.percentOfGeneral, id: \.self.0) { data in
+                                Rings(percent: CGFloat(data.1), plotName: data.0)
                             }
                         }
                     }
@@ -130,16 +133,12 @@ struct Home: View {
             }
             .padding()
             
-            Text("Общий объём: 23000м³")
+            Text("Общий объём: \(Int(data.totalVolume))м³")
                 .font(.system(size: 12, design: .rounded))
                 .padding(.horizontal)
         }
-
-//        .background(getGradient().opacity(0.1))
         .cornerRadius(20)
-//        .overlay {
-//            RoundedRectangle(cornerRadius: 20).stroke(getGradient(), lineWidth: 3)
-//        }
+        
     }
 }
 
