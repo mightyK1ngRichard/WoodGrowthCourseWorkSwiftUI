@@ -39,7 +39,6 @@ struct Authorization: View {
                 .onHover { hovering in
                     self.isHover = hovering
                 }
-                
                 LeftSide()
             }
             
@@ -92,6 +91,7 @@ struct Authorization: View {
                 if isSecurePassword {
                     SecureField("Password", text: $password)
                         .textFieldStyle(PlainTextFieldStyle())
+                    
                 } else {
                     TextField("Password", text: $password)
                         .textFieldStyle(PlainTextFieldStyle())
@@ -126,7 +126,7 @@ struct Authorization: View {
                         Alert(title: Text("Ошибка входа"), message: Text("Неверный логин или пароль"), dismissButton: .default(Text("OK")))
                 }
                 
-                // Анимации загрузки.
+                /// Анимации загрузки.
                 if showProgressView {
                     VStack {
                         ProgressView()

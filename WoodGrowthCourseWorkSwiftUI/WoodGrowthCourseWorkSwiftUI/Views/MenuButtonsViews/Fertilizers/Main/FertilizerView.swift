@@ -80,6 +80,11 @@ struct FertilizerView: View {
                     self.searchedData = self.fertilizerData.fertilizerData.filter {
                         $0.nameFertilizer.lowercased().contains(self.search.lowercased()) }
                 }
+                .onChange(of: search) { newValue in
+                    if newValue == "" {
+                        self.searchedData = []
+                    }
+                }
                 .textFieldStyle(PlainTextFieldStyle())
                 .foregroundColor(Color.white)
                 .font(.system(size: 14, design: .serif))
