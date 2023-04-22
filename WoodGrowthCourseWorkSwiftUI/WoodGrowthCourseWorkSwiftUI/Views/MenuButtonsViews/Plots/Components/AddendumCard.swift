@@ -14,19 +14,18 @@ struct AddendumCard: View {
     @State private var newTypeTree     = ""
     @State private var newAddress      = ""
     @State private var newEmployee     = ""
+    @State private var textInAlert     = ""
     @State private var newDatePlanting = Date()
     @State private var isHover         = false
-    @Binding var showAlert             : Bool
+    @State private var showAlert       = false
     @Binding var closeScreen           : Bool
     @Binding var willNotShowCard       : Bool
     @EnvironmentObject var plotsData   : plotsCardsViewModel
     
-    init(allTypesFree: [(String, String)], allEmployeesFree: [(String, String)], showAlert: Binding<Bool>, closeScreen: Binding<Bool>, willNotShowCard: Binding<Bool>) {
-        
+    init(allTypesFree: [(String, String)], allEmployeesFree: [(String, String)], closeScreen: Binding<Bool>, willNotShowCard: Binding<Bool>) {
         self.allTypesFree = allTypesFree
         self.allEmployeesFree = allEmployeesFree
         self._closeScreen = closeScreen
-        self._showAlert = showAlert
         self._willNotShowCard = willNotShowCard
         
         // Если нету свободных типов или работников, запрет создавать.
@@ -64,6 +63,7 @@ struct AddendumCard: View {
                 Spacer()
             }
         }
+        .alert(textInAlert, isPresented: $showAlert) {}
     }
     
     private func closeCard() -> some View {
@@ -108,6 +108,7 @@ struct AddendumCard: View {
             
             Button("Save") {
                 if newAddress == "" || newNamePlot == "" {
+                    self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
                     return
                 }
@@ -175,27 +176,23 @@ struct AddendumCard: View {
             }
         }
     }
-        
     private func APIRequest(_ sqlString: String) {
-        APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
-            guard let _ = data else {
-                print("== ERROR FROM EditPlot [Button]<Save>", error!)
-                // .... Что-то выводить при ошибке
+        APIManager.shared.updateWithSlash(SQLQuery: sqlString) { resp, error in
+            guard let _ = resp else {
+                DispatchQueue.main.async {
+                    plotsData.refresh()
+                    closeScreen = false
+                }
                 return
             }
-//                    print("Обновление выполнено успешно\n", data)
-            DispatchQueue.main.async  {
-                
-                closeScreen = false
-                plotsData.refresh()
-            }
-            
+            self.textInAlert = "Ошибка добавления"
+            self.showAlert = true
         }
     }
 }
 
 struct AddendumCard_Previews: PreviewProvider {
     static var previews: some View {
-        AddendumCard(allTypesFree: [("0", "Привет")], allEmployeesFree: [("0", "Пока")], showAlert: .constant(false), closeScreen: .constant(false), willNotShowCard: .constant(false))
+        AddendumCard(allTypesFree: [("0", "Привет")], allEmployeesFree: [("0", "Пока")], closeScreen: .constant(false), willNotShowCard: .constant(false))
     }
 }

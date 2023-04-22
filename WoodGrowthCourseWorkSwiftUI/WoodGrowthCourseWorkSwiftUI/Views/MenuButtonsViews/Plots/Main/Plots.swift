@@ -12,7 +12,6 @@ struct Plots: View {
     @State private var search           = ""
     @State private var plusTap          = false
     @State private var isLoaded         = true
-    @State private var showAlert        = false
     @State private var willNotShowCard  = false
     @State private var allFreeTypes     : [(String, String)] = []
     @State private var allFreeEmployees : [(String, String)] = []
@@ -27,9 +26,6 @@ struct Plots: View {
             }
         }
         .environmentObject(plotData)
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Ошибка"), message: Text("Заполните все поля!"), dismissButton: .default(Text("OK")))
-        }
     }
     
     private func mainView() -> some View {
@@ -42,7 +38,7 @@ struct Plots: View {
                     cardsPlots()
                     
                 } else {
-                    AddendumCard(allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees, showAlert: $showAlert, closeScreen: $plusTap, willNotShowCard: $willNotShowCard)
+                    AddendumCard(allTypesFree: allFreeTypes, allEmployeesFree: allFreeEmployees, closeScreen: $plusTap, willNotShowCard: $willNotShowCard)
                 }
             }
         }

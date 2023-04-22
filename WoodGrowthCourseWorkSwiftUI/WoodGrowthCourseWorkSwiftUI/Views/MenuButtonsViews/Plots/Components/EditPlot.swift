@@ -81,10 +81,10 @@ struct EditPlot: View {
                 APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
                     guard let _ = data else {
                         print("== ERROR FROM EditPlot [Button]<Save>", error!)
-                        // .... Что-то выводить при ошибке
+                        
                         return
                     }
-//                    print("Обновление выполнено успешно\n", data)
+
                     DispatchQueue.main.async  {
                         plotsData.refresh()
                         pressedClose = false

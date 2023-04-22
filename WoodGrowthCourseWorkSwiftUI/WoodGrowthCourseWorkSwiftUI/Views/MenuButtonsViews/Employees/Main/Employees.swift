@@ -74,17 +74,9 @@ struct Employees: View {
         GeometryReader { reader in
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 15) {
-                    if output == "" {
-                        ForEach(employeesData.employeesInfo) {card in
-                            ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
-                        }
-                        
-                    } else {
-                        ForEach(peopleFromSearch) {card in
-                            ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
-                        }
+                    ForEach(self.peopleFromSearch.count == 0 ? self.employeesData.employeesInfo : self.peopleFromSearch) {card in
+                        ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
                     }
-                    
                 }
             }
         }
@@ -95,8 +87,7 @@ struct Employees: View {
             HStack(spacing: 15) {
                 Image(systemName: "magnifyingglass")
                 TextField("Введите имя", text: $search) {
-                    self.output = self.search
-                    self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output.lowercased()) }
+                    self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.search.lowercased()) }
                 }
                 .onChange(of: search) { newValue in
                     if newValue == "" {

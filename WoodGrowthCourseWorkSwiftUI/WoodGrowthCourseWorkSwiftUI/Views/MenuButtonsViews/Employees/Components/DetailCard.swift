@@ -194,8 +194,8 @@ struct DetailCard: View {
                 DispatchQueue.main.async {
                     self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
                     self.showAlert = true
-                    return
                 }
+                return
             }
             
             DispatchQueue.main.async {

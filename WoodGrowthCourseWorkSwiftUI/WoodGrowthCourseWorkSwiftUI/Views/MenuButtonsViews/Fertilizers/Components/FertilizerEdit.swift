@@ -155,13 +155,16 @@ struct FertilizerEdit: View {
     private func pullFertilizer(sqlString: String) {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
             if let _ = data {
-                self.textInAlert = "Данные некорректны. Вводите положительные числа!"
-                self.showAlert = true
+                DispatchQueue.main.async {
+                    self.textInAlert = "Данные некорректны. Вводите положительные числа!"
+                    self.showAlert = true
+                }
                 return
-                
             }
-            self.allFertilizer.refresh()
-            self.close = .none
+            DispatchQueue.main.async {
+                self.allFertilizer.refresh()
+                self.close = .none
+            }
         }
     }
 }

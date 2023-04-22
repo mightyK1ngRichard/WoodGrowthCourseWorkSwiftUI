@@ -124,14 +124,17 @@ struct AddEmployee: View {
     private func updateData(_ SQLQuery: String) {
         APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { data, error in
             if let _ = data {
-                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
-                self.showAlert = true
+                DispatchQueue.main.async {
+                    self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                    self.showAlert = true
+                }
                 return
 
             }
-            
-            self.allData.refresh()
-            self.closeScreen = false
+            DispatchQueue.main.async {
+                self.allData.refresh()
+                self.closeScreen = false
+            }
         }
     }
     

@@ -353,14 +353,18 @@ struct Authorization: View {
     private func pressedSignUp(SQLQuery: String) {
         APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { resp, error in
             guard let _ = resp else {
-                self.isSecurePassword = true
-                self.password = ""
-                self.showProgressView = false
-                self.pressedSignup = false
+                DispatchQueue.main.async {
+                    self.isSecurePassword = true
+                    self.password = ""
+                    self.showProgressView = false
+                    self.pressedSignup = false
+                }
                 return
             }
-            self.textInAlert = "Введённая элеткронная почта уже существует!"
-            self.showAlert = true
+            DispatchQueue.main.async {
+                self.textInAlert = "Введённая элеткронная почта уже существует!"
+                self.showAlert = true
+            }
         }
 
     }

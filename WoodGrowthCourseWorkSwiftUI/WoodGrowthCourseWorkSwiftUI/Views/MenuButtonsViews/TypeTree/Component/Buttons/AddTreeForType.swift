@@ -185,8 +185,10 @@ struct AddTreeForType: View {
     private func APIRequest(_ sqlString: String) {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
             if let _ = data {
-                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
-                self.showAlert = true
+                DispatchQueue.main.async {
+                    self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                    self.showAlert = true
+                }
                 return
             }
             
