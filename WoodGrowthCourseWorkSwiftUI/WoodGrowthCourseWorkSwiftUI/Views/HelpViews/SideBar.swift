@@ -28,7 +28,6 @@ struct SideBar: View {
     @Namespace var animation
     @State private var isHovering     = false
     @State private var isHoverExit    = false
-    @State private var isPopoverShown = false
     
     
     var body: some View {
@@ -48,14 +47,6 @@ struct SideBar: View {
                     }
                     .padding(.top, 35)
                     .padding(.leading, 10)
-                    .onHover(perform: { hovering in
-                        self.isPopoverShown = hovering
-                    })
-                    .popover(isPresented: $isPopoverShown, arrowEdge: .top) {
-                        Text("Copyright Dmitriy Permyakov")
-                            .padding(10)
-                            .cornerRadius(10)
-                    }
                     
                     if ["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) {
                         TabButton(image: "house", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
