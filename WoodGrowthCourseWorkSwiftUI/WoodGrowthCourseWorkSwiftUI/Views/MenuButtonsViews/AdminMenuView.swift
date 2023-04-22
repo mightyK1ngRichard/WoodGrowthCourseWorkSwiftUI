@@ -18,7 +18,7 @@ class PressedButton: ObservableObject {
 //        case types                   = "Виды"
 //        case plots                   = "Участки"
 //        case fertilizers             = "Удобрения"
-//        case supliersAndDeliveries   = "Посавщики &\nПоставки"
+//        case supliersAndDeliveries   = "Поставщики &\nПоставки"
 //    }
     
 }
@@ -33,7 +33,7 @@ struct AdminMenuView: View {
     
     private func mainView() -> some View {
         HStack {
-            if ["Home", "Посавщики &\nПоставки"].contains(pressed.pressed) {
+            if ["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) {
                 SideBar(colors: LinearGradient(colors: [Color(red: 35/255.0, green: 35/255.0, blue: 36/255.0)], startPoint: .top, endPoint: .bottom), imageColor: Color.white, colorOfLetters: .white)
             } else {
                 SideBar(colors: getGradient(), colorOfLetters: .black)
@@ -60,7 +60,7 @@ struct AdminMenuView: View {
             case "Удобрения":
                 FertilizerView()
                 
-            case "Посавщики &\nПоставки":
+            case "Поставщики &\nПоставки":
                 S_DViews()
                 
             default:
@@ -72,7 +72,7 @@ struct AdminMenuView: View {
         }
         .environmentObject(pressed)
         .preferredColorScheme(.none)
-        .background(["Home", "Посавщики &\nПоставки"].contains(pressed.pressed) ? .black : getTabBackground())
+        .background(["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) ? .black : getTabBackground())
 //        .background(["Home"].contains(pressed.pressed) ?
 //                    LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom) : myNewBackground())
     }

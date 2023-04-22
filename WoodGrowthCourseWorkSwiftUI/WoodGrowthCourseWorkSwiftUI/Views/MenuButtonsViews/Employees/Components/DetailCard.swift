@@ -170,7 +170,12 @@ struct DetailCard: View {
                     Image(systemName: "square.and.arrow.down")
                     Text("Сохранить")
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(.white.opacity(0.2))
+                .cornerRadius(20)
             }
+            .buttonStyle(.plain)
             .padding(.top, 5)
             
         }

@@ -5,6 +5,7 @@
 //  Created by Дмитрий Пермяков on 20.03.2023.
 //
 
+import Foundation
 import SwiftUI
 import SDWebImageSwiftUI
 import SwiftUICharts

@@ -145,9 +145,14 @@ struct DetailCardTree: View {
                 HStack {
                     Image(systemName: "trash.circle")
                     Text("Удалить")
-                        .padding(.horizontal, 8)
+                        .padding(.trailing, 14)
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(.white.opacity(0.2))
+                .cornerRadius(20)
             }
+            .buttonStyle(.plain)
             .padding(.top, 5)
             
             /// Кнопка сохранить.
@@ -169,7 +174,12 @@ struct DetailCardTree: View {
                     Image(systemName: "square.and.arrow.down")
                     Text("Сохранить")
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(.white.opacity(0.2))
+                .cornerRadius(20)
             }
+            .buttonStyle(.plain)
             .padding(.top, 5)
             
         }

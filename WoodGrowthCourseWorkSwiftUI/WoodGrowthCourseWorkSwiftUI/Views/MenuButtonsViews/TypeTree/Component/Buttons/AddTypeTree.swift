@@ -41,9 +41,9 @@ struct AddTypeTree: View {
                 .frame(width: 500, height: 400)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(getGradient(), lineWidth: 3)
+                        .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
                 }
-                .background(getGradient().opacity(0.05))
+                .background(.black.opacity(0.5))
                 .cornerRadius(20)
                 Spacer()
             }
@@ -78,8 +78,8 @@ struct AddTypeTree: View {
     
     private func inputDataView() -> some View {
         VStack {
-            MyTextField(textForUser: "Название участка", text: $newNameType)
-            MyTextField(textForUser: "URL фото", text: $newPhoto)
+            MyTextFieldBlack(textForUser: "Название участка", text: $newNameType)
+            MyTextFieldBlack(textForUser: "URL фото", text: $newPhoto)
             Text("Примечание")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .bold()
@@ -89,7 +89,7 @@ struct AddTypeTree: View {
                 .background(Color.white)
                 .font(.system(size: 14))
             
-            Button("Save") {
+            Button {
                 if newNameType == "" || newPhoto == "" {
                     self.textInAlert = "Имя или URL не найдены. Заполните данные."
                     self.showAlert = true
@@ -121,9 +121,20 @@ struct AddTypeTree: View {
                     }
                 }
                 
+            } label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
+
         }
     }
     

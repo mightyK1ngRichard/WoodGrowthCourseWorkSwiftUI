@@ -57,9 +57,10 @@ struct AddendumCard: View {
                 .frame(width: 500, height: 400)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(getGradient(), lineWidth: 3)
+                        .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
                 }
-                
+                .background(.black.opacity(0.2))
+                .cornerRadius(15)
                 Spacer()
             }
         }
@@ -81,7 +82,7 @@ struct AddendumCard: View {
                 .onHover { hovering in
                     isHover = hovering
                 }
-                .offset(y: -77)
+                .offset(y: -65)
         }
     }
     
@@ -101,12 +102,12 @@ struct AddendumCard: View {
     
     private func inputDataView() -> some View {
         VStack {
-            MyTextField(textForUser: "Название участка", text: $newNamePlot)
-            MyTextField(textForUser: "Адрес участка", text: $newAddress)
+            MyTextFieldBlack(textForUser: "Название участка", text: $newNamePlot)
+            MyTextFieldBlack(textForUser: "Адрес участка", text: $newAddress)
         
             myPickers()
             
-            Button("Save") {
+            Button {
                 if newAddress == "" || newNamePlot == "" {
                     self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
@@ -119,7 +120,18 @@ struct AddendumCard: View {
                 VALUES ('\(newNamePlot)', '\(correctDateWithTime(newDatePlanting))', '\(newTypeTree)', '\(newAddress)', '\(newEmployee)');
                 """
                 APIRequest(sqlString)
+                
+            } label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
         }

@@ -57,7 +57,7 @@ struct SideBar: View {
                             .cornerRadius(10)
                     }
                     
-                    if ["Home", "Посавщики &\nПоставки"].contains(pressed.pressed) {
+                    if ["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) {
                         TabButton(image: "house", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "arrow.up.and.down.and.arrow.left.and.right", title: "Участки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "square.stack.3d.up", title: "Виды", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)

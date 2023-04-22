@@ -46,20 +46,20 @@ struct AddendumFertilzer: View {
         }
         .padding()
         .frame(width: 400, height: 300)
-        .background(getGradient().opacity(0.1))
+        .background(.black.opacity(0.5))
         .cornerRadius(15)
         .overlay {
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(getGradient().opacity(0.7), lineWidth: 3)
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
         }
         .alert(textInAlert, isPresented: $showAlert) {}
     }
     
     private func inputData(dataTypes: [RowsAllTypeTrees]) -> some View {
         VStack {
-            MyTextField(textForUser: "Название удобрения", text: $fertilizerName)
-            MyTextField(textForUser: "Цена удобрения", text: $fertilizerPrice)
-            MyTextField(textForUser: "Масса удобрения", text: $fertilizerMass)
+            MyTextFieldBlack(textForUser: "Название удобрения", text: $fertilizerName)
+            MyTextFieldBlack(textForUser: "Цена удобрения", text: $fertilizerPrice)
+            MyTextFieldBlack(textForUser: "Масса удобрения", text: $fertilizerMass)
             
             HStack {
                 Text("Вид дерева")
@@ -73,6 +73,7 @@ struct AddendumFertilzer: View {
                 .labelsHidden()
                 .frame(width: 100)
             }
+            
             Button(action: {
                 if fertilizerName == "" || fertilizerPrice == "" || fertilizerMass == "" || typeTree == "" {
                     self.textInAlert = "Заполните все данные!"
@@ -84,18 +85,18 @@ struct AddendumFertilzer: View {
                 pullFertilizer(SQLQuery: sqlString)
                 
             }) {
-                HStack {
-                    Image(systemName: "square.and.arrow.down")
-                    Text("Save")
-                        .padding(.trailing, 5)
-                }
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
             .buttonStyle(.plain)
-            .padding(.horizontal, 5)
-            .padding(.vertical, 4)
-            .background(Color(red: 3/255, green: 109/255, blue: 251/255))
-            .cornerRadius(10)
             .frame(maxWidth: .infinity, alignment: .trailing)
+            .offset(y: 20)
         }
     }
     
