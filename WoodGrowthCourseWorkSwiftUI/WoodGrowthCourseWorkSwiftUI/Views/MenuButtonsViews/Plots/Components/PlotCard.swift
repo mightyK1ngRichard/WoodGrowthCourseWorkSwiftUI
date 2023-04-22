@@ -9,21 +9,22 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PlotCard: View {
+    @EnvironmentObject var plotsData    : plotsCardsViewModel
     var plotInfo                        : PlotResult
     var size                            = (width: CGFloat(500), height: CGFloat(330))
     @State private var openEdit         = false
     @State private var isHovering       = false
     @State private var isShowCalendar   = false
     @State private var isShowTrash      = false
-    @State private var isHoverOnImage   = false 
+    @State private var isHoverOnImage   = false
     @State private var openLogWatering  = false
+    @State private var showAlert        = false
     @State private var dataLog          : [String] = []
     @State private var allEmployees     : [AllEmpoyeesResult] = []
     @State private var allFreeTypes     : [(String, String)] = []
     @State private var allFreeEmployees : [(String, String)] = []
-    @State private var showAlert        = false
     @State private var alertText        = ""
-    @EnvironmentObject var plotsData    : plotsCardsViewModel
+    
     
     var body: some View {
         if openEdit {
@@ -144,16 +145,17 @@ struct PlotCard: View {
         Text(plotInfo.name)
             .font(.system(size: size.width / 9.1))
             .padding(.horizontal, size.width / 29.8)
-            .onHover { hovering in
-                self.isHovering = hovering
-            }
-            .onTapGesture {
-                getFreeDate()
-            }
             .background(.black)
             .clipShape(Circle())
             .overlay {
                 Circle().stroke(getGradient(), lineWidth: 3)
+            }
+            .onTapGesture {
+                getFreeDate()
+            }
+            .onHover { hovering in
+                self.isHovering = hovering
+                self.isHoverOnImage = false
             }
             .frame(maxHeight: .infinity, alignment: .center)
             .foregroundColor(.white)
