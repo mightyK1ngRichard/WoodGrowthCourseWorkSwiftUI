@@ -115,10 +115,26 @@ struct EditTypeTree: View {
                     return
                 }
                 
-                let sqlString = """
-                UPDATE type_tree SET name_type='\(newNameType)',photo='\(newPhoto)',notes='\(newNote)' WHERE type_id=\(currentType.currentType.id);
-                """
-                APIRequest(sqlString)
+                guard let link = URL(string: newPhoto) else {
+                    self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
+                    self.showAlert = true
+                    return
+                }
+                
+                isPhotoURLValid(url: link) { isValid in
+                    if isValid {
+                        let sqlString = """
+                        UPDATE type_tree SET name_type='\(newNameType)',photo='\(link)',notes='\(newNote)' WHERE type_id=\(currentType.currentType.id);
+                        """
+                        APIRequest(sqlString)
+                        
+                    } else {
+                        self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                        self.showAlert = true
+                        return
+                    }
+                }
+                
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)

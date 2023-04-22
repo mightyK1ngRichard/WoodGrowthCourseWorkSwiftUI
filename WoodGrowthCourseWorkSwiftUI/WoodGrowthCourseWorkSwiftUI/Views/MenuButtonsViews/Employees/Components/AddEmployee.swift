@@ -83,16 +83,29 @@ struct AddEmployee: View {
                     return
                 }
                 
-                var SQLQuery = "INSERT INTO employer (full_name, post, phone_number, photo) VALUES ('\(newFullName)', '\(newPost)', '\(newPhone)'"
-                
-                if newPhotoLink != "" {
-                    SQLQuery += ", '\(newPhotoLink)');"
-                } else {
-                    SQLQuery += ", NULL);"
+                guard let link = URL(string: newPhotoLink) else {
+                    self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
+                    self.showAlert = true
+                    return
                 }
                 
-                updateData(SQLQuery)
-                
+                isPhotoURLValid(url: link) { isValid in
+                    if isValid {
+                        var SQLQuery = "INSERT INTO employer (full_name, post, phone_number, photo) VALUES ('\(newFullName)', '\(newPost)', '\(newPhone)'"
+                        
+                        if newPhotoLink != "" {
+                            SQLQuery += ", '\(newPhotoLink)');"
+                        } else {
+                            SQLQuery += ", NULL);"
+                        }
+                        updateData(SQLQuery)
+                        
+                    } else {
+                        self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                        self.showAlert = true
+                        return
+                    }
+                }
                 
             } label: {
                 HStack {

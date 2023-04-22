@@ -56,8 +56,32 @@ struct AddendumSupplier: View {
                     self.showAlert = true
                     return
                 }
-                let sqlString = "INSERT INTO supplier (name_supplier, telephone, www, photo) VALUES ('\(newName)', '\(newPhone)', \(newWWW == "" ? "NULL" : "'\(newWWW)'"), \(newPhoto == "" ? "NULL" : "'\(newPhoto)'"));"
-                pullData(SQLQuery: sqlString)
+                
+                /// Если ссылку на фото ввели.
+                if newPhoto != "" {
+                    guard let link = URL(string: newPhoto) else {
+                        self.textInAlert = "Ссылка некорректна!"
+                        self.showAlert = true
+                        return
+                    }
+                    
+                    /// Проверка фото на корректность ссылки.
+                    isPhotoURLValid(url: link) { isValid in
+                        if isValid {
+                            let sqlString = "INSERT INTO supplier (name_supplier, telephone, www, photo) VALUES ('\(newName)', '\(newPhone)', \(newWWW == "" ? "NULL" : "'\(newWWW)'"), '\(link)');"
+                            pullData(SQLQuery: sqlString)
+                            
+                        } else {
+                            self.textInAlert = "Приложение не может обработать ссылку на эту фоторграфию. Предоставьте другую ссылку."
+                            self.showAlert = true
+                            return
+                        }
+                    }
+                } else {
+                    /// Если фото не ввели.
+                    let sqlString = "INSERT INTO supplier (name_supplier, telephone, www, photo) VALUES ('\(newName)', '\(newPhone)', \(newWWW == "" ? "NULL" : "'\(newWWW)'"), NULL);"
+                    pullData(SQLQuery: sqlString)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }

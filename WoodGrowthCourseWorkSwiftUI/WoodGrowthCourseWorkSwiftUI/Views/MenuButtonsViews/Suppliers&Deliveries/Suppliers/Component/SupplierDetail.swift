@@ -134,19 +134,26 @@ struct SupplierDetail: View {
                             
                         } else {
                             /// Проверка фото на корректность ссылки.
-                            if let newURL = URL(string: newPhoto)  {
-                                let sqlString = """
-                                UPDATE supplier
-                                SET name_supplier='\(newName)',telephone='\(newPhone)',www=\(newWWW == "" ? "NULL" : "'\(newWWW)'"),photo='\(newURL)'
-                                WHERE supplier_id='\(current.id)';
-                                """
-                                pullData(SQLQuery: sqlString)
-                                
-                            } else {
-                                self.textInAlert = "Введённая ссылка не рабочая. Поменяйте её или удалите вообще."
+                            guard let link = URL(string: newPhoto) else {
+                                self.textInAlert = "Ссылка некорректна!"
                                 self.showAlert = true
+                                return
                             }
-                            
+                            isPhotoURLValid(url: link) { isValid in
+                                if isValid {
+                                    let sqlString = """
+                                    UPDATE supplier
+                                    SET name_supplier='\(newName)',telephone='\(newPhone)',www=\(newWWW == "" ? "NULL" : "'\(newWWW)'"),photo='\(link)'
+                                    WHERE supplier_id='\(current.id)';
+                                    """
+                                    pullData(SQLQuery: sqlString)
+                                    
+                                } else {
+                                    self.textInAlert = "Приложение не может обработать ссылку на эту фоторграфию. Предоставьте другую ссылку."
+                                    self.showAlert = true
+                                    return
+                                }
+                            }
                         }
                         
                     } else {
