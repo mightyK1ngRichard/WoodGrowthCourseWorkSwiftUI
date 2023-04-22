@@ -292,7 +292,6 @@ struct Authorization: View {
             Button {
                 self.pressedSignup = false
                 self.showProgressView = false
-                print("TAp!!!")
                 
             } label: {
                 HStack {

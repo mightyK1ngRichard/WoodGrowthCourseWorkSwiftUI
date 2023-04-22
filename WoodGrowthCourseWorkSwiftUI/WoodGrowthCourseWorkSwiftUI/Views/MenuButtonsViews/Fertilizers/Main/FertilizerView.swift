@@ -94,21 +94,6 @@ struct FertilizerView: View {
             .background(Color.gray
                 .opacity(0.7))
             .cornerRadius(10)
-    
-            Button {
-                // TODO: Сделать
-                
-                
-            } label: {
-                Image(systemName: "slider.vertical.3")
-                    .foregroundColor(Color.black)
-                    .padding(10)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 5, y: 5)
-                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: -5, y: -5)
-            }
-            .buttonStyle(PlainButtonStyle())
             
             /// Добавление удобрения.
             Button {

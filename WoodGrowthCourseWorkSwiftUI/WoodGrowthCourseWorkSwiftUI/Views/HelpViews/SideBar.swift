@@ -6,16 +6,29 @@
 //
 
 import SwiftUI
+struct PopoverView: View {
+    var body: some View {
+        VStack {
+            Text("This is a Popover!")
+            Button("Close") {
+                NSApp.stopModal()
+            }
+            .padding()
+        }
+        .frame(width: 200, height: 100)
+    }
+}
 
 struct SideBar: View {
-    var colors                       = getGradient()
-    var imageColor                   = Color.black
-    var colorOfLetters               = Color.black
-    @EnvironmentObject var userData  : UserData
-    @EnvironmentObject var pressed   : PressedButton
+    var colors                        = getGradient()
+    var imageColor                    = Color.black
+    var colorOfLetters                = Color.black
+    @EnvironmentObject var userData   : UserData
+    @EnvironmentObject var pressed    : PressedButton
     @Namespace var animation
-    @State private var isHovering    = false
-    @State private var isHoverExit   = false
+    @State private var isHovering     = false
+    @State private var isHoverExit    = false
+    @State private var isPopoverShown = false
     
     
     var body: some View {
@@ -35,6 +48,14 @@ struct SideBar: View {
                     }
                     .padding(.top, 35)
                     .padding(.leading, 10)
+                    .onHover(perform: { hovering in
+                        self.isPopoverShown = hovering
+                    })
+                    .popover(isPresented: $isPopoverShown, arrowEdge: .top) {
+                        Text("Copyright Dmitriy Permyakov")
+                            .padding(10)
+                            .cornerRadius(10)
+                    }
                     
                     if ["Home", "Посавщики &\nПоставки"].contains(pressed.pressed) {
                         TabButton(image: "house", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
@@ -43,7 +64,7 @@ struct SideBar: View {
                         TabButton(image: "person.2", title: "Работники", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "leaf", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         TabButton(image: "tree", title: "Деревья", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
-                        TabButton(image: "cart", title: "Посавщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
+                        TabButton(image: "cart", title: "Поставщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: .white)
                         
                     } else {
                         TabButton(image: "house.fill", title: "Home", animation: animation, colorOfLetters: colorOfLetters, colorOfImage: imageColor)
@@ -52,7 +73,7 @@ struct SideBar: View {
                         TabButton(image: "person.2.fill", title: "Работники", animation: animation, colorOfLetters: colorOfLetters)
                         TabButton(image: "leaf.fill", title: "Удобрения", animation: animation, colorOfLetters: colorOfLetters)
                         TabButton(image: "tree.fill", title: "Деревья", animation: animation, colorOfLetters: colorOfLetters)
-                        TabButton(image: "cart.fill", title: "Посавщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters)
+                        TabButton(image: "cart.fill", title: "Поставщики &\nПоставки", animation: animation, colorOfLetters: colorOfLetters)
                     }
                     
                 }
