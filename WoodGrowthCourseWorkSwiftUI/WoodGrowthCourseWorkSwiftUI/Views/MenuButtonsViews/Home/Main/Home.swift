@@ -74,6 +74,7 @@ struct Home: View {
                     if let img = userData.userData.photo {
                         WebImage(url: img)
                             .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
                             .frame(width: 100, height: 100)
                             .foregroundColor(.black)
@@ -86,6 +87,7 @@ struct Home: View {
                             .resizable()
                             .clipShape(Circle())
                             .frame(width: 150, height: 150)
+                            .aspectRatio(contentMode: .fit)
                             .foregroundColor(.black)
                             .padding(1)
                             .background(.black)

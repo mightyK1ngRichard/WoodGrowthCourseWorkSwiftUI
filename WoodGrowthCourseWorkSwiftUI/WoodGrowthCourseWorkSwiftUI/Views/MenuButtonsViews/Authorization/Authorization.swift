@@ -11,8 +11,12 @@ struct Authorization: View {
     @EnvironmentObject var userData        : UserData
     @State private var email               = ""
     @State private var password            = ""
+    @State private var firstname           = ""
+    @State private var lastname            = ""
+    @State private var linkToPhoto         = ""
+    @State private var textInAlert         = ""
     @State private var isSecurePassword    = true
-    @State private var signUp              = false
+    @State private var pressedSignup       = false //false
     @State private var isHovered           = false
     @State private var isHoverSignInButton = false
     @State private var isHover             = false
@@ -43,13 +47,18 @@ struct Authorization: View {
             }
             
             ZStack {
-                BackGround()
-                RightSide()
+                BackGround
+                if !pressedSignup {
+                    RightSide()
+                } else {
+                    SignUpView()
+                }
             }
         }
         .ignoresSafeArea()
         .frame(width: 1447, height: 830)
         .background(Image("auth"))
+        .alert(textInAlert, isPresented: $showAlert) {}
     }
     
     private func LeftSide() -> some View {
@@ -122,9 +131,6 @@ struct Authorization: View {
                         pressedSignIn()
                     }
                     .padding(.top, 20)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Ошибка входа"), message: Text("Неверный логин или пароль"), dismissButton: .default(Text("OK")))
-                }
                 
                 /// Анимации загрузки.
                 if showProgressView {
@@ -140,20 +146,164 @@ struct Authorization: View {
                 
             HStack {
                 Text("Don't have an account?")
-                Text("Sign up")
-                    .bold()
-                    .foregroundColor(isHovered ? .blue : .white)
-                    .onHover { hovering in
-                        self.isHovered = hovering
-                    }
-                    .onTapGesture {
-                        self.signUp = true
-                    }
+                Button {
+                    self.pressedSignup = true
+                    
+                } label: {
+                    Text("Sign up")
+                        .bold()
+                        .foregroundColor(isHovered ? .blue : .white)
+                        .onHover { hovering in
+                            self.isHovered = hovering
+                        }
+                }
+                .buttonStyle(.plain)
+
             }
             .padding(.top, 15)
         }
         .frame(width: 860 / 2, height: 1467 / 2)
         .padding(.trailing, 75)
+    }
+    
+    private func SignUpView() -> some View {
+        ZStack {
+            VStack {
+                Text("Register")
+                    .bold()
+                    .offset(y: -90)
+                    .font(.system(size: 50))
+                
+                /// Ввод email.
+                HStack {
+                    Image(systemName: "envelope.fill")
+                        .foregroundColor(.gray)
+                    TextField("Email", text: $email)
+                        .textFieldStyle(PlainTextFieldStyle())
+                }
+                .padding()
+                .background(Color.black.opacity(0.3))
+                .cornerRadius(10)
+                
+                ///  Ввод ФИО.
+                HStack {
+                    HStack {
+                        Image(systemName: "person.fill")
+                            .foregroundColor(.gray)
+                        TextField("Firstname", text: $firstname)
+                    }
+                    .padding()
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .background(Color.black.opacity(0.3))
+                    .cornerRadius(10)
+                    
+                    HStack {
+                        Image(systemName: "person.2.fill")
+                            .foregroundColor(.gray)
+                        TextField("Firstname", text: $lastname)
+                    }
+                    .padding()
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .background(Color.black.opacity(0.3))
+                    .cornerRadius(10)
+                }
+                
+                /// Фото.
+                HStack {
+                    Image(systemName: "photo")
+                        .foregroundColor(.gray)
+                    TextField("Link to photo", text: $linkToPhoto)
+                }
+                .padding()
+                .textFieldStyle(PlainTextFieldStyle())
+                .background(Color.black.opacity(0.3))
+                .cornerRadius(10)
+                
+                /// Ввод пароля.
+                HStack {
+                    Image(systemName: "lock.fill")
+                        .foregroundColor(.gray)
+                    if isSecurePassword {
+                        SecureField("Password", text: $password)
+                            .textFieldStyle(PlainTextFieldStyle())
+                        
+                    } else {
+                        TextField("Password", text: $password)
+                            .textFieldStyle(PlainTextFieldStyle())
+                    }
+                    Image(systemName: isSecurePassword ? "eye.slash.fill" : "eye.fill")
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            isSecurePassword.toggle()
+                        }
+                }
+                .padding()
+                .background(Color.black.opacity(0.3))
+                .cornerRadius(10)
+                
+                
+                /// Кнопка зарегистрироваться.
+                Text("Sign Up")
+                    .frame(width: 425, height: 35)
+                    .foregroundColor(.white)
+                    .background(Color(red: 195 / 255, green: 13 / 255, blue: 67 / 255))
+                    .cornerRadius(10)
+                    .brightness(isHoverSignInButton ? -0.3 : 0)
+                    .onHover(perform: { hovering in
+                        self.isHoverSignInButton = hovering
+                    })
+                    .onTapGesture {
+                        self.showProgressView = true
+                        
+                        if email == "" || password == "" || firstname == "" || lastname == "" {
+                            textInAlert = "Заполните все данные!"
+                            self.showAlert = true
+                            return
+                        }
+                        
+                        guard let link = URL(string: linkToPhoto) else {
+                            self.textInAlert = "Ссылка некорректна!"
+                            self.showAlert = true
+                            return
+                        }
+                        
+                        isPhotoURLValid(url: link) { isValid in
+                            if isValid {
+                                let sqlCommand = """
+                                INSERT INTO users (login, password, photo, firstname, lastname, post)
+                                VALUES ('\(email)', '\(password)', '\(link)', '\(firstname)', '\(lastname)', 'Пользователь');
+                                """
+                                pressedSignUp(SQLQuery: sqlCommand)
+                                
+                            } else {
+                                self.textInAlert = "Приложение не может обработать ссылку на эту фоторграфию. Предоставьте другую ссылку."
+                                self.showAlert = true
+                                return
+                            }
+                        }
+                    }
+                    .padding(.top, 20)
+                 
+                
+            }
+            .frame(width: 860 / 2, height: 1467 / 2)
+            .padding(.trailing, 75)
+            
+            Button {
+                self.pressedSignup = false
+                print("TAp!!!")
+                
+            } label: {
+                HStack {
+                    Image(systemName: "chevron.backward")
+                    Text("Back")
+                }
+                .foregroundColor(Color(red: 165/255, green: 165/255, blue: 253/255))
+            }
+            .offset(x: -250, y: -320)
+            .buttonStyle(.plain)
+
+        }
     }
     
     private func pressedSignIn() {
@@ -188,6 +338,7 @@ struct Authorization: View {
             if !userData.status {
                 DispatchQueue.main.async {
                     self.showProgressView = false
+                    textInAlert = "Неверный логин или пароль!"
                     self.showAlert = true
                     self.email = ""
                     self.password = ""
@@ -197,18 +348,22 @@ struct Authorization: View {
             
         })
     }
-}
+    
+    private func pressedSignUp(SQLQuery: String) {
+        APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { resp, error in
+            guard let _ = resp else {
+                self.isSecurePassword = true
+                self.password = ""
+                self.showProgressView = false
+                self.pressedSignup = false
+                return
+            }
+            self.textInAlert = "Введённая элеткронная почта уже существует!"
+            self.showAlert = true
+        }
 
-struct Authorization_Previews: PreviewProvider {
-    static var previews: some View {
-        let default1 = UserData()
-        Authorization()
-            .environmentObject(default1)
     }
-}
-
-struct BackGround: View {
-    var body: some View {
+    private var BackGround: some View {
         HStack {
         }
         .frame(width: 1100 / 2, height: 1467 / 2)
@@ -216,5 +371,13 @@ struct BackGround: View {
         .blur(radius: 15)
         .opacity(0.9)
         .padding(.trailing, 75)
+    }
+}
+
+struct Authorization_Previews: PreviewProvider {
+    static var previews: some View {
+        let default1 = UserData()
+        Authorization()
+            .environmentObject(default1)
     }
 }
