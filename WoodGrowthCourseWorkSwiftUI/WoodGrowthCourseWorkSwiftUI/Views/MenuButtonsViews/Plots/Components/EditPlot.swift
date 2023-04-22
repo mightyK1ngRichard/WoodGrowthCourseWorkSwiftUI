@@ -164,6 +164,6 @@ struct EditPlot: View {
 
 struct EditPlot_Previews: PreviewProvider {
     static var previews: some View {
-        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!, lastWatering: "2017-02-14T21:00:00.000Z"), size: (width: CGFloat(500), height: CGFloat(330)), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
+        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!, lastWatering: 23), size: (width: CGFloat(500), height: CGFloat(330)), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
     }
 }
