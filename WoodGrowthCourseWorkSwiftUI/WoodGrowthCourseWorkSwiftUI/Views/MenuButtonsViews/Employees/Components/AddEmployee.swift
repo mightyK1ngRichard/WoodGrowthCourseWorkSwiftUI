@@ -34,9 +34,11 @@ struct AddEmployee: View {
                 }
                 .padding()
                 .frame(width: 500, height: 400)
+                .background(.black.opacity(0.5))
+                .cornerRadius(20)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(getGradient(), lineWidth: 3)
+                        .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
                 }
                 
                 Spacer()
@@ -71,10 +73,10 @@ struct AddEmployee: View {
     private func inputDataView() -> some View {
         VStack {
             Spacer()
-            MyTextField(textForUser: "Введите имя", text: $newFullName)
-            MyTextField(textForUser: "Введите должность", text: $newPost)
-            MyTextField(textForUser: "Введите телефон", text: $newPhone)
-            MyTextField(textForUser: "Введите ссылку на фото", text: $newPhotoLink)
+            MyTextFieldBlack(textForUser: "Введите имя", text: $newFullName)
+            MyTextFieldBlack(textForUser: "Введите должность", text: $newPost)
+            MyTextFieldBlack(textForUser: "Введите телефон", text: $newPhone)
+            MyTextFieldBlack(textForUser: "Введите ссылку на фото", text: $newPhotoLink)
             
             Button {
                 if newFullName == "" && newPost == "" && newPhone == "" {
@@ -83,24 +85,41 @@ struct AddEmployee: View {
                     return
                 }
                 
-                var SQLQuery = "INSERT INTO employer (full_name, post, phone_number, photo) VALUES ('\(newFullName)', '\(newPost)', '\(newPhone)'"
-                
-                if newPhotoLink != "" {
-                    SQLQuery += ", '\(newPhotoLink)');"
-                } else {
-                    SQLQuery += ", NULL);"
+                guard let link = URL(string: newPhotoLink) else {
+                    self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
+                    self.showAlert = true
+                    return
                 }
                 
-                updateData(SQLQuery)
-                
+                isPhotoURLValid(url: link) { isValid in
+                    if isValid {
+                        var SQLQuery = "INSERT INTO employer (full_name, post, phone_number, photo) VALUES ('\(newFullName)', '\(newPost)', '\(newPhone)'"
+                        
+                        if newPhotoLink != "" {
+                            SQLQuery += ", '\(newPhotoLink)');"
+                        } else {
+                            SQLQuery += ", NULL);"
+                        }
+                        updateData(SQLQuery)
+                        
+                    } else {
+                        self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                        self.showAlert = true
+                        return
+                    }
+                }
                 
             } label: {
-                HStack {
-                    Image(systemName: "square.and.arrow.down")
-                    Text("Save")
-                        .padding(.trailing)
-                }
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
             .padding(.top)
             .frame(maxWidth: .infinity, alignment: .trailing)
 
@@ -111,14 +130,17 @@ struct AddEmployee: View {
     private func updateData(_ SQLQuery: String) {
         APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { data, error in
             if let _ = data {
-                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
-                self.showAlert = true
+                DispatchQueue.main.async {
+                    self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                    self.showAlert = true
+                }
                 return
 
             }
-            
-            self.allData.refresh()
-            self.closeScreen = false
+            DispatchQueue.main.async {
+                self.allData.refresh()
+                self.closeScreen = false
+            }
         }
     }
     

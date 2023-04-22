@@ -88,7 +88,7 @@ struct DetailCardTree: View {
             if let currentTree = pressedTreeInfo.treeInfo {
                 typeImage(currentTree: currentTree)
                 textOfTree(currentTree: currentTree)
-            
+                
                 if pressedEdit {
                     inputNewData(currentTree: currentTree)
                 }
@@ -110,7 +110,7 @@ struct DetailCardTree: View {
                 Group {
                     descriptionText("Название")
                     MyTextField(textForUser: "Новый №", text: $newName)
-
+                    
                     descriptionText("Вид дерева")
                     Picker("", selection: $newType) {
                         ForEach(allTypes, id: \.self.type_id) { type in
@@ -135,7 +135,7 @@ struct DetailCardTree: View {
                 
                 descriptionText("Дата заземления")
                 DatePicker(selection: $newDate, in: ...Date()) {}
-                .datePickerStyle(.field)
+                    .datePickerStyle(.field)
             }
             
             Button {
@@ -145,9 +145,14 @@ struct DetailCardTree: View {
                 HStack {
                     Image(systemName: "trash.circle")
                     Text("Удалить")
-                        .padding(.horizontal, 8)
+                        .padding(.trailing, 14)
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(.white.opacity(0.2))
+                .cornerRadius(20)
             }
+            .buttonStyle(.plain)
             .padding(.top, 5)
             
             /// Кнопка сохранить.
@@ -169,12 +174,15 @@ struct DetailCardTree: View {
                     Image(systemName: "square.and.arrow.down")
                     Text("Сохранить")
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(.white.opacity(0.2))
+                .cornerRadius(20)
             }
+            .buttonStyle(.plain)
             .padding(.top, 5)
             
         }
-        
-
     }
     
     private func typeImage(currentTree: TreeResult) -> some View {
@@ -244,7 +252,7 @@ struct DetailCardTree: View {
     }
     
     private func pullData(SQLQuery: String) {
-        APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { respondDB, error in
+        APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { respondDB, _ in
             guard let _ = respondDB else {
                 DispatchQueue.main.async {
                     treesData.refresh()

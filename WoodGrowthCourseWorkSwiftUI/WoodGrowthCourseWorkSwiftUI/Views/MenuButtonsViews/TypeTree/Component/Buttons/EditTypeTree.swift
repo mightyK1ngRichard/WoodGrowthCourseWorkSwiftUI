@@ -41,9 +41,9 @@ struct EditTypeTree: View {
                 .frame(width: 500, height: 400)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(getGradient(), lineWidth: 3)
+                        .stroke(Color(hexString: "#EC2301"), lineWidth: 3)
                 }
-                .background(getGradient().opacity(0.05))
+                .background(.black.opacity(0.5))
                 .cornerRadius(20)
                 Spacer()
             }
@@ -87,13 +87,13 @@ struct EditTypeTree: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.caption)
             
-            MyTextField(textForUser: "Название участка", text: $newNameType)
+            MyTextFieldBlack(textForUser: "Название участка", text: $newNameType)
                 .padding(.top, -7)
             
             Text("URL фото вида участка.")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.caption)
-            MyTextField(textForUser: "URL фото", text: $newPhoto)
+            MyTextFieldBlack(textForUser: "URL фото", text: $newPhoto)
                 .padding(.top, -7)
             
             Text("Примечание")
@@ -103,23 +103,50 @@ struct EditTypeTree: View {
             TextEditor(text: $newNote)
                 .background(Color.gray.opacity(0.2))
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .border(Color.gray)
                 .background(Color.white)
                 .font(.system(size: 16))
                 .padding(.top, -7)
             
-            Button("Save") {
+            Button {
                 if newNameType == "" || newPhoto == "" {
                     self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
                     return
                 }
                 
-                let sqlString = """
-                UPDATE type_tree SET name_type='\(newNameType)',photo='\(newPhoto)',notes='\(newNote)' WHERE type_id=\(currentType.currentType.id);
-                """
-                APIRequest(sqlString)
+                guard let link = URL(string: newPhoto) else {
+                    self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
+                    self.showAlert = true
+                    return
+                }
+                
+                isPhotoURLValid(url: link) { isValid in
+                    if isValid {
+                        let sqlString = """
+                        UPDATE type_tree SET name_type='\(newNameType)',photo='\(link)',notes='\(newNote)' WHERE type_id=\(currentType.currentType.id);
+                        """
+                        APIRequest(sqlString)
+                        
+                    } else {
+                        self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                        self.showAlert = true
+                        return
+                    }
+                }
+                
+            } label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .padding(.top)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
             
@@ -130,8 +157,10 @@ struct EditTypeTree: View {
     private func APIRequest(_ sqlString: String) {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
             if let _ = data {
-                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
-                self.showAlert = true
+                DispatchQueue.main.async {
+                    self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                    self.showAlert = true
+                }
                 return
             }
             typeData.refresh { _, _ in

@@ -10,14 +10,17 @@ import SDWebImageSwiftUI
 
 struct Employees: View {
     
-    var columns                            = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
-    @State private var search              = ""
-    @State private var output              = ""
-    @State private var peopleFromSearch    = [EmpoyeeResult]()
-    @State private var pressedPlus         = false
-    @State private var pressedWateringLog  = false
-    @ObservedObject var pressedCardInfo    = PressedButtonDetailView()
-    @ObservedObject var employeesData      = employeesCardsViewModel()
+    var columns                               = Array(repeating: GridItem(.flexible(), spacing: 15), count: 4)
+    @State private var search                 = ""
+    @State private var output                 = ""
+    @State private var peopleFromSearch       = [EmpoyeeResult]()
+    @State private var pressedPlus            = false
+    @State private var pressedWateringLog     = false
+    @State private var isPopoverShown         = false
+    @State private var pressedSlider          = false
+    @State private var selectedSliderIsFilter = false
+    @ObservedObject var pressedCardInfo       = PressedButtonDetailView()
+    @ObservedObject var employeesData         = employeesCardsViewModel()
     
     
     var body: some View {
@@ -49,12 +52,12 @@ struct Employees: View {
     
     private func infoView() -> some View {
         ZStack {
-            // Меню редактирования.
+            /// Меню редактирования.
             if pressedPlus {
                 AddEmployee(closeScreen: $pressedPlus)
             
             } else {
-                // Карточки работников.
+                /// Карточки работников.
                 VStack {
                     searchBar()
                     cardEmployees()
@@ -62,7 +65,7 @@ struct Employees: View {
                 .padding()
             }
             
-            // Анимация загрузки.
+            /// Анимация загрузки.
             if !employeesData.statusParse {
                 TurnOffServer()
             }
@@ -72,19 +75,11 @@ struct Employees: View {
     
     private func cardEmployees() -> some View {
         GeometryReader { reader in
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 15) {
-                    if output == "" {
-                        ForEach(employeesData.employeesInfo) {card in
-                            ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
-                        }
-                        
-                    } else {
-                        ForEach(peopleFromSearch) {card in
-                            ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
-                        }
+                    ForEach(self.peopleFromSearch.count == 0 ? self.employeesData.employeesInfo : self.peopleFromSearch) {card in
+                        ScrollViewCard(card: card, reader: reader.frame(in: .global).width, pressedWateringLog: $pressedWateringLog)
                     }
-                    
                 }
             }
         }
@@ -95,11 +90,17 @@ struct Employees: View {
             HStack(spacing: 15) {
                 Image(systemName: "magnifyingglass")
                 TextField("Введите имя", text: $search) {
-                    self.output = self.search
-                    self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.output.lowercased()) }
+                    if self.search == "" {
+                        self.selectedSliderIsFilter = false
+                        self.peopleFromSearch = []
+                        return
+                    }
+                    
+                    self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.fullName.lowercased().contains(self.search.lowercased()) }
                 }
                 .onChange(of: search) { newValue in
                     if newValue == "" {
+                        self.selectedSliderIsFilter = false
                         self.peopleFromSearch = []
                     }
                 }
@@ -114,10 +115,10 @@ struct Employees: View {
             .cornerRadius(10)
             
             Button {
-                // TODO: Сделать
+                self.isPopoverShown = true
                 
             } label: {
-                Image(systemName: "slider.vertical.3")
+                Image(systemName: isPopoverShown ? "xmark.circle" : "slider.vertical.3")
                     .foregroundColor(Color.black)
                     .padding(10)
                     .background(Color.white)
@@ -126,6 +127,9 @@ struct Employees: View {
                     .shadow(color: Color.black.opacity(0.1), radius: 5, x: -5, y: -5)
             }
             .buttonStyle(PlainButtonStyle())
+            .popover(isPresented: $isPopoverShown) {
+                popoverView()
+            }
             
             Button {
                 pressedPlus = true
@@ -141,6 +145,53 @@ struct Employees: View {
         }
     }
     
+    private func popoverView() -> some View {
+        VStack {
+            Button {
+                self.selectedSliderIsFilter = true
+                self.peopleFromSearch = self.employeesData.employeesInfo.filter { $0.namePlot == "Не назначено" }
+                
+            } label: {
+                HStack {
+                    if selectedSliderIsFilter {
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .frame(width: 8, height: 8)
+                    }
+                    Text("Без участка")
+                }
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(.white)
+                .cornerRadius(20)
+                .foregroundColor(.black)
+            }
+            .buttonStyle(.plain)
+            
+            Button {
+                self.selectedSliderIsFilter = false
+                self.peopleFromSearch = []
+                
+            } label: {
+                HStack {
+                    if !selectedSliderIsFilter {
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .frame(width: 8, height: 8)
+                    }
+                    Text("Все работники")
+                }
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(.white)
+                .cornerRadius(20)
+                .foregroundColor(.black)
+            }
+            .buttonStyle(.plain)
+        }
+        .frame(width: 130)
+        .padding()
+    }
 }
 
 

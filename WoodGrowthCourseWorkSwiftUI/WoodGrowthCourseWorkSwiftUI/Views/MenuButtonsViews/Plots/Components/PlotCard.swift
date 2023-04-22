@@ -180,12 +180,8 @@ struct PlotCard: View {
                     .bold()
                 + Text("\(plotInfo.countTrees) шт.")
                 
-                if let date = plotInfo.lastWatering {
-                    Text("**Не поливался:** \(dateDifference(dateString: date)) дней")
+                Text("**Не поливался:** \(plotInfo.lastWatering) дн.")
                     
-                } else {
-                    Text("Участок ещё **НЕ** поливался").underline()
-                }
                 
                 Spacer()
                 Text("Адрес: ")
@@ -269,6 +265,6 @@ struct PlotCard: View {
 
 struct PlotCard_Previews: PreviewProvider {
     static var previews: some View {
-        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://vsegda-pomnim.com/uploads/posts/2022-04/1649619470_19-vsegda-pomnim-com-p-palmi-foto-22.jpg")!, lastWatering: "2017-02-14T21:00:00.000Z"))
+        PlotCard(plotInfo: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://vsegda-pomnim.com/uploads/posts/2022-04/1649619470_19-vsegda-pomnim-com-p-palmi-foto-22.jpg")!, lastWatering: 42))
     }
 }

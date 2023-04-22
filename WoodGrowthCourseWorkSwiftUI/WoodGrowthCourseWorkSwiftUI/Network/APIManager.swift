@@ -118,10 +118,12 @@ class APIManager {
     }
     
     func getPlots(completion: @escaping (PlotsParse?, String?) -> Void) {
+        /// Важно подметить, что если участок никогда не поливался, то счистаем кол-во дней без поливки относительно даты заземления.
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
         employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, type_tree.photo AS typePhoto,
-        MAX(w.date_watering) lastwatering, COUNT(DISTINCT tree.tree_id) countTrees
+        COALESCE(CURRENT_DATE - MAX(w.date_watering), DATE_PART('day', CURRENT_DATE - p.date_planting)::integer) lastwatering,
+        COUNT(DISTINCT tree.tree_id) countTrees
         FROM tree
         FULL JOIN plot p ON p.type_tree_id=tree.type_tree_id
         LEFT JOIN employer ON p.employer_id=employer.employer_id
@@ -138,7 +140,6 @@ class APIManager {
             completion(nil, "Uncorrected url")
             return
         }
-        
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
@@ -631,7 +632,7 @@ struct RowsPlots: Decodable {
     let employer_id   : String
     let type_tree_id  : Int
     let typephoto     : URL
-    let lastwatering  : String?
+    let lastwatering  : Int
 }
 
 struct FeritilizerParse: Decodable {
@@ -788,7 +789,7 @@ struct PlotResult: Codable, Identifiable {
     let employerID     : String
     let typeTreeID     : Int
     let typephoto      : URL
-    let lastWatering   : String?
+    let lastWatering   : Int
 }
 
 struct FertilizerResult: Codable, Identifiable {

@@ -37,73 +37,89 @@ struct EditPlot: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Image(systemName: "x.circle")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(isHover ? .red : .white)
-                    .padding(.trailing, 0)
-                    .padding(.top, 10)
-                    .onTapGesture {
-                        pressedClose = false
-                    }
-                    .onHover { hovering in
-                        isHover = hovering
-                    }
-            }
-
-            Spacer()
-            MyTextField(textForUser: "Имя участка", text: $plotName)
-            MyTextField(textForUser: "Адрес участка", text: $address)
+        ZStack {
+            RoundedRectangle(cornerRadius: 15)
+                .foregroundColor(.black.opacity(0.8))
             
-            myPickers()
-            
-            Button(action: {
-                let commands = [
-                    ("name_plot", plotName),
-                    ("date_planting", correctDateWithTime(datePlanting)),
-                    ("type_tree_id", typeTreeOnPlot),
-                    ("address", address),
-                    ("employer_id", employee)
-                ].filter { $0.1 != "" }
-                
-                // Если ничего не поменяли, выходим.
-                if commands.count == 0 {
-                    pressedClose = false
-                    return
+            VStack {
+                HStack {
+                    Spacer()
+                    Image(systemName: "x.circle")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(isHover ? .red : .white)
+                        .padding(.trailing, 0)
+                        .padding(.top, 10)
+                        .onTapGesture {
+                            pressedClose = false
+                        }
+                        .onHover { hovering in
+                            isHover = hovering
+                        }
+                        .offset(x: 7)
                 }
+
+                Spacer()
+                MyTextFieldBlack(textForUser: "Имя участка", text: $plotName)
+                MyTextFieldBlack(textForUser: "Адрес участка", text: $address)
                 
-                let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
-                let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
+                myPickers()
                 
-                APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
-                    guard let _ = data else {
-                        print("== ERROR FROM EditPlot [Button]<Save>", error!)
-                        // .... Что-то выводить при ошибке
+                Button(action: {
+                    let commands = [
+                        ("name_plot", plotName),
+                        ("date_planting", correctDateWithTime(datePlanting)),
+                        ("type_tree_id", typeTreeOnPlot),
+                        ("address", address),
+                        ("employer_id", employee)
+                    ].filter { $0.1 != "" }
+                    
+                    // Если ничего не поменяли, выходим.
+                    if commands.count == 0 {
+                        pressedClose = false
                         return
                     }
-//                    print("Обновление выполнено успешно\n", data)
-                    DispatchQueue.main.async  {
-                        plotsData.refresh()
-                        pressedClose = false
-                    }
                     
-                }
-                                
-            }, label: {
-                Text("Save")
-            })
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            
-                   
-            Spacer()
-        }
-        .padding(.horizontal)
-        .overlay {
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(getGradient().opacity(0.7), lineWidth: 2)
+                    let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+                    let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
+                    
+                    APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
+                        guard let _ = data else {
+                            print("== ERROR FROM EditPlot [Button]<Save>", error!)
+                            
+                            return
+                        }
+
+                        DispatchQueue.main.async  {
+                            plotsData.refresh()
+                            pressedClose = false
+                        }
+                        
+                    }
+                                    
+                }, label: {
+                    Text("Сохранить")
+                        .padding(.horizontal)
+                        .padding(.vertical, 4)
+                        .background(.black.opacity(0.3))
+                        .cornerRadius(20)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                        }
+                        
+                })
+                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .offset(y: 15)
+                Spacer()
+            }
+            .padding(.horizontal)
+            .background(getTabBackground().opacity(0.3))
+            .cornerRadius(15)
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+            }
         }
         .frame(width: size.width, height: size.height)
         .padding()
@@ -136,6 +152,7 @@ struct EditPlot: View {
                 Image(systemName: "person.circle.fill")
                     .resizable()
                     .frame(width: 20, height: 20)
+                
                 Picker(selection: $employee, label: Text("")) {
                     ForEach(allEmployeesFree, id: \.0) { person in
                         Text(person.1)
@@ -164,6 +181,6 @@ struct EditPlot: View {
 
 struct EditPlot_Previews: PreviewProvider {
     static var previews: some View {
-        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!, lastWatering: "2017-02-14T21:00:00.000Z"), size: (width: CGFloat(500), height: CGFloat(330)), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
+        EditPlot(currentData: PlotResult(id: "0", name: "F", date: "2017-02-14T21:00:00.000Z", address: "Ул. Далеко что жесть", employee: "Вова Степанов", emp_photo: nil, type_tree: "Берёза", fertilizerName: "Удобрение 1", countTrees: "23", employerID: "0", typeTreeID: 0, typephoto: URL(string: "https://phonoteka.org/uploads/posts/2021-05/1621391291_26-phonoteka_org-p-luntik-fon-27.jpg")!, lastWatering: 23), size: (width: CGFloat(500), height: CGFloat(330)), pressedClose: .constant(false), allTypesFree: [("0", "Лол")], allEmployeesFree: [("0", "Кек")])
     }
 }

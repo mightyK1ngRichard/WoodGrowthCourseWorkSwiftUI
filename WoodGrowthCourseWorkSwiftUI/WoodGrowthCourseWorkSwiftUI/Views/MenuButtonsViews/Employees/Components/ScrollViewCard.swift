@@ -16,8 +16,10 @@ struct ScrollViewCard: View {
     @Binding var pressedWateringLog                 : Bool
     @State private var isHovering                   = false
     @State private var isHoveringTrash              = false
+    @State private var showAlertDelete              = false
     @State private var showAlert                    = false
     @State private var alertText                    = ""
+    @State private var textInAlert                  = ""
     
     var body: some View {
         mainView()
@@ -95,26 +97,39 @@ struct ScrollViewCard: View {
                     }
                     .opacity(isHovering ? (isHoveringTrash ? 1 : 0.7) : 0)
                     .onTapGesture {
-                        showAlert = true
+                        self.showAlertDelete = true
                     }
             }
             Spacer()
         }
         .padding(5)
-        .alert("Удаление", isPresented: $showAlert, actions: {
+        .alert("Удаление", isPresented: $showAlertDelete, actions: {
             SecureField("Пароль", text: $alertText)
             Button("Удалить") {
                 if alertText == "\(PasswordForEnter.password)" {
                     let SQLQuery = "DELETE FROM employer WHERE employer_id=\(card.id);"
-                    APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
-                        guard let _ = data else {
-                            print("== ERROR FROM ScrollViewCard", error!)
+                    
+                    APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { resp, error in
+                        guard let _ = resp else {
+                            self.allDataEmp.refresh()
                             return
                         }
-                        self.allDataEmp.refresh()
                         
-                        // ... Можно додумать что-то.
+                        DispatchQueue.main.async {
+                            self.textInAlert = "Сотрудника \"\(card.fullName)\" нельзя уволить, пока она работает на участке \(card.namePlot). Вам необходимо назначить нового сотрудника."
+                            self.showAlert = true
+                        }
                     }
+//                    APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+//                        guard let _ = data else {
+//                            print("== ERROR FROM ScrollViewCard", error!)
+//                            return
+//                        }
+//                        DispatchQueue.main.async {
+//                            self.allDataEmp.refresh()
+//                        }
+//
+//                    }
                 }
             }
             Button("Отмена", role: .cancel, action: {})
@@ -122,7 +137,7 @@ struct ScrollViewCard: View {
         }, message: {
             Text("Введите пароль, чтобы подтвердить право на удаление.")
         })
-
+        .alert(textInAlert, isPresented: $showAlert, actions: {})
     }
 }
 

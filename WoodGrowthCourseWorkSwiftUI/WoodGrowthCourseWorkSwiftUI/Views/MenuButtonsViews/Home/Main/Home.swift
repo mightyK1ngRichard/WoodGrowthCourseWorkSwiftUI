@@ -5,6 +5,7 @@
 //  Created by Дмитрий Пермяков on 20.03.2023.
 //
 
+import Foundation
 import SwiftUI
 import SDWebImageSwiftUI
 import SwiftUICharts
@@ -74,6 +75,7 @@ struct Home: View {
                     if let img = userData.userData.photo {
                         WebImage(url: img)
                             .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
                             .frame(width: 100, height: 100)
                             .foregroundColor(.black)
@@ -86,6 +88,7 @@ struct Home: View {
                             .resizable()
                             .clipShape(Circle())
                             .frame(width: 150, height: 150)
+                            .aspectRatio(contentMode: .fit)
                             .foregroundColor(.black)
                             .padding(1)
                             .background(.black)

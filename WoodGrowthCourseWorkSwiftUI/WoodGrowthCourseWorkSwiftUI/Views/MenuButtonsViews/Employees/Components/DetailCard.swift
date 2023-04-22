@@ -135,27 +135,47 @@ struct DetailCard: View {
             }
             
             Button {
-                pressedEdit = false
-                
-                // Форматируем для SQL запроса.
-                let commands = [("photo", newPhotoLink), ("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
-                
-                // Если ничего не поменяли, выходим.
-                if commands.count == 0 {
-                    pressedClose.pressed = false
+                guard let link = URL(string: newPhotoLink) else {
+                    self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
+                    self.showAlert = true
                     return
                 }
-                let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
-                let sqlString = "UPDATE employer SET \(changedInfo) where employer_id=\(currentPersonInfo.id);"
                 
-                updateData(sqlString)
+                isPhotoURLValid(url: link) { isValid in
+                    if isValid {
+                        pressedEdit = false
+                        
+                        // Форматируем для SQL запроса.
+                        let commands = [("photo", newPhotoLink), ("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
+                        
+                        // Если ничего не поменяли, выходим.
+                        if commands.count == 0 {
+                            pressedClose.pressed = false
+                            return
+                        }
+                        let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+                        let sqlString = "UPDATE employer SET \(changedInfo) where employer_id=\(currentPersonInfo.id);"
+                        
+                        updateData(sqlString)
+                        
+                    } else {
+                        self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                        self.showAlert = true
+                        return
+                    }
+                }
                 
             } label: {
                 HStack {
                     Image(systemName: "square.and.arrow.down")
                     Text("Сохранить")
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(.white.opacity(0.2))
+                .cornerRadius(20)
             }
+            .buttonStyle(.plain)
             .padding(.top, 5)
             
         }
@@ -179,8 +199,8 @@ struct DetailCard: View {
                 DispatchQueue.main.async {
                     self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
                     self.showAlert = true
-                    return
                 }
+                return
             }
             
             DispatchQueue.main.async {

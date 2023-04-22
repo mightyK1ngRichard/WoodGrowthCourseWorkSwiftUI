@@ -54,6 +54,20 @@ func getCorrectPhone(phoneString: String) -> String? {
     return formattedString
 }
 
+func isPhotoURLValid(url: URL, completion: @escaping (Bool) -> Void) {
+    var request = URLRequest(url: url)
+    request.httpMethod = "HEAD"
+    
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        if let httpResponse = response as? HTTPURLResponse {
+            completion(httpResponse.statusCode == 200)
+        } else {
+            completion(false)
+        }
+    }
+    task.resume()
+}
+
 class PasswordForEnter {
     static let password = "430133"
 }

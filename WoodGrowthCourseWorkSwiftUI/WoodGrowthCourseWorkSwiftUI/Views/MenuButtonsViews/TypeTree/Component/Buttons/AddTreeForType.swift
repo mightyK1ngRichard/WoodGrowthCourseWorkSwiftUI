@@ -65,12 +65,12 @@ struct AddTreeForType: View {
                 }
                 .padding()
                 .frame(width: 500, height: 600)
+                .background(.black.opacity(0.5))
+                .cornerRadius(20)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(getGradient(), lineWidth: 3)
+                        .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
                 }
-                .background(getGradient().opacity(0.05))
-                .cornerRadius(20)
                 Spacer()
             }
             Spacer()
@@ -102,8 +102,8 @@ struct AddTreeForType: View {
     
     private func inputDataView() -> some View {
         VStack {
-            MyTextField(textForUser: "Имя дерева", text: $nameTree)
-            MyTextField(textForUser: "Объём", text: $volumTree)
+            MyTextFieldBlack(textForUser: "Имя дерева", text: $nameTree)
+            MyTextFieldBlack(textForUser: "Объём", text: $volumTree)
          
             HStack {
                 Image(systemName: "location.circle.fill")
@@ -112,13 +112,13 @@ struct AddTreeForType: View {
             }
             
             HStack {
-                MyTextField(textForUser: "X начала", text: $XBegin)
-                MyTextField(textForUser: "Y начала", text: $YBegin)
+                MyTextFieldBlack(textForUser: "X начала", text: $XBegin)
+                MyTextFieldBlack(textForUser: "Y начала", text: $YBegin)
             }
             
             HStack {
-                MyTextField(textForUser: "X конца", text: $XEnd)
-                MyTextField(textForUser: "Y конца", text: $YEnd)
+                MyTextFieldBlack(textForUser: "X конца", text: $XEnd)
+                MyTextFieldBlack(textForUser: "Y конца", text: $YEnd)
             }
             
             HStack {
@@ -131,7 +131,7 @@ struct AddTreeForType: View {
                 .font(.custom("HelveticaNeue", size: 13))
                 .lineSpacing(5)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            
+                
             HStack {
                 Text("Вид дерева")
                 Spacer()
@@ -159,7 +159,7 @@ struct AddTreeForType: View {
                     .frame(width: 150)
             }
             
-            Button("Save") {
+            Button {
                 if nameTree == "" || volumTree == "" || XBegin == "" || XEnd == "" || YBegin == "" || YEnd == "" {
                     self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
@@ -175,7 +175,18 @@ struct AddTreeForType: View {
                 COMMIT;
                 """
                 APIRequest(sqlString)
+                
+            } label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
             
@@ -185,8 +196,10 @@ struct AddTreeForType: View {
     private func APIRequest(_ sqlString: String) {
         APIManager.shared.updateWithSlash(SQLQuery: sqlString) { data, error in
             if let _ = data {
-                self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
-                self.showAlert = true
+                DispatchQueue.main.async {
+                    self.textInAlert = "При заполнении базы данных произошла ошибка. Данные некорректны, перепроверьте их!"
+                    self.showAlert = true
+                }
                 return
             }
             

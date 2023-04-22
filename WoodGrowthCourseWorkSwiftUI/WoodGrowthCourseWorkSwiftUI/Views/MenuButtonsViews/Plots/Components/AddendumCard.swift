@@ -14,19 +14,18 @@ struct AddendumCard: View {
     @State private var newTypeTree     = ""
     @State private var newAddress      = ""
     @State private var newEmployee     = ""
+    @State private var textInAlert     = ""
     @State private var newDatePlanting = Date()
     @State private var isHover         = false
-    @Binding var showAlert             : Bool
+    @State private var showAlert       = false
     @Binding var closeScreen           : Bool
     @Binding var willNotShowCard       : Bool
     @EnvironmentObject var plotsData   : plotsCardsViewModel
     
-    init(allTypesFree: [(String, String)], allEmployeesFree: [(String, String)], showAlert: Binding<Bool>, closeScreen: Binding<Bool>, willNotShowCard: Binding<Bool>) {
-        
+    init(allTypesFree: [(String, String)], allEmployeesFree: [(String, String)], closeScreen: Binding<Bool>, willNotShowCard: Binding<Bool>) {
         self.allTypesFree = allTypesFree
         self.allEmployeesFree = allEmployeesFree
         self._closeScreen = closeScreen
-        self._showAlert = showAlert
         self._willNotShowCard = willNotShowCard
         
         // Если нету свободных типов или работников, запрет создавать.
@@ -58,12 +57,14 @@ struct AddendumCard: View {
                 .frame(width: 500, height: 400)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(getGradient(), lineWidth: 3)
+                        .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
                 }
-                
+                .background(.black.opacity(0.2))
+                .cornerRadius(15)
                 Spacer()
             }
         }
+        .alert(textInAlert, isPresented: $showAlert) {}
     }
     
     private func closeCard() -> some View {
@@ -81,7 +82,7 @@ struct AddendumCard: View {
                 .onHover { hovering in
                     isHover = hovering
                 }
-                .offset(y: -77)
+                .offset(y: -65)
         }
     }
     
@@ -101,13 +102,14 @@ struct AddendumCard: View {
     
     private func inputDataView() -> some View {
         VStack {
-            MyTextField(textForUser: "Название участка", text: $newNamePlot)
-            MyTextField(textForUser: "Адрес участка", text: $newAddress)
+            MyTextFieldBlack(textForUser: "Название участка", text: $newNamePlot)
+            MyTextFieldBlack(textForUser: "Адрес участка", text: $newAddress)
         
             myPickers()
             
-            Button("Save") {
+            Button {
                 if newAddress == "" || newNamePlot == "" {
+                    self.textInAlert = "Заполните все данные!"
                     self.showAlert = true
                     return
                 }
@@ -118,7 +120,18 @@ struct AddendumCard: View {
                 VALUES ('\(newNamePlot)', '\(correctDateWithTime(newDatePlanting))', '\(newTypeTree)', '\(newAddress)', '\(newEmployee)');
                 """
                 APIRequest(sqlString)
+                
+            } label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
         }
@@ -175,27 +188,23 @@ struct AddendumCard: View {
             }
         }
     }
-        
     private func APIRequest(_ sqlString: String) {
-        APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
-            guard let _ = data else {
-                print("== ERROR FROM EditPlot [Button]<Save>", error!)
-                // .... Что-то выводить при ошибке
+        APIManager.shared.updateWithSlash(SQLQuery: sqlString) { resp, error in
+            guard let _ = resp else {
+                DispatchQueue.main.async {
+                    plotsData.refresh()
+                    closeScreen = false
+                }
                 return
             }
-//                    print("Обновление выполнено успешно\n", data)
-            DispatchQueue.main.async  {
-                
-                closeScreen = false
-                plotsData.refresh()
-            }
-            
+            self.textInAlert = "Ошибка добавления"
+            self.showAlert = true
         }
     }
 }
 
 struct AddendumCard_Previews: PreviewProvider {
     static var previews: some View {
-        AddendumCard(allTypesFree: [("0", "Привет")], allEmployeesFree: [("0", "Пока")], showAlert: .constant(false), closeScreen: .constant(false), willNotShowCard: .constant(false))
+        AddendumCard(allTypesFree: [("0", "Привет")], allEmployeesFree: [("0", "Пока")], closeScreen: .constant(false), willNotShowCard: .constant(false))
     }
 }
