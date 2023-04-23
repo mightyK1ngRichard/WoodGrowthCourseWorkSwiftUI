@@ -55,7 +55,15 @@ struct Home: View {
             }
             .environmentObject(data)
         } else {
-            ProgressView()
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+                Spacer()
+            }
         }
     }
     

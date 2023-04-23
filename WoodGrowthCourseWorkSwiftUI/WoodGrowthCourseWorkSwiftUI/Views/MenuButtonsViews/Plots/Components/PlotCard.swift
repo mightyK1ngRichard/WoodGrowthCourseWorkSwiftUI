@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct PlotCard: View {
+    @EnvironmentObject var userData     : UserData
     @EnvironmentObject var plotsData    : plotsCardsViewModel
     var plotInfo                        : PlotResult
     var size                            = (width: CGFloat(500), height: CGFloat(330))
@@ -151,7 +152,9 @@ struct PlotCard: View {
                 Circle().stroke(getGradient(), lineWidth: 3)
             }
             .onTapGesture {
-                getFreeDate()
+                if userData.isAdmin {
+                    getFreeDate()
+                }
             }
             .onHover { hovering in
                 self.isHovering = hovering

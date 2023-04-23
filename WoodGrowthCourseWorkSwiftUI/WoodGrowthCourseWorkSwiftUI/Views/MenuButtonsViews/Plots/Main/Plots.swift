@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Plots: View {
+    @EnvironmentObject var userData           : UserData
     @ObservedObject var plotData              = plotsCardsViewModel()
     @State private var search                 = ""
     @State private var plusTap                = false
@@ -96,7 +97,9 @@ struct Plots: View {
             }
             
             Button {
-                getFreeData()
+                if userData.isAdmin {
+                    getFreeData()
+                }
                 
             } label: {
                 Image(systemName: "plus")

@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct TypeTreeCard: View {
+    @EnvironmentObject var userData        : UserData
     @EnvironmentObject var typeList        : ListTypeTrees
     @EnvironmentObject var typesData       : TypeTreesData
     @EnvironmentObject var treesOfThisType : ListTrees
@@ -184,24 +185,9 @@ struct TypeTreeCard: View {
                     .padding(.trailing)
                 Text("**Количество деревьев:** \( currentCard.currentType.countTrees) шт.")
                 
-                HStack {
-                    
-                    updateButton(title: "Вид дерева", imageName: "plus.circle") {
-                        switchView = .addTypeTree
-                    }
-                    updateButton(title: "Удалить вид", imageName: "trash.circle") {
-                        showAlert = true
-                    }
-                    updateButton(title: "Изм. вид", imageName: "square.and.pencil.circle") {
-                        switchView = .editTypeTree
-                    }
-                    updateButton(title: "Новое дерево", imageName: "plus.circle") {
-                        switchView = .addTree
-                    }
-                    updateButton(title: "Удобрение", imageName: !showFertilizer ? "leaf.circle" : "xmark.circle") {
-                        fetchFertilizer()
-                        
-                    }
+                /// Кнопки показаны только админу.
+                if userData.isAdmin {
+                    AllButtons
                 }
 
             }
@@ -223,6 +209,28 @@ struct TypeTreeCard: View {
             .padding(.top, 50)
         }
         .frame(width: 987)
+    }
+    
+    private var AllButtons: some View {
+        HStack {
+            
+            updateButton(title: "Вид дерева", imageName: "plus.circle") {
+                switchView = .addTypeTree
+            }
+            updateButton(title: "Удалить вид", imageName: "trash.circle") {
+                showAlert = true
+            }
+            updateButton(title: "Изм. вид", imageName: "square.and.pencil.circle") {
+                switchView = .editTypeTree
+            }
+            updateButton(title: "Новое дерево", imageName: "plus.circle") {
+                switchView = .addTree
+            }
+            updateButton(title: "Удобрение", imageName: !showFertilizer ? "leaf.circle" : "xmark.circle") {
+                fetchFertilizer()
+                
+            }
+        }
     }
     
     private func updateButton(title: String, imageName: String, action: @escaping () -> Void) -> some View {
@@ -306,6 +314,7 @@ struct TypeTreeCard_Previews: PreviewProvider {
         let defaultypesData    = TypeTreesData()
         let defaultCurrentCard = CurrentType()
         let defaultShow        = ShowScreens()
+        let defaultUser        = UserData()
         
         TypeTreeCard()
             .environmentObject(defaultTrees)
@@ -313,8 +322,10 @@ struct TypeTreeCard_Previews: PreviewProvider {
             .environmentObject(defaultypesData)
             .environmentObject(defaultCurrentCard)
             .environmentObject(defaultShow)
+            .environmentObject(defaultUser)
             .onAppear() {
                 defaultShow.showTrees = true
+                defaultUser.isAdmin = true
             }
     }
 }

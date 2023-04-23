@@ -11,7 +11,8 @@ import SwiftUI
 
 class UserData: ObservableObject {
     @Published var userData = UserResult(id: 0, login: "test", password: "test", photo: URL(string: "https://img3.goodfon.ru/wallpaper/nbig/7/fa/oboi-anime-devushki-miku-3104.jpg")!, firstname: "Дмитрий", lastname: "Пермяков", post: "Тестировщик")
-    @Published var status = false
+    @Published var status  = false
+    @Published var isAdmin = false
 }
 
 class ReportData: ObservableObject {
@@ -88,13 +89,13 @@ class ReportData: ObservableObject {
             var gradientColors = [
                 GradientColors.orange,
                 GradientColors.blue,
-                GradientColors.green,
                 GradientColors.blu,
-                GradientColors.bluPurpl,
                 GradientColors.purple,
                 GradientColors.prplPink,
-                GradientColors.prplNeon,
-                GradientColors.orngPink
+                GradientColors.green,
+                GradientColors.bluPurpl,
+                GradientColors.orngPink,
+                GradientColors.prplNeon
             ]
             
             var arrayOfPrices = [[Double]]()

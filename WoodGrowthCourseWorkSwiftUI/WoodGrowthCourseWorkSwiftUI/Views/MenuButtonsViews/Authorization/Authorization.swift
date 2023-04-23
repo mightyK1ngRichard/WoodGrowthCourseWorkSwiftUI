@@ -16,7 +16,7 @@ struct Authorization: View {
     @State private var linkToPhoto         = ""
     @State private var textInAlert         = ""
     @State private var isSecurePassword    = true
-    @State private var pressedSignup       = false //false
+    @State private var pressedSignup       = false
     @State private var isHovered           = false
     @State private var isHoverSignInButton = false
     @State private var isHover             = false
@@ -340,6 +340,7 @@ struct Authorization: View {
                 
                 DispatchQueue.main.async {
                     self.userData.userData = newUser
+                    self.userData.isAdmin = newUser.post == "Администратор"
                     self.showProgressView = false
                     self.userData.status = true
                 }
@@ -354,8 +355,6 @@ struct Authorization: View {
                     self.password = ""
                 }
             }
-            
-            
         })
     }
     
@@ -377,6 +376,7 @@ struct Authorization: View {
         }
 
     }
+    
     private var BackGround: some View {
         HStack {
         }
