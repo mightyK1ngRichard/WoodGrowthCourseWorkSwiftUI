@@ -50,7 +50,7 @@ struct AddendumSupplier: View {
             MyTextField(textForUser: "Фото поставщика (не обязательно)", text: $newPhoto)
             MyTextField(textForUser: "Сайт поставщика (не обязательно)", text: $newWWW)
 
-            Button("Добавить") {
+            Button(action: {
                 if newName == "" || newPhone == "" {
                     self.textInAlert = "Имя и телофон должны содержать информацию!"
                     self.showAlert = true
@@ -82,7 +82,18 @@ struct AddendumSupplier: View {
                     let sqlString = "INSERT INTO supplier (name_supplier, telephone, www, photo) VALUES ('\(newName)', '\(newPhone)', \(newWWW == "" ? "NULL" : "'\(newWWW)'"), NULL);"
                     pullData(SQLQuery: sqlString)
                 }
-            }
+                
+            }, label: {
+                Text("Добавить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
+            })
+            .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding()

@@ -135,7 +135,7 @@ struct EditPlot: View {
             Image(systemName: "x.circle")
                 .resizable()
                 .frame(width: 20, height: 20)
-                .foregroundColor(isHover ? .red : .white)
+                .foregroundColor(isHover ? .yellow : .white)
                 .padding(.trailing, 0)
                 .padding(.top, 10)
                 .onTapGesture {

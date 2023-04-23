@@ -119,7 +119,7 @@ struct AddendumDelivery: View {
             
             DatePicker("Дата поставки", selection: $dateDelivery, in: ...Date())
             
-            Button("Добавить") {
+            Button(action: {
                 if numberOfPackets == "" || price == "" {
                     self.textInAlert = "Заполните число пакетов и цену!"
                     self.showAlert = true
@@ -131,7 +131,18 @@ struct AddendumDelivery: View {
                 VALUES ('\(correctDateWithTime(dateDelivery))', '\(numberOfPackets)', '\(price)', '\(supplier)', '\(fertilizer)');
                 """
                 pullData(SQLQuery: sqlString)
-            }
+                
+            }, label: {
+                Text("Добавить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
+            })
+            .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding()

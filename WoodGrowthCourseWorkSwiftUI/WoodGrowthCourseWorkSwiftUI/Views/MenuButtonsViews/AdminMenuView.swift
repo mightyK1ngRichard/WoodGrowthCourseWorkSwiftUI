@@ -48,7 +48,6 @@ struct AdminMenuView: View {
                 SideBar(colors: getGradient(), colorOfLetters: .black)
             }
             
-            
             switch (pressed.pressed) {
                 
             case "Home":
@@ -59,6 +58,9 @@ struct AdminMenuView: View {
                 
             case "Виды":
                 TypeTrees()
+                
+            case "Работники":
+                Employees()
                 
             case "Участки":
                 Plots()

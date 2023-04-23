@@ -153,7 +153,7 @@ struct Authorization: View {
                     .offset(y: 150)
                 }
             }
-                
+            
             HStack {
                 Text("Don't have an account?")
                 Button {
@@ -168,7 +168,7 @@ struct Authorization: View {
                         }
                 }
                 .buttonStyle(.plain)
-
+                
             }
             .padding(.top, 15)
         }
@@ -268,12 +268,14 @@ struct Authorization: View {
                         if email == "" || password == "" || firstname == "" || lastname == "" {
                             textInAlert = "Заполните все данные!"
                             self.showAlert = true
+                            self.showProgressView = false
                             return
                         }
                         
                         guard let link = URL(string: linkToPhoto) else {
                             self.textInAlert = "Ссылка некорректна!"
                             self.showAlert = true
+                            self.showProgressView = false
                             return
                         }
                         
@@ -288,12 +290,13 @@ struct Authorization: View {
                             } else {
                                 self.textInAlert = "Приложение не может обработать ссылку на эту фоторграфию. Предоставьте другую ссылку."
                                 self.showAlert = true
+                                self.showProgressView = false
                                 return
                             }
                         }
                     }
                     .padding(.top, 20)
-                 
+                
                 
             }
             .frame(width: 860 / 2, height: 1467 / 2)
@@ -312,17 +315,16 @@ struct Authorization: View {
             }
             .offset(x: -250, y: -320)
             .buttonStyle(.plain)
-
+            
         }
     }
     
     private func pressedSignIn() {
         if email == "" || password == "" {
-            // TODO: расскоментировать при завершении курсовой.
-//                        showAlert = true
-//                        return
-            email = "dimapermyakov55@gmail.com"
-            password = "boss"
+            self.textInAlert = "Логин и пароль не могут быть пустыми."
+            self.showAlert = true
+            self.showProgressView = false
+            return
         }
         
         APIManager.shared.getUserInfo(user: email, password: password, completion: { data, response, error  in
@@ -349,7 +351,7 @@ struct Authorization: View {
             if !userData.status {
                 DispatchQueue.main.async {
                     self.showProgressView = false
-                    textInAlert = "Неверный логин или пароль!"
+                    self.textInAlert = "Неверный логин или пароль!"
                     self.showAlert = true
                     self.email = ""
                     self.password = ""
@@ -374,7 +376,7 @@ struct Authorization: View {
                 self.showAlert = true
             }
         }
-
+        
     }
     
     private var BackGround: some View {
