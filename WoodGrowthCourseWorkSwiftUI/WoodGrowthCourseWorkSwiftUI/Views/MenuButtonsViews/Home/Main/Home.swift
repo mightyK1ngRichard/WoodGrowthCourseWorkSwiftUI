@@ -17,44 +17,46 @@ struct Home: View {
     @EnvironmentObject var userData : UserData
     
     var body: some View {
-        GeometryReader { proxy in
-            let width = proxy.size.width * 0.55
-            ScrollView {
-                VStack {
-                    if userData.status {
-                        profile(width: width)
-                        Text("Отчёты")
-                            .font(.system(size: 30, design: .serif))
-                            .padding(.bottom, 20)
-                        
-                        HStack {
-                            /// Количество деревьев на участке.
-                            BarChartView(data: ChartData(values: data.trees), title: "Деревья", legend: "Количество")
+        if data.status.0 && data.status.1 && data.status.2 {
+            GeometryReader { proxy in
+                let width = proxy.size.width * 0.55
+                ScrollView {
+                    VStack {
+                        if userData.status {
+                            profile(width: width)
+                            Text("Отчёты")
+                                .font(.system(size: 30, design: .serif))
+                                .padding(.bottom, 20)
                             
-                            /// Средний бъём древесины на каждый день.
-                            LineChartView(data: data.avgVolume, title: "Средний V³", legend: "по дням")
-                                .padding()
-                                .cornerRadius(8)
-                                .shadow(radius: 5)
+                            HStack {
+                                /// Количество деревьев на участке.
+                                BarChartView(data: ChartData(values: data.trees), title: "Деревья", legend: "Количество")
+                                
+                                /// Средний бъём древесины на каждый день.
+                                LineChartView(data: data.avgVolume, title: "Средний V³", legend: "по дням")
+                                    .padding()
+                                    .cornerRadius(8)
+                                    .shadow(radius: 5)
+                                
+                                /// Не придумал.
+                                MultiLineChartView(data: data.prices, title: "Поставки")
+                                    .shadow(color: .white.opacity(0.7), radius: 5)
+                            }
                             
-                            /// Не придумал.
-                            MultiLineChartView(data: [([8,32,11,23,40,28], GradientColors.green), ([90,99,78,111,70,60,77], GradientColors.purple), ([34,56,72,38,43,100,50], GradientColors.orngPink)], title: "Title")
-                                .shadow(color: .white.opacity(0.7), radius: 5)
+                            infoAboutVolume(width: width)
+                            
+                            
+                        } else {
+                            TurnOffServer()
                         }
-                        
-                        infoAboutVolume(width: width)
-                        
-                        
-                    } else {
-                        TurnOffServer()
                     }
                     
                 }
             }
+            .environmentObject(data)
+        } else {
+            ProgressView()
         }
-        .environmentObject(data)
-        // TODO: для тестов
-        //        .frame(height: 1700)
     }
     
     private func profile(width: CGFloat) -> some View {

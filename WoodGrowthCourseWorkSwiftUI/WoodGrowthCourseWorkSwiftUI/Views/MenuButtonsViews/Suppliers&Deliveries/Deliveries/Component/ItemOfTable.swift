@@ -94,6 +94,6 @@ struct ItemOfTable: View {
 
 struct ItemOfTable_Previews: PreviewProvider {
     static var previews: some View {
-        ItemOfTable(item: DeliveryResult(id: "0", dateDelivery: "2017-02-14T21:00:00.000Z", numbersPackets: 100, priceOrder: 100, supplierName: "Жесть", fertilizerName: "Жесть удобрение"))
+        ItemOfTable(item: DeliveryResult(id: "0", dateDelivery: "2017-02-14T21:00:00.000Z", numbersPackets: 100, priceOrder: 100, supplierName: "Жесть", fertilizerName: "Жесть удобрение", supplierID: "0"))
     }
 }

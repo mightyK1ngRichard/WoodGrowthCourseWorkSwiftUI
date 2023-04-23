@@ -22,6 +22,7 @@ struct Authorization: View {
     @State private var isHover             = false
     @State private var showAlert           = false
     @State private var showProgressView    = false
+    @State private var showPopover         = false
     
     var body: some View {
         HStack {
@@ -38,11 +39,20 @@ struct Authorization: View {
                     Text("mightyK1ngRichard")
                         .font(.title)
                 }
+                .popover(isPresented: $showPopover, arrowEdge: .bottom) {
+                    VStack {
+                        Text("**АИС Прироста древисины**")
+                        Text("Copyright: Пермяков Дмитрий")
+                    }
+                    .padding()
+                }
                 .offset(x: -275, y: -375)
                 .brightness(isHover ? -0.2 : 0)
                 .onHover { hovering in
                     self.isHover = hovering
+                    self.showPopover = hovering
                 }
+                
                 LeftSide()
             }
             

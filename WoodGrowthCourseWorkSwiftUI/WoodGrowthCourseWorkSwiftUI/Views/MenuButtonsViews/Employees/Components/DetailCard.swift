@@ -195,10 +195,16 @@ struct DetailCard: View {
         VStack {
             Text("Даты поливки:")
                 .bold()
-            ForEach(wateringLog, id: \.self.date_) {
-                Text(correctDate(dateString: $0.date_))
-                    .padding(.horizontal)
+            if wateringLog.count == 0 {
+                Text("Участок не поливали.")
+                
+            } else {
+                ForEach(wateringLog, id: \.self.date_) {
+                    Text(correctDate(dateString: $0.date_))
+                        .padding(.horizontal)
+                }
             }
+            
         }.padding(.top, 10)
     }
     

@@ -35,7 +35,7 @@ struct PlotCard: View {
         } else {
             CardPreview()
         }
-
+        
     }
     
     private func CardPreview() -> some View {
@@ -137,7 +137,7 @@ struct PlotCard: View {
                 .opacity(isHoverOnImage ? (isShowCalendar ? 1 : 0.7) : 0)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, 10)
-            .padding(.top, 10)
+                .padding(.top, 10)
         }
     }
     
@@ -168,22 +168,22 @@ struct PlotCard: View {
                 Text("Дата заземления: ")
                     .bold()
                     .padding(.top)
-                    
+                
                 Text(correctDate(dateString: plotInfo.date))
-                    
+                
                 Text("Удобрение: ")
                     .bold()
                 + Text(plotInfo.fertilizerName ?? "Не задано")
-                    
+                
                 Text("**Вид:** ")
                 + Text(plotInfo.type_tree)
-                    
+                
                 Text("Количество деревьев: ")
                     .bold()
                 + Text("\(plotInfo.countTrees) шт.")
                 
                 Text("**Не поливался:** \(plotInfo.lastWatering) дн.")
-                    
+                
                 
                 Spacer()
                 Text("Адрес: ")
@@ -199,7 +199,7 @@ struct PlotCard: View {
                 Text("Ответсвенный:")
                     .bold()
                     .padding(.top)
-        
+                
                 if let img = plotInfo.emp_photo {
                     WebImage(url: img)
                         .resizable()
@@ -236,7 +236,7 @@ struct PlotCard: View {
             
             var tempTypes: [(String, String)] = [("\(plotInfo.typeTreeID)", plotInfo.type_tree)]
             var tempEmployees: [(String, String)] = [(plotInfo.employerID, plotInfo.employee)]
-
+            
             for el in data.rows {
                 if el.type_id == nil {
                     guard let t1 = el.employer_id, let t2 = el.full_name else {
