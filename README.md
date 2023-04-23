@@ -1,5 +1,5 @@
 # АИС прироста древесины на различных участках.
-<img src="https://img.shields.io/github/license/mightyK1ngRichard/IU5?color=brightgreen" alt="MIT License"/> <img src="https://img.shields.io/badge/language-SwiftUI-red.svg"/> <img src="https://img.shields.io/badge/language-postgresql-blue.svg"/>
+<img src="https://img.shields.io/github/license/mightyK1ngRichard/IU5?color=brightgreen" alt="MIT License"/> <img src="https://img.shields.io/badge/language-SwiftUI-red.svg"/> <img src="https://img.shields.io/badge/language-Postgresql-blue.svg"/> <img src="https://img.shields.io/badge/language-NodeJS-yellow.svg"/>
 
 🎓 BMSTU Course work
 
@@ -7,113 +7,150 @@
 
 ## Про работу. 
 Desktop app. В основе Framework'a лежит SwifUI.
-БДшка - postgresql. Коммуникация [nodejs](https://github.com/mightyK1ngRichard/APIServer) сервака с Swift осуществляется по APIшке.
-Дальнейшая бизнеслогика планируется на Джанго, если получится подружить их со Swift.
+БДшка - postgresql. Коммуникация [nodejs](https://github.com/mightyK1ngRichard/APIServer) сервака с Swift осуществляется по API.
 
-## Иерархия:
+## Иерархия проекта:
+<details>
+  <summary> Click to expand </summary>
+
 ```swift
 .
-├── LICENSE
-├── Previews
-│   └── Preview.png
-├── README.md
+├── Wood Business.xcodeproj
+│   ├── project.pbxproj
+│   ├── project.xcworkspace
+│   │   ├── contents.xcworkspacedata
+│   │   ├── xcshareddata
+│   │   │   ├── IDEWorkspaceChecks.plist
+│   │   │   └── swiftpm
+│   │   │       ├── Package.resolved
+│   │   │       └── configuration
+│   │   └── xcuserdata
+│   │       └── dmitriy.xcuserdatad
+│   │           └── UserInterfaceState.xcuserstate
+│   ├── xcshareddata
+│   │   └── xcschemes
+│   │       └── WoodGrowthCourseWorkSwiftUI.xcscheme
+│   └── xcuserdata
+│       └── dmitriy.xcuserdatad
+│           └── xcdebugger
+│               └── Breakpoints_v2.xcbkptlist
 └── WoodGrowthCourseWorkSwiftUI
-    ├── WoodGrowthCourseWorkSwiftUI
-    │   ├── APIModel
-    │   │   └── APIManager.swift
-    │   ├── Units
-    │   │   ├── CorrectPhone.swift
-    │   │   └── correctDate.swift
-    │   ├── Views
-    │   │   ├── HelpViews
-    │   │   │   ├── BlurWindow.swift
-    │   │   │   ├── SideBar.swift
-    │   │   │   ├── TabButton.swift
-    │   │   │   └── TurnOffServer.swift
-    │   │   └── MenuButtonsViews
-    │   │       ├── AdminMenuView.swift
-    │   │       ├── Authorization
-    │   │       │   └── Authorization.swift
-    │   │       ├── Employees
-    │   │       │   ├── Components
-    │   │       │   │   ├── DetailCard.swift
-    │   │       │   │   └── ScrollViewCard.swift
-    │   │       │   ├── Main
-    │   │       │   │   └── Employees.swift
-    │   │       │   └── Model
-    │   │       │       └── CardsEmployes.swift
-    │   │       ├── Fertilizers
-    │   │       │   ├── Components
-    │   │       │   │   ├── FertilizerCard.swift
-    │   │       │   │   └── FertilizerEdit.swift
-    │   │       │   ├── Main
-    │   │       │   │   └── FertilizerView.swift
-    │   │       │   └── Model
-    │   │       │       └── FertilizerData.swift
-    │   │       ├── Home
-    │   │       │   ├── Component
-    │   │       │   ├── Main
-    │   │       │   │   └── Home.swift
-    │   │       │   └── Module
-    │   │       │       └── UserDataModule.swift
-    │   │       ├── Plots
-    │   │       │   ├── Components
-    │   │       │   │   ├── AddendumCard.swift
-    │   │       │   │   ├── EditPlot.swift
-    │   │       │   │   ├── PlotCard.swift
-    │   │       │   │   └── WateringLog.swift
-    │   │       │   ├── Main
-    │   │       │   │   └── Plots.swift
-    │   │       │   └── Model
-    │   │       │       └── PlotInfo.swift
-    │   │       ├── Suppliers&Deliveries
-    │   │       │   ├── Deliveries
-    │   │       │   │   └── Modul
-    │   │       │   │       └── DeliveryData.swift
-    │   │       │   ├── Main
-    │   │       │   │   └── S&DVies.swift
-    │   │       │   └── Suppliers
-    │   │       │       ├── Component
-    │   │       │       │   ├── SupplierCard.swift
-    │   │       │       │   └── SupplierDetail.swift
-    │   │       │       └── Modul
-    │   │       │           └── SupplierData.swift
-    │   │       ├── Trees
-    │   │       │   ├── Components
-    │   │       │   │   ├── DetailCardTree.swift
-    │   │       │   │   └── TreeCard.swift
-    │   │       │   ├── Main
-    │   │       │   │   └── Trees.swift
-    │   │       │   └── Model
-    │   │       │       └── CardsTrees.swift
-    │   │       └── TypeTree
-    │   │           ├── Component
-    │   │           │   ├── TreeCardForTypeTreeView.swift
-    │   │           │   └── TypeTreeCard.swift
-    │   │           ├── Main
-    │   │           │   └── TypeTrees.swift
-    │   │           └── Module
-    │   │               └── TypeTreesModul.swift
-    │   ├── WoodGrowthCourseWorkSwiftUI.entitlements
-    │   └── WoodGrowthCourseWorkSwiftUIApp.swift
-    └── WoodGrowthCourseWorkSwiftUI.xcodeproj
-        ├── project.pbxproj
-        ├── project.xcworkspace
-        │   ├── contents.xcworkspacedata
-        │   ├── xcshareddata
-        │   │   ├── IDEWorkspaceChecks.plist
-        │   │   └── swiftpm
-        │   │       ├── Package.resolved
-        │   │       └── configuration
-        │   └── xcuserdata
-        │       └── dmitriy.xcuserdatad
-        │           └── UserInterfaceState.xcuserstate
-        └── xcuserdata
-            └── dmitriy.xcuserdatad
-                ├── xcdebugger
-                │   └── Breakpoints_v2.xcbkptlist
-                └── xcschemes
-                    └── xcschememanagement.plist
+    ├── ContentView.swift
+    ├── Fonts
+    ├── Network
+    │   ├── APIManager.swift
+    │   └── ReportsAPI.swift
+    ├── Preview Content
+    │   └── Preview Assets.xcassets
+    │       └── Contents.json
+    ├── Units
+    │   ├── GlobalValues.swift
+    │   └── WoodGrowthCourseWorkSwiftUI 2023-04-19 20-16-56
+    │       └── WoodGrowthCourseWorkSwiftUI.app
+    │           └── Contents
+    │               ├── Info.plist
+    │               ├── MacOS
+    │               │   └── WoodGrowthCourseWorkSwiftUI
+    │               ├── PkgInfo
+    │               ├── Resources
+    │               │   ├── AppIcon.icns
+    │               │   └── Assets.car
+    │               └── _CodeSignature
+    │                   └── CodeResources
+    ├── Views
+    │   ├── HelpViews
+    │   │   ├── BlurWindow.swift
+    │   │   ├── SideBar.swift
+    │   │   ├── TabButton.swift
+    │   │   └── TurnOffServer.swift
+    │   └── MenuButtonsViews
+    │       ├── AdminMenuView.swift
+    │       ├── Authorization
+    │       │   └── Authorization.swift
+    │       ├── Employees
+    │       │   ├── Components
+    │       │   │   ├── AddEmployee.swift
+    │       │   │   ├── DetailCard.swift
+    │       │   │   └── ScrollViewCard.swift
+    │       │   ├── Main
+    │       │   │   └── Employees.swift
+    │       │   └── Model
+    │       │       └── CardsEmployes.swift
+    │       ├── Fertilizers
+    │       │   ├── Components
+    │       │   │   ├── AddendumFertilzer.swift
+    │       │   │   ├── FertilizerCard.swift
+    │       │   │   └── FertilizerEdit.swift
+    │       │   ├── Main
+    │       │   │   └── FertilizerView.swift
+    │       │   └── Model
+    │       │       └── FertilizerData.swift
+    │       ├── Home
+    │       │   ├── Component
+    │       │   │   ├── Rings.swift
+    │       │   │   └── githubProject.swift
+    │       │   ├── Main
+    │       │   │   └── Home.swift
+    │       │   └── Module
+    │       │       └── UserDataModule.swift
+    │       ├── Plots
+    │       │   ├── Components
+    │       │   │   ├── AddendumCard.swift
+    │       │   │   ├── EditPlot.swift
+    │       │   │   ├── PlotCard.swift
+    │       │   │   └── WateringLog.swift
+    │       │   ├── Main
+    │       │   │   └── Plots.swift
+    │       │   └── Model
+    │       │       └── PlotInfo.swift
+    │       ├── Suppliers&Deliveries
+    │       │   ├── Deliveries
+    │       │   │   ├── Component
+    │       │   │   │   ├── AddendumDelivery.swift
+    │       │   │   │   └── ItemOfTable.swift
+    │       │   │   └── Modul
+    │       │   │       └── DeliveryData.swift
+    │       │   ├── Main
+    │       │   │   └── S&DVies.swift
+    │       │   └── Suppliers
+    │       │       ├── Component
+    │       │       │   ├── AddendumSupplier.swift
+    │       │       │   ├── SupplierCard.swift
+    │       │       │   └── SupplierDetail.swift
+    │       │       └── Modul
+    │       │           └── SupplierData.swift
+    │       ├── Trees
+    │       │   ├── Components
+    │       │   │   ├── DetailCardTree.swift
+    │       │   │   └── TreeCard.swift
+    │       │   ├── Main
+    │       │   │   └── Trees.swift
+    │       │   └── Model
+    │       │       └── CardsTrees.swift
+    │       └── TypeTree
+    │           ├── Component
+    │           │   ├── Buttons
+    │           │   │   ├── AddTreeForType.swift
+    │           │   │   ├── AddTypeTree.swift
+    │           │   │   └── EditTypeTree.swift
+    │           │   ├── TreeCardForTypeTreeView.swift
+    │           │   └── TypeTreeCard.swift
+    │           ├── Main
+    │           │   └── TypeTrees.swift
+    │           └── Module
+    │               └── TypeTreesModul.swift
+    ├── WoodGrowthCourseWorkSwiftUI.entitlements
+    └── WoodGrowthCourseWorkSwiftUIApp.swift
 
-68 directories, 88 files
+69 directories, 88 files
 ```
+
+</details>
+
+## Установка.
+[Сборка приложения]()
+
+### TODO: 
+- [ ] [Видеодемонстрация]()
+- [ ] [Гайд пользования]()
+    
