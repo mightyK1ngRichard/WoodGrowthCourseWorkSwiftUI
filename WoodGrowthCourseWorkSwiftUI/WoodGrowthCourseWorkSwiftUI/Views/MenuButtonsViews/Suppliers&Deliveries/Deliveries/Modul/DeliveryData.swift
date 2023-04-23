@@ -26,7 +26,7 @@ class DeliveryData: ObservableObject {
             }
             var tempData: [DeliveryResult] = []
             for el in data.rows {
-                let info = DeliveryResult(id: el.delivery_id, dateDelivery: el.date_delivery, numbersPackets: el.numbers_packets, priceOrder: el.price_order, supplierName: el.name_supplier, fertilizerName: el.name)
+                let info = DeliveryResult(id: el.delivery_id, dateDelivery: el.date_delivery, numbersPackets: el.numbers_packets, priceOrder: el.price_order, supplierName: el.name_supplier, fertilizerName: el.name, supplierID: el.supplier_id)
                 tempData.append(info)
             }
             DispatchQueue.main.async {

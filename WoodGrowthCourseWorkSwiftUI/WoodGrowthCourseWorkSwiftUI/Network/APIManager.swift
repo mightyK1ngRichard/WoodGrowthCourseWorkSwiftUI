@@ -121,9 +121,9 @@ class APIManager {
         /// Важно подметить, что если участок никогда не поливался, то счистаем кол-во дней без поливки относительно даты заземления.
         let SQLQuery = """
         SELECT p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, type_tree.photo AS typePhoto,
-        COALESCE(CURRENT_DATE - MAX(w.date_watering), DATE_PART('day', CURRENT_DATE - p.date_planting)::integer) lastwatering,
-        COUNT(DISTINCT tree.tree_id) countTrees
+          employer.full_name, employer.photo, f.name, p.employer_id, p.type_tree_id, type_tree.photo AS typePhoto,
+          DATE_PART('day', COALESCE(CURRENT_DATE - MAX(w.date_watering), CURRENT_DATE - p.date_planting)) lastwatering,
+          COUNT(DISTINCT tree.tree_id) countTrees
         FROM tree
         FULL JOIN plot p ON p.type_tree_id=tree.type_tree_id
         LEFT JOIN employer ON p.employer_id=employer.employer_id
@@ -132,7 +132,7 @@ class APIManager {
         LEFT JOIN watering w on p.plot_id = w.plot_id
         WHERE p.plot_id IS NOT NULL
         GROUP BY p.plot_id, p.name_plot, p.date_planting, p.address, type_tree.name_type,
-        employer.full_name, employer.photo, f.name, type_tree.type_id;
+          employer.full_name, employer.photo, f.name, type_tree.type_id;
         """
         let SQLQueryInCorrectForm = SQLQuery.replacingOccurrences(of: " ", with: "%20").replacingOccurrences(of: "\n", with: "%20")
         let urlString = "http://\(host):\(port)/database/\(SQLQueryInCorrectForm)"
@@ -221,7 +221,7 @@ class APIManager {
     func getDeliveries(completion: @escaping (DeliveriesParse?, String?) -> Void) {
         let SQLQuery = """
         SELECT delivery.delivery_id, delivery.date_delivery, delivery.numbers_packets,
-        delivery.price_order, supplier.name_supplier, fertilizer.name
+        delivery.price_order, supplier.name_supplier, fertilizer.name, supplier.supplier_id
         FROM delivery
         JOIN supplier ON supplier.supplier_id=delivery.supplier_id
         JOIN fertilizer ON fertilizer.fertilizer_id=delivery.fertilizer_id;
@@ -672,6 +672,7 @@ struct RowsDelivery: Decodable {
     let price_order     : Int
     let name_supplier   : String
     let name            : String
+    let supplier_id     : String
 }
  
 struct WateringPlots: Decodable {
@@ -822,6 +823,7 @@ struct DeliveryResult: Codable, Identifiable {
     let priceOrder     : Int
     let supplierName   : String
     let fertilizerName : String
+    let supplierID     : String
 }
 
 struct TypeTreesResult: Codable, Identifiable {

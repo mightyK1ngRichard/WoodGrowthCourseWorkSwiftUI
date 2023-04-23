@@ -22,7 +22,7 @@ struct ItemOfTable: View {
         HStack {
             Group {
                 Text(correctDate(dateString: "\(item.dateDelivery)"))
-                    .frame(width: 75)
+                    .frame(width: 80)
                 Divider()
                 Text("\(item.numbersPackets)")
                     .frame(width: 40)
@@ -94,6 +94,9 @@ struct ItemOfTable: View {
 
 struct ItemOfTable_Previews: PreviewProvider {
     static var previews: some View {
-        ItemOfTable(item: DeliveryResult(id: "0", dateDelivery: "2017-02-14T21:00:00.000Z", numbersPackets: 100, priceOrder: 100, supplierName: "Жесть", fertilizerName: "Жесть удобрение"))
+        let default1 = DeliveryData()
+        
+        ItemOfTable(item: DeliveryResult(id: "0", dateDelivery: "2017-02-14T21:00:00.000Z", numbersPackets: 100, priceOrder: 100, supplierName: "Жесть", fertilizerName: "Жесть удобрение", supplierID: "0"))
+            .environmentObject(default1)
     }
 }

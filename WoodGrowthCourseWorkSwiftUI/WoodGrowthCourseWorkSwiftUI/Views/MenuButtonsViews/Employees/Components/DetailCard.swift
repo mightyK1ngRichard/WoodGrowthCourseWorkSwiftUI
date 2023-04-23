@@ -135,33 +135,25 @@ struct DetailCard: View {
             }
             
             Button {
-                guard let link = URL(string: newPhotoLink) else {
-                    self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
-                    self.showAlert = true
-                    return
-                }
-                
-                isPhotoURLValid(url: link) { isValid in
-                    if isValid {
-                        pressedEdit = false
-                        
-                        // Форматируем для SQL запроса.
-                        let commands = [("photo", newPhotoLink), ("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
-                        
-                        // Если ничего не поменяли, выходим.
-                        if commands.count == 0 {
-                            pressedClose.pressed = false
-                            return
-                        }
-                        let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
-                        let sqlString = "UPDATE employer SET \(changedInfo) where employer_id=\(currentPersonInfo.id);"
-                        
-                        updateData(sqlString)
-                        
-                    } else {
-                        self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                if newPhotoLink == "" {
+                    pullData()
+                    
+                } else {
+                    guard let link = URL(string: newPhotoLink) else {
+                        self.textInAlert = "Вводите ссылку на фото! А не что-то там другое."
                         self.showAlert = true
                         return
+                    }
+                    
+                    isPhotoURLValid(url: link) { isValid in
+                        if isValid {
+                            pullData()
+                            
+                        } else {
+                            self.textInAlert = "Приложение не может обработать ссылку на это фото! Введите другую ссылку!"
+                            self.showAlert = true
+                            return
+                        }
                     }
                 }
                 
@@ -182,14 +174,37 @@ struct DetailCard: View {
         .padding()
     }
     
+    private func pullData() {
+        pressedEdit = false
+        
+        // Форматируем для SQL запроса.
+        let commands = [("photo", newPhotoLink), ("full_name", newFullname), ("post", newPost), ("phone_number", newPhone)].filter { $0.1 != "" }
+        
+        // Если ничего не поменяли, выходим.
+        if commands.count == 0 {
+            pressedClose.pressed = false
+            return
+        }
+        let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+        let sqlString = "UPDATE employer SET \(changedInfo) where employer_id=\(currentPersonInfo.id);"
+        
+        updateData(sqlString)
+    }
+    
     private func watchWateringLogView() -> some View {
         VStack {
             Text("Даты поливки:")
                 .bold()
-            ForEach(wateringLog, id: \.self.date_) {
-                Text(correctDate(dateString: $0.date_))
-                    .padding(.horizontal)
+            if wateringLog.count == 0 {
+                Text("Участок не поливали.")
+                
+            } else {
+                ForEach(wateringLog, id: \.self.date_) {
+                    Text(correctDate(dateString: $0.date_))
+                        .padding(.horizontal)
+                }
             }
+            
         }.padding(.top, 10)
     }
     

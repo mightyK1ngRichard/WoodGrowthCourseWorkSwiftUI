@@ -80,7 +80,7 @@ struct SupplierDetail: View {
                 }
                 .foregroundColor(isHover ? .yellow : .white)
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                
+            
             
             HStack {
                 VStack(alignment: .leading) {
@@ -111,11 +111,22 @@ struct SupplierDetail: View {
             MyTextField(textForUser: "Новый сайт", text: $newWWW)
             
             HStack {
-                Button("Удалить") {
+                Button {
                     self.showAlertDelete = true
+                } label: {
+                    Text("Удалить")
+                        .padding(.horizontal)
+                        .padding(.vertical, 4)
+                        .background(.black.opacity(0.3))
+                        .cornerRadius(20)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                        }
                 }
+                .buttonStyle(.plain)
+                
                 Spacer()
-                Button("Сохранить") {
+                Button {
                     if newName == "" || newPhone == "" {
                         self.textInAlert = "Имя и телофон должны содержать информацию!"
                         self.showAlert = true
@@ -159,7 +170,18 @@ struct SupplierDetail: View {
                     } else {
                         close = false
                     }
+                } label: {
+                    Text("Сохранить")
+                        .padding(.horizontal)
+                        .padding(.vertical, 4)
+                        .background(.black.opacity(0.3))
+                        .cornerRadius(20)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                        }
                 }
+                .buttonStyle(.plain)
+                
             }
             
         }

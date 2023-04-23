@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct EditPlot: View {
-    var currentData                   : PlotResult
-    var size                          : (width: CGFloat, height: CGFloat)
-    @State private var datePlanting   = Date()
-    @State private var plotName       = ""
-    @State private var typeTreeOnPlot = ""
-    @State private var address        = ""
-    @State private var employee       = ""
-    @State private var isHover        = false
-    @Binding var pressedClose         : Bool
-    var allTypesFree                  : [(String, String)]
-    var allEmployeesFree              : [(String, String)]
-    @EnvironmentObject var plotsData  : plotsCardsViewModel
+    var currentData                    : PlotResult
+    var size                           : (width: CGFloat, height: CGFloat)
+    @State private var datePlanting    = Date()
+    @State private var newDatePlanting = Date()
+    @State private var plotName        = ""
+    @State private var typeTreeOnPlot  = ""
+    @State private var address         = ""
+    @State private var employee        = ""
+    @State private var isHover         = false
+    @State private var pressedWatering = false
+    @Binding var pressedClose          : Bool
+    var allTypesFree                   : [(String, String)]
+    var allEmployeesFree               : [(String, String)]
+    @EnvironmentObject var plotsData   : plotsCardsViewModel
+    
     
     init(currentData: PlotResult, size: (width: CGFloat, height: CGFloat), pressedClose: Binding<Bool>, allTypesFree: [(String, String)], allEmployeesFree: [(String, String)]) {
         // Декодируем дату из строки в Date().
@@ -41,88 +44,108 @@ struct EditPlot: View {
             RoundedRectangle(cornerRadius: 15)
                 .foregroundColor(.black.opacity(0.8))
             
-            VStack {
-                HStack {
-                    Spacer()
+            if !pressedWatering {
+                editView
+                
+            } else {
+                AddWateringScreen
+            }
+            
+        }
+        .frame(width: size.width, height: size.height)
+        .padding()
+    }
+    
+    private var editView: some View {
+        VStack {
+            closeViewButton()
+            
+            Spacer()
+            MyTextFieldBlack(textForUser: "Имя участка", text: $plotName)
+            MyTextFieldBlack(textForUser: "Адрес участка", text: $address)
+            
+            myPickers()
+            
+            Buttons()
+            Spacer()
+        }
+        .padding(.horizontal)
+        .background(getTabBackground().opacity(0.3))
+        .cornerRadius(15)
+        .overlay {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+        }
+    }
+    
+    private var AddWateringScreen: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button {
+                    self.pressedWatering = false
+                    
+                } label: {
                     Image(systemName: "x.circle")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(isHover ? .red : .white)
                         .padding(.trailing, 0)
                         .padding(.top, 10)
-                        .onTapGesture {
-                            pressedClose = false
-                        }
                         .onHover { hovering in
                             isHover = hovering
                         }
                         .offset(x: 7)
                 }
-
-                Spacer()
-                MyTextFieldBlack(textForUser: "Имя участка", text: $plotName)
-                MyTextFieldBlack(textForUser: "Адрес участка", text: $address)
-                
-                myPickers()
-                
-                Button(action: {
-                    let commands = [
-                        ("name_plot", plotName),
-                        ("date_planting", correctDateWithTime(datePlanting)),
-                        ("type_tree_id", typeTreeOnPlot),
-                        ("address", address),
-                        ("employer_id", employee)
-                    ].filter { $0.1 != "" }
-                    
-                    // Если ничего не поменяли, выходим.
-                    if commands.count == 0 {
-                        pressedClose = false
-                        return
-                    }
-                    
-                    let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
-                    let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
-                    
-                    APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
-                        guard let _ = data else {
-                            print("== ERROR FROM EditPlot [Button]<Save>", error!)
-                            
-                            return
-                        }
-
-                        DispatchQueue.main.async  {
-                            plotsData.refresh()
-                            pressedClose = false
-                        }
-                        
-                    }
-                                    
-                }, label: {
-                    Text("Сохранить")
-                        .padding(.horizontal)
-                        .padding(.vertical, 4)
-                        .background(.black.opacity(0.3))
-                        .cornerRadius(20)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
-                        }
-                        
-                })
                 .buttonStyle(.plain)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .offset(y: 15)
-                Spacer()
             }
-            .padding(.horizontal)
-            .background(getTabBackground().opacity(0.3))
-            .cornerRadius(15)
-            .overlay {
-                RoundedRectangle(cornerRadius: 15)
-                    .stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+            Spacer()
+            
+            DatePicker("Дата поливки", selection: $newDatePlanting, in: ...Date())
+            
+            Spacer()
+            Button {
+                addWatering()
+                
+            } label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
             }
+            .buttonStyle(.plain)
+            .padding(.bottom)
         }
-        .frame(width: size.width, height: size.height)
-        .padding()
+        .padding(.horizontal)
+        .background(getTabBackground().opacity(0.3))
+        .cornerRadius(15)
+        .overlay {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+        }
+    }
+    
+    private func closeViewButton() -> some View {
+        HStack {
+            Spacer()
+            Image(systemName: "x.circle")
+                .resizable()
+                .frame(width: 20, height: 20)
+                .foregroundColor(isHover ? .yellow : .white)
+                .padding(.trailing, 0)
+                .padding(.top, 10)
+                .onTapGesture {
+                    self.pressedClose = false
+                }
+                .onHover { hovering in
+                    isHover = hovering
+                }
+                .offset(x: 7)
+        }
     }
     
     private func myPickers() -> some View {
@@ -135,6 +158,7 @@ struct EditPlot: View {
                 Image(systemName: "tree.circle.fill")
                     .resizable()
                     .frame(width: 20, height: 20)
+                
                 Picker(selection: $typeTreeOnPlot, label: Text("")) {
                     ForEach(allTypesFree, id: \.0) { type in
                         Text(type.1)
@@ -166,15 +190,101 @@ struct EditPlot: View {
                 Text("Дата заземления")
                     .foregroundColor(Color.secondary)
                     .padding(.leading, 4)
-                    
+                
                 Spacer()
                 Image(systemName: "calendar.badge.clock")
                     .resizable()
                     .frame(width: 20, height: 20)
+                
                 DatePicker("", selection: $datePlanting, in: ...Date(), displayedComponents: [.date, .hourAndMinute])
                     .labelsHidden()
                     .frame(width: 150)
             }
+        }
+    }
+    
+    private func Buttons() -> some View {
+        HStack {
+            Button {
+                self.pressedWatering = true
+                
+            } label: {
+                Text("Новая поливка")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
+            }
+            .buttonStyle(.plain)
+            
+            Spacer()
+            
+            Button(action: {
+                updatePlot()
+                
+            }, label: {
+                Text("Сохранить")
+                    .padding(.horizontal)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.3))
+                    .cornerRadius(20)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20).stroke(Color(hexString: "#EC2301"), lineWidth: 1)
+                    }
+            })
+            .buttonStyle(.plain)
+        }
+        .offset(y: 15)
+    }
+    
+    private func updatePlot() {
+        let commands = [
+            ("name_plot", plotName),
+            ("date_planting", correctDateWithTime(datePlanting)),
+            ("type_tree_id", typeTreeOnPlot),
+            ("address", address),
+            ("employer_id", employee)
+        ].filter { $0.1 != "" }
+        
+        // Если ничего не поменяли, выходим.
+        if commands.count == 0 {
+            pressedClose = false
+            return
+        }
+        
+        let changedInfo = commands.map { "\($0.0)='\($0.1)'" }.joined(separator: ", ")
+        let sqlString = "UPDATE plot SET \(changedInfo) WHERE plot_id=\(currentData.id);"
+        
+        APIManager.shared.generalUpdate(SQLQuery: sqlString) { data, error in
+            guard let _ = data else {
+                print("== ERROR FROM EditPlot [Button]<Save>", error!)
+                
+                return
+            }
+            
+            DispatchQueue.main.async  {
+                plotsData.refresh()
+                pressedClose = false
+            }
+            
+        }
+    }
+    
+    private func addWatering() {
+        let SQLQuery = "INSERT INTO watering (date_watering, plot_id) VALUES ('\(correctDateWithTime(newDatePlanting))', '\(currentData.id)');"
+        
+        APIManager.shared.updateWithSlash(SQLQuery: SQLQuery) { resp, error in
+            guard let _ = resp else {
+                DispatchQueue.main.async {
+                    self.plotsData.refresh()
+                    self.pressedWatering = false
+                }
+                return
+            }
+            print("==> ERROR FROM EditPlot func[addWatering]")
         }
     }
 }

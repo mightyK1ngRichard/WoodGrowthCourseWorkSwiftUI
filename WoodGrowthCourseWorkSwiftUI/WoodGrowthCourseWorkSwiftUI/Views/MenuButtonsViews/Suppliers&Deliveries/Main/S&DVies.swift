@@ -14,12 +14,16 @@ struct S_DViews: View {
     @State private var pressedSupplierCard = false
     @State private var addSupplier         = false
     @State private var addDelivery         = false
+    @State private var showPopover         = false
+    @State private var isOn                = true
+    @State private var selectedSupplier    = ""
+    @State private var filterData          = [DeliveryResult]()
     
     var body: some View {
         GeometryReader { _ in
             ZStack {
                 MainView
-                
+
                 if pressedSupplierCard {
                     /// Редактирование информации по поставщику.
                     Rectangle()
@@ -85,45 +89,90 @@ struct S_DViews: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.system(size: 40))
                 
-                Spacer()
-                
-                /// Добавление поставщика.
-                Button {
-                    self.addSupplier = true
-                    
-                } label: {
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 15, height: 15)
-                        .foregroundColor(.black)
-                        .padding(10)
-                        .background(.white)
-                        .cornerRadius(10)
+                HStack(spacing: 10) {
+                    /// Фильтрация поставок поставки.
+                    Button {
+                        self.showPopover = true
+                        
+                    } label: {
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 35, height: 35)
+                                .cornerRadius(10)
+                            Image(systemName: "slider.vertical.3")
+                                .foregroundColor(.black)
+                        }
                         .offset(y: 5)
-                        .padding(.trailing, 5)
-                }
-                .buttonStyle(.plain)
-                
-                /// Добавление поставки.
-                Button {
-                    self.addDelivery = true
-                    
-                } label: {
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 35, height: 35)
-                            .cornerRadius(10)
-                        Image(systemName: "cart.fill.badge.plus")
-                            .foregroundColor(.black)
                     }
-                    .offset(y: 5)
+                    .buttonStyle(.plain)
+                    .popover(isPresented: $showPopover) {
+                        Toggle("Показать всех", isOn: $isOn)
+                            .onChange(of: isOn) { value in
+                                if supplierData.supplierData.count != 0 && !value {
+                                    self.selectedSupplier = self.supplierData.supplierData[0].id
+                                    self.filterData = deliveryData.deliveryData.filter { $0.id == selectedSupplier }
+                                } else {
+                                    self.filterData = []
+                                }
+                            }
+                            .padding()
+                        
+                        if !isOn {
+                            Picker("", selection: $selectedSupplier) {
+                                ForEach(self.supplierData.supplierData) {
+                                    Text($0.name_supplier)
+                                        .padding()
+                                }
+                            }
+                            .onChange(of: self.selectedSupplier, perform: { newValue in
+                                self.filterData = deliveryData.deliveryData.filter { $0.supplierID == selectedSupplier }
+                            })
+                            .padding()
+                        }
+                    }
+                    
+                    /// Добавление поставщика.
+                    Button {
+                        self.addSupplier = true
+                        
+                    } label: {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.black)
+                            .padding(10)
+                            .background(.white)
+                            .cornerRadius(10)
+                            .offset(y: 5)
+                    }
+                    .buttonStyle(.plain)
+                    
+                    /// Добавление поставки.
+                    Button {
+                        self.addDelivery = true
+                        
+                    } label: {
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 35, height: 35)
+                                .cornerRadius(10)
+                            Image(systemName: "cart.fill.badge.plus")
+                                .foregroundColor(.black)
+                        }
+                        .offset(y: 5)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
+                .padding(.trailing)
+                .onAppear() {
+                    if supplierData.supplierData.count != 0 {
+                        self.selectedSupplier = self.supplierData.supplierData[0].id
+                    }
+                }
             }
-            .padding(.trailing)
             
             ScrollView {
-                ForEach(deliveryData.deliveryData) { item in
+                ForEach(self.filterData.count == 0 && isOn ? deliveryData.deliveryData : self.filterData) { item in
                     ItemOfTable(item: item)
                     Divider()
                 }

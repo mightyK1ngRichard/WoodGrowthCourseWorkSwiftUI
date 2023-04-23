@@ -16,12 +16,13 @@ struct Authorization: View {
     @State private var linkToPhoto         = ""
     @State private var textInAlert         = ""
     @State private var isSecurePassword    = true
-    @State private var pressedSignup       = false //false
+    @State private var pressedSignup       = false
     @State private var isHovered           = false
     @State private var isHoverSignInButton = false
     @State private var isHover             = false
     @State private var showAlert           = false
     @State private var showProgressView    = false
+    @State private var showPopover         = false
     
     var body: some View {
         HStack {
@@ -38,11 +39,20 @@ struct Authorization: View {
                     Text("mightyK1ngRichard")
                         .font(.title)
                 }
+                .popover(isPresented: $showPopover, arrowEdge: .bottom) {
+                    VStack {
+                        Text("**АИС Прироста древисины**")
+                        Text("Copyright: Пермяков Дмитрий")
+                    }
+                    .padding()
+                }
                 .offset(x: -275, y: -375)
                 .brightness(isHover ? -0.2 : 0)
                 .onHover { hovering in
                     self.isHover = hovering
+                    self.showPopover = hovering
                 }
+                
                 LeftSide()
             }
             
@@ -143,7 +153,7 @@ struct Authorization: View {
                     .offset(y: 150)
                 }
             }
-                
+            
             HStack {
                 Text("Don't have an account?")
                 Button {
@@ -158,7 +168,7 @@ struct Authorization: View {
                         }
                 }
                 .buttonStyle(.plain)
-
+                
             }
             .padding(.top, 15)
         }
@@ -258,12 +268,14 @@ struct Authorization: View {
                         if email == "" || password == "" || firstname == "" || lastname == "" {
                             textInAlert = "Заполните все данные!"
                             self.showAlert = true
+                            self.showProgressView = false
                             return
                         }
                         
                         guard let link = URL(string: linkToPhoto) else {
                             self.textInAlert = "Ссылка некорректна!"
                             self.showAlert = true
+                            self.showProgressView = false
                             return
                         }
                         
@@ -278,12 +290,13 @@ struct Authorization: View {
                             } else {
                                 self.textInAlert = "Приложение не может обработать ссылку на эту фоторграфию. Предоставьте другую ссылку."
                                 self.showAlert = true
+                                self.showProgressView = false
                                 return
                             }
                         }
                     }
                     .padding(.top, 20)
-                 
+                
                 
             }
             .frame(width: 860 / 2, height: 1467 / 2)
@@ -302,17 +315,16 @@ struct Authorization: View {
             }
             .offset(x: -250, y: -320)
             .buttonStyle(.plain)
-
+            
         }
     }
     
     private func pressedSignIn() {
         if email == "" || password == "" {
-            // TODO: расскоментировать при завершении курсовой.
-//                        showAlert = true
-//                        return
-            email = "dimapermyakov55@gmail.com"
-            password = "boss"
+            self.textInAlert = "Логин и пароль не могут быть пустыми."
+            self.showAlert = true
+            self.showProgressView = false
+            return
         }
         
         APIManager.shared.getUserInfo(user: email, password: password, completion: { data, response, error  in
@@ -330,6 +342,7 @@ struct Authorization: View {
                 
                 DispatchQueue.main.async {
                     self.userData.userData = newUser
+                    self.userData.isAdmin = newUser.post == "Администратор"
                     self.showProgressView = false
                     self.userData.status = true
                 }
@@ -338,14 +351,12 @@ struct Authorization: View {
             if !userData.status {
                 DispatchQueue.main.async {
                     self.showProgressView = false
-                    textInAlert = "Неверный логин или пароль!"
+                    self.textInAlert = "Неверный логин или пароль!"
                     self.showAlert = true
                     self.email = ""
                     self.password = ""
                 }
             }
-            
-            
         })
     }
     
@@ -365,8 +376,9 @@ struct Authorization: View {
                 self.showAlert = true
             }
         }
-
+        
     }
+    
     private var BackGround: some View {
         HStack {
         }

@@ -28,7 +28,16 @@ struct AdminMenuView: View {
     @EnvironmentObject var userData : UserData
     
     var body: some View {
-        mainView()
+        VStack {
+            if userData.isAdmin {
+                mainView()
+                
+            } else {
+                menuOfUser()
+                
+            }
+        }
+        .environmentObject(pressed)
     }
     
     private func mainView() -> some View {
@@ -39,20 +48,19 @@ struct AdminMenuView: View {
                 SideBar(colors: getGradient(), colorOfLetters: .black)
             }
             
-            
             switch (pressed.pressed) {
                 
             case "Home":
                 Home()
-                    
-            case "Работники":
-                Employees()
 
             case "Деревья":
                 Trees()
                 
             case "Виды":
                 TypeTrees()
+                
+            case "Работники":
+                Employees()
                 
             case "Участки":
                 Plots()
@@ -70,11 +78,41 @@ struct AdminMenuView: View {
                 }
             }
         }
-        .environmentObject(pressed)
         .preferredColorScheme(.none)
         .background(["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) ? .black : getTabBackground())
 //        .background(["Home"].contains(pressed.pressed) ?
 //                    LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom) : myNewBackground())
+    }
+    
+    private func menuOfUser() -> some View {
+        HStack {
+            if ["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) {
+                SideBarUser(colors: LinearGradient(colors: [Color(red: 35/255.0, green: 35/255.0, blue: 36/255.0)], startPoint: .top, endPoint: .bottom), imageColor: Color.white, colorOfLetters: .white)
+            } else {
+                SideBarUser(colors: getGradient(), colorOfLetters: .black)
+            }
+            
+            
+            switch (pressed.pressed) {
+                
+            case "Home":
+                Home()
+                
+            case "Виды":
+                TypeTrees()
+                
+            case "Участки":
+                Plots()
+                
+            default:
+                HStack {
+                    Text("Лол, а как ты тут оказался")
+                    Spacer()
+                }
+            }
+        }
+        .preferredColorScheme(.none)
+        .background(pressed.pressed == "Home" ? .black : getTabBackground())
     }
 }
 
@@ -82,6 +120,7 @@ struct AdminMenuView_Previews: PreviewProvider {
     static var previews: some View {
         let default1 = PressedButton()
         let default2 = UserData()
+        
         AdminMenuView()
             .environmentObject(default1)
             .environmentObject(default2)

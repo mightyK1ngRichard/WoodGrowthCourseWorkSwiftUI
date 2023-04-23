@@ -27,26 +27,35 @@ struct WateringLog: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .foregroundColor(isHover ? .red : .white)
                     .onTapGesture {
-                         pressedClose = false
+                        pressedClose = false
                     }
                     .onHover { hovering in
                         isHover = hovering
                     }
             }
-
+            
             ScrollView {
-                ForEach(wateringLog, id: \.self) { item in
-                    VStack {
-                        Text(correctDate(dateString: item))
-                            .font(.title3)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                VStack {
+                    ForEach(wateringLog, id: \.self) { item in
+                        let date = correctDate(dateString: item).split(separator: " ")
+                        /// Вся эта жуть только для того, чтобы задать рамку. Т.к когда число 1, то кривая колонка становаится.
+                        HStack {
+                            Text(date.first ?? "")
+                                .frame(width: 100)
+                            Text(date.last ?? "")
+                            Spacer()
+                        }
+                        .font(.title3)
                         .padding(.leading)
                     }
                 }
             }
         }
-//        .cornerRadius(10)
-        .background(getTabBackground().opacity(0.7))
+        .background(.black.opacity(0.8))
+        .overlay {
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color(hexString: "#EC2301"), lineWidth: 2)
+        }
     }
 }
 
