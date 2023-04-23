@@ -19,7 +19,6 @@
 		2C3FF28D29C85E650009AB1A /* BlurWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF28C29C85E650009AB1A /* BlurWindow.swift */; };
 		2C3FF29129C862070009AB1A /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3FF29029C862070009AB1A /* TabButton.swift */; };
 		2C4ED44729E7F7D9002FA400 /* AddendumCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */; };
-		2C5263AC29F490090021B819 /* renaissance-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C5263AB29F490090021B819 /* renaissance-regular.ttf */; };
 		2C66134229EED4650069C303 /* Rings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66134129EED4650069C303 /* Rings.swift */; };
 		2C66134829EF08540069C303 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 2C66134729EF08540069C303 /* SwiftUICharts */; };
 		2C66134A29EF091C0069C303 /* githubProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66134929EF091C0069C303 /* githubProject.swift */; };
@@ -77,7 +76,6 @@
 		2C3FF28C29C85E650009AB1A /* BlurWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurWindow.swift; sourceTree = "<group>"; };
 		2C3FF29029C862070009AB1A /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		2C4ED44629E7F7D9002FA400 /* AddendumCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddendumCard.swift; sourceTree = "<group>"; };
-		2C5263AB29F490090021B819 /* renaissance-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "renaissance-regular.ttf"; path = "../../../../Downloads/renaissance-regular.ttf"; sourceTree = "<group>"; };
 		2C66134129EED4650069C303 /* Rings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Rings.swift; path = WoodGrowthCourseWorkSwiftUI/Views/MenuButtonsViews/Home/Component/Rings.swift; sourceTree = SOURCE_ROOT; };
 		2C66134929EF091C0069C303 /* githubProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = githubProject.swift; sourceTree = "<group>"; };
 		2C7C557D29F1D707005AA95C /* ItemOfTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOfTable.swift; sourceTree = "<group>"; };
@@ -178,14 +176,6 @@
 				2CCC1E8D29C8F3B600FB8088 /* MenuButtonsViews */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		2C5263AA29F48FF90021B819 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				2C5263AB29F490090021B819 /* renaissance-regular.ttf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		2C66134329EED93C0069C303 /* Component */ = {
@@ -343,7 +333,6 @@
 		2CE0871429C83AF800710F98 /* WoodGrowthCourseWorkSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				2C5263AA29F48FF90021B819 /* Fonts */,
 				2CCC1E9029C900E500FB8088 /* Units */,
 				2CC72AE229C886EB00559E47 /* Network */,
 				2C3FF28929C85D630009AB1A /* Views */,
@@ -608,7 +597,6 @@
 			files = (
 				2CE0871D29C83AF900710F98 /* Preview Assets.xcassets in Resources */,
 				2CE0871A29C83AF900710F98 /* Assets.xcassets in Resources */,
-				2C5263AC29F490090021B819 /* renaissance-regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
