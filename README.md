@@ -148,7 +148,7 @@ Desktop app. В основе Framework'a лежит SwifUI.
 </details>
 
 ## Установка.
-[Сборка приложения](https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/WoodGrowthCourseWorkSwiftUI)
+[Сборка приложения](https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/tree/main/WoodGrowthCourseWorkSwiftUI%202023-04-23%2015-12-08)
 
 ### TODO: 
 - [ ] [Видеодемонстрация]()
