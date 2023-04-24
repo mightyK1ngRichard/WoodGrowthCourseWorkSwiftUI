@@ -62,7 +62,7 @@ struct TypeTreeCard: View {
                             .bold()
                     }
                 }
-
+                
             } else {
                 ProgressView()
             }
@@ -138,7 +138,7 @@ struct TypeTreeCard: View {
                         Circle().stroke(getGradient(), lineWidth: 3)
                     }
                     .brightness(isHover ? -0.6 : 0)
-                    
+                
                 if isHover {
                     Image(systemName: isShow.closeEye ? "eye.slash" : "eye")
                         .resizable()
@@ -155,7 +155,7 @@ struct TypeTreeCard: View {
             VStack (alignment: .leading, spacing: 5) {
                 Text("\(currentCard.currentType.nameType)")
                     .font(.system(size: 40))
-
+                
                 if !showFertilizer {
                     Text("**Удобрение:** \(currentCard.currentType.firtilizerName ?? "Не задано")")
                     
@@ -189,7 +189,7 @@ struct TypeTreeCard: View {
                 if userData.isAdmin {
                     AllButtons
                 }
-
+                
             }
             .padding(.leading, 30)
         }
@@ -241,12 +241,12 @@ struct TypeTreeCard: View {
             VStack {
                 Image(systemName: imageName)
                     .resizable()
-                .frame(width: 20, height: 20)
+                    .frame(width: 20, height: 20)
                 
                 Text(title)
                     .frame(width: 53)
                     .multilineTextAlignment(.center)
-                    
+                
             }
             .padding(10)
             .overlay {
@@ -308,7 +308,7 @@ struct TypeTreeCard: View {
 
 struct TypeTreeCard_Previews: PreviewProvider {
     static var previews: some View {
- 
+        
         let defaultTrees       = ListTrees()
         let defaulTypeTrees    = ListTypeTrees()
         let defaultypesData    = TypeTreesData()

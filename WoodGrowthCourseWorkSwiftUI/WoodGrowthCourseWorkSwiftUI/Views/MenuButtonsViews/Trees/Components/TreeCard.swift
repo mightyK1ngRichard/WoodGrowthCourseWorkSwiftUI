@@ -24,7 +24,7 @@ struct TreeCard: View {
                 .overlay {
                     Circle().stroke(getGradient(), lineWidth: 3)
                 }
-
+            
             VStack {
                 Text("№ \(treeInfo.name_tree)")
                     .font(.title)

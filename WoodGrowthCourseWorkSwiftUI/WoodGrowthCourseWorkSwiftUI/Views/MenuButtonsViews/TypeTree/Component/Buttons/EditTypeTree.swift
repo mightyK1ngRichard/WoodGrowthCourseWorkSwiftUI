@@ -171,7 +171,7 @@ struct EditTypeTree: View {
                 }
             }
         }
-
+        
     }
 }
 

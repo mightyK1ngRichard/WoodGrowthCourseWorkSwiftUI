@@ -23,7 +23,7 @@ struct S_DViews: View {
         GeometryReader { _ in
             ZStack {
                 MainView
-
+                
                 if pressedSupplierCard {
                     /// Редактирование информации по поставщику.
                     Rectangle()

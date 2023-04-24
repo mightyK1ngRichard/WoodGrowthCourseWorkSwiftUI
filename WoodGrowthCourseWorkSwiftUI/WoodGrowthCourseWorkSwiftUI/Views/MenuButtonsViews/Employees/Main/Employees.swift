@@ -55,7 +55,7 @@ struct Employees: View {
             /// Меню редактирования.
             if pressedPlus {
                 AddEmployee(closeScreen: $pressedPlus)
-            
+                
             } else {
                 /// Карточки работников.
                 VStack {

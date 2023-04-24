@@ -49,7 +49,7 @@ struct AddendumSupplier: View {
             MyTextField(textForUser: "Телефон поставщика", text: $newPhone)
             MyTextField(textForUser: "Фото поставщика (не обязательно)", text: $newPhoto)
             MyTextField(textForUser: "Сайт поставщика (не обязательно)", text: $newWWW)
-
+            
             Button(action: {
                 if newName == "" || newPhone == "" {
                     self.textInAlert = "Имя и телофон должны содержать информацию!"

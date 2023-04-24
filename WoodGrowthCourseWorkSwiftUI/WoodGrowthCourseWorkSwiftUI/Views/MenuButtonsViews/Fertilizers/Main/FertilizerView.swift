@@ -38,7 +38,7 @@ struct FertilizerView: View {
             .environmentObject(fertilizerData)
         }
     }
- 
+    
     private var EditView: some View {
         VStack {
             Text("Редактируем данные по \(fertilizerData.currentCard?.nameFertilizer ?? "")")

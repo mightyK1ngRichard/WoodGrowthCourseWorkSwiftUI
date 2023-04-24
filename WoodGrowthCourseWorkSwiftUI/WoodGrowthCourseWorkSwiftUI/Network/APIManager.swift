@@ -375,7 +375,7 @@ class APIManager {
         }.resume()
     }
     
-    func getUserInfo(user userEmail: String = "dimapermyakov55@gmail.com", password userPassword: String = "boss", completion: @escaping (UsersParse?, URLResponse?, String?) -> Void) {
+    func getUserInfo(user userEmail: String, password userPassword: String, completion: @escaping (UsersParse?, URLResponse?, String?) -> Void) {
         let SQLQuery = """
         SELECT *
         FROM users
@@ -400,7 +400,7 @@ class APIManager {
                     // Если сервер не включен. Повторный запрос к серверу.
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                        self.getUserInfo(completion: completion)
+                        self.getUserInfo(user: userEmail, password: userPassword, completion: completion)
                         return
                     }
                 }

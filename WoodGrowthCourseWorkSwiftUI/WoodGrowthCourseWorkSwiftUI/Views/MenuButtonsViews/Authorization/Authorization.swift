@@ -82,7 +82,7 @@ struct Authorization: View {
             .bold()
             Spacer()
         }
-        .padding(.leading, 100)
+        .padding(.leading, 70)
         .padding(.bottom, 200)
     }
     
@@ -210,7 +210,7 @@ struct Authorization: View {
                     HStack {
                         Image(systemName: "person.2.fill")
                             .foregroundColor(.gray)
-                        TextField("Firstname", text: $lastname)
+                        TextField("Lastname", text: $lastname)
                     }
                     .padding()
                     .textFieldStyle(PlainTextFieldStyle())

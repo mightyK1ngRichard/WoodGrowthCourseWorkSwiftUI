@@ -43,7 +43,7 @@ struct FertilizerEdit: View {
         } else {
             self.close = .none
         }
-
+        
         if let typeID = allFertilizer.currentCard?.type_id {
             self.typeTree = typeID
             
@@ -155,7 +155,7 @@ struct FertilizerEdit: View {
             } else {
                 self.allTypeOfTrees = data.rows
             }
-        
+            
             loadData()
         }
     }
