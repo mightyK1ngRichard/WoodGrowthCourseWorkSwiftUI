@@ -128,6 +128,6 @@ struct FertilizerCard_Previews: PreviewProvider {
         let testData = FertilizerResult(id: "1", nameFertilizer: "Удобрение", priceFertilizer: 1000, massFertilizer: 1000, typeTree: "Дуб", type_id: "1", photo: URL(string: "https://klike.net/uploads/posts/2023-01/1674189522_3-98.jpg")!)
         
         FertilizerCard(isPressedCard: .constant(.none), data: testData)
-
+        
     }
 }

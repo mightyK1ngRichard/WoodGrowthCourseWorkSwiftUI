@@ -134,7 +134,7 @@ struct AddTypeTree: View {
             .buttonStyle(.plain)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top)
-
+            
         }
     }
     
@@ -148,7 +148,7 @@ struct AddTypeTree: View {
                 return
                 
             }
-
+            
             typeData.refresh { _, _ in
                 let currentIndex = getDetailInfoUsingTypeName(data: typeData.types, key: currentType.selectedTypeInPicker)
                 DispatchQueue.main.async  {
@@ -156,7 +156,7 @@ struct AddTypeTree: View {
                     self.closeScreen = .main
                 }
             }
-        
+            
         }
     }
 }

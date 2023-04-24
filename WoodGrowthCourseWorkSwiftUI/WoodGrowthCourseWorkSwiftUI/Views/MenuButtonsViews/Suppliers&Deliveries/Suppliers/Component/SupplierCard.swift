@@ -26,7 +26,7 @@ struct SupplierCard: View {
                         .overlay {
                             Circle().stroke(Color(red: 176/255, green: 0, blue: 0), lineWidth: 2)
                         }
-
+                    
                 } else {
                     Image(systemName: "photo.circle")
                         .resizable()

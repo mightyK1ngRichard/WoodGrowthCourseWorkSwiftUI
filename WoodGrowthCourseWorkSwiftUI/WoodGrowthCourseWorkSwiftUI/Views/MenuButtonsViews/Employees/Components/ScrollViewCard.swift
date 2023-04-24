@@ -120,16 +120,16 @@ struct ScrollViewCard: View {
                             self.showAlert = true
                         }
                     }
-//                    APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
-//                        guard let _ = data else {
-//                            print("== ERROR FROM ScrollViewCard", error!)
-//                            return
-//                        }
-//                        DispatchQueue.main.async {
-//                            self.allDataEmp.refresh()
-//                        }
-//
-//                    }
+                    //                    APIManager.shared.generalUpdate(SQLQuery: SQLQuery) { data, error in
+                    //                        guard let _ = data else {
+                    //                            print("== ERROR FROM ScrollViewCard", error!)
+                    //                            return
+                    //                        }
+                    //                        DispatchQueue.main.async {
+                    //                            self.allDataEmp.refresh()
+                    //                        }
+                    //
+                    //                    }
                 }
             }
             Button("Отмена", role: .cancel, action: {})

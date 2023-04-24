@@ -91,7 +91,7 @@ class ListTrees: ObservableObject {
             var tempData: [TreeResult] = []
             for el in data.rows {
                 let info = TreeResult(id: el.tree_id, name_tree: el.name_tree, volume: el.volume, date_measurements: el.date_measurements, notes: el.notes, name_type: el.name_type, name_plot: el.name_plot, x_begin: el.x_begin, x_end: el.x_end, y_begin: el.y_begin, y_end: el.y_end, photo: el.photo, typeID: el.type_id)
-                    tempData.append(info)
+                tempData.append(info)
             }
             DispatchQueue.main.async {
                 self.trees = tempData

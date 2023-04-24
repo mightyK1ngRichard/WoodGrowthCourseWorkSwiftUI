@@ -104,7 +104,7 @@ struct AddendumCard: View {
         VStack {
             MyTextFieldBlack(textForUser: "Название участка", text: $newNamePlot)
             MyTextFieldBlack(textForUser: "Адрес участка", text: $newAddress)
-        
+            
             myPickers()
             
             Button {
@@ -113,7 +113,7 @@ struct AddendumCard: View {
                     self.showAlert = true
                     return
                 }
-               
+                
                 let sqlString = """
                 INSERT
                 INTO plot (name_plot, date_planting, type_tree_id, address, employer_id)
@@ -177,7 +177,7 @@ struct AddendumCard: View {
                 Text("Дата заземления")
                     .foregroundColor(Color.secondary)
                     .padding(.leading, 4)
-                    
+                
                 Spacer()
                 Image(systemName: "calendar.badge.clock")
                     .resizable()

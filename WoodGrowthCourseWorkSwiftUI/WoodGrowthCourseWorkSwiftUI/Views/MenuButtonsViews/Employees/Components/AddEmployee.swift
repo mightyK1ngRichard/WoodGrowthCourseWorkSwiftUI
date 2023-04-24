@@ -49,7 +49,7 @@ struct AddEmployee: View {
         }, message: {
             Text(textInAlert)
         })
-
+        
     }
     
     private func closeCard() -> some View {
@@ -122,7 +122,7 @@ struct AddEmployee: View {
             .buttonStyle(.plain)
             .padding(.top)
             .frame(maxWidth: .infinity, alignment: .trailing)
-
+            
             Spacer()
         }
     }
@@ -135,7 +135,7 @@ struct AddEmployee: View {
                     self.showAlert = true
                 }
                 return
-
+                
             }
             DispatchQueue.main.async {
                 self.allData.refresh()

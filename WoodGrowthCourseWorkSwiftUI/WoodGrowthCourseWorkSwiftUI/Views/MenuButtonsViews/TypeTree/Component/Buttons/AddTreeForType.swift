@@ -104,7 +104,7 @@ struct AddTreeForType: View {
         VStack {
             MyTextFieldBlack(textForUser: "Имя дерева", text: $nameTree)
             MyTextFieldBlack(textForUser: "Объём", text: $volumTree)
-         
+            
             HStack {
                 Image(systemName: "location.circle.fill")
                     .resizable().frame(width: 15, height: 15)
@@ -131,7 +131,7 @@ struct AddTreeForType: View {
                 .font(.custom("HelveticaNeue", size: 13))
                 .lineSpacing(5)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                
+            
             HStack {
                 Text("Вид дерева")
                 Spacer()

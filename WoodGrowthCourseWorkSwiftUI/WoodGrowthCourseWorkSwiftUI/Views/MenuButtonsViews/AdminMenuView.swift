@@ -10,16 +10,16 @@ import SwiftUI
 class PressedButton: ObservableObject {
     @Published var pressed = "Home"
     
-// TODO: Потом сделать через enum.
-//    enum Menu: String {
-//        case home                    = "Home"
-//        case workers                 = "Работники"
-//        case trees                   = "Деревья"
-//        case types                   = "Виды"
-//        case plots                   = "Участки"
-//        case fertilizers             = "Удобрения"
-//        case supliersAndDeliveries   = "Поставщики &\nПоставки"
-//    }
+    // TODO: Потом сделать через enum.
+    //    enum Menu: String {
+    //        case home                    = "Home"
+    //        case workers                 = "Работники"
+    //        case trees                   = "Деревья"
+    //        case types                   = "Виды"
+    //        case plots                   = "Участки"
+    //        case fertilizers             = "Удобрения"
+    //        case supliersAndDeliveries   = "Поставщики &\nПоставки"
+    //    }
     
 }
 
@@ -52,7 +52,7 @@ struct AdminMenuView: View {
                 
             case "Home":
                 Home()
-
+                
             case "Деревья":
                 Trees()
                 
@@ -80,8 +80,8 @@ struct AdminMenuView: View {
         }
         .preferredColorScheme(.none)
         .background(["Home", "Поставщики &\nПоставки"].contains(pressed.pressed) ? .black : getTabBackground())
-//        .background(["Home"].contains(pressed.pressed) ?
-//                    LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom) : myNewBackground())
+        //        .background(["Home"].contains(pressed.pressed) ?
+        //                    LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom) : myNewBackground())
     }
     
     private func menuOfUser() -> some View {
