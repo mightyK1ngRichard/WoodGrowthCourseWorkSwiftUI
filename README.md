@@ -9,6 +9,14 @@
 Desktop app. В основе Framework'a лежит SwifUI.
 БДшка - postgresql. Коммуникация [nodejs](https://github.com/mightyK1ngRichard/APIServer) сервака с Swift осуществляется по API.
 
+# Preview.
+
+<html>
+<div align="center">
+    <img src="Preview/Preview.gif">
+</div>
+</html>
+
 ## Иерархия проекта:
 <details>
   <summary> Click to expand </summary>
