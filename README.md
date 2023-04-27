@@ -10,7 +10,7 @@ Desktop app. В основе Framework'a лежит SwifUI.
 БДшка - postgresql. Коммуникация [nodejs](https://github.com/mightyK1ngRichard/APIServer) сервака с Swift осуществляется по API.
 
 # Preview.
-<img class="screen_application" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/tree/main/Previews/Preview.png" width="1000">
+<img class="screen_application" src="https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/blob/main/Previews/Preview.png" width="1000">
 
 
 ## Иерархия проекта:
