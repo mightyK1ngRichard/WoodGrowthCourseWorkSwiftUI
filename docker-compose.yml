@@ -15,7 +15,7 @@ services:
   #     POSTGRES_PASSWORD: password
 
   main:
-    container_name: go-app
+    container_name: wood-js-server
     build:
       context: ./APIServer
       dockerfile: Dockerfile

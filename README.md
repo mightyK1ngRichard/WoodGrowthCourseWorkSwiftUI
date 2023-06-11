@@ -1,5 +1,5 @@
 # АИС прироста древесины на различных участках.
-<img src="https://img.shields.io/github/license/mightyK1ngRichard/IU5?color=brightgreen" alt="MIT License"/> <img src="https://img.shields.io/badge/language-SwiftUI-red.svg"/> <img src="https://img.shields.io/badge/language-Postgresql-blue.svg"/> <img src="https://img.shields.io/badge/language-NodeJS-yellow.svg"/>
+<img src="https://img.shields.io/github/license/mightyK1ngRichard/IU5?color=brightgreen" alt="MIT License"/> <img src="https://img.shields.io/badge/language-SwiftUI-red.svg"/> <img src="https://img.shields.io/badge/language-Postgresql-blue.svg"/> <img src="https://img.shields.io/badge/language-NodeJS-yellow.svg"/> <img src="https://img.shields.io/badge/language-Docker-informational.svg"/> 
 
 🎓 BMSTU Course work
 
