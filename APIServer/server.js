@@ -2,16 +2,8 @@ const {postgresPort} = require('./config.js')
 const {Pool} = require('pg')
 const express = require('express');
 const app = express();
-const host = 'localhost';
+// const host = 'localhost';
 const port = 8010;
-
-
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-//     next();
-// });
 
 app.get('/database/:command', (req, res) => {
     const commandForSQL = req.params.command
@@ -78,6 +70,10 @@ app.get('/typetrees', (req, res) => {
     });
 })
 
-app.listen(port, host, () => {
-    console.log(`Сервер запущен по адресу  http://${host}:${port}`);
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+  });
+
+app.listen(port, () => {
+    console.log(`Сервер запущен по адресу :${port}`);
 });
