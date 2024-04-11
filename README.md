@@ -155,6 +155,6 @@ Desktop app. В основе Framework'a лежит SwifUI.
 [Сборка приложения](https://github.com/mightyK1ngRichard/WoodGrowthCourseWorkSwiftUI/tree/main/Wood%20Business)
 
 ### TODO: 
-- [X] [Видеодемонстрация](https://drive.google.com/file/d/1Rsf4_2HhWkoXN4h2QfeLxxU3uppbb3a9/view?usp=share_link)
+- [X] [Видеодемонстрация](https://drive.google.com/file/d/1DHZ2KFYCXz_HDT3CqnF14T3LHvN57ftK/view?usp=sharing)
 - [ ] [Гайд пользования]()
     
